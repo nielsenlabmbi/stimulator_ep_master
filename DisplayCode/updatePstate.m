@@ -1,6 +1,6 @@
 function updatePstate(psymbol,pval)
 
-global Pstate
+global Pstate  SelectedModId PstateHistory
 
 for i = 1:length(Pstate.param)
     if strcmp(psymbol,Pstate.param{i}{1})
@@ -18,6 +18,8 @@ switch Pstate.param{idx}{2}
    case 'string'
       Pstate.param{idx}{3} = pval;
 end
+
+PstateHistory{SelectedModId} = Pstate;
    
 
 

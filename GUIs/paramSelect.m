@@ -155,7 +155,7 @@ function loadParams_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-global Pstate
+global Pstate SelectedModId PstateHistory
 
 [file path] = uigetfile({'*.param';'*.analyzer'},'Load parameter state');
 
@@ -171,7 +171,7 @@ if file  %if 'cancel' was not pressed
         load(file,'-mat','Analyzer')
         Pstate = Analyzer.P;
     end
-    
+    PstateHistory{SelectedModId} = Pstate;
     refreshParamView
 end
 
@@ -199,9 +199,9 @@ function module_Callback(hObject, eventdata, handles)
 
 % Hints: contents = get(hObject,'String') returns module contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from module
-
-mi = get(hObject,'value');
-configurePstate(mi,'P'); 
+global SelectedModId;
+SelectedModId = get(hObject,'value');
+configurePstate(SelectedModId,'P'); 
 refreshParamView(1); %we're changing lists
 
 % --- Executes during object creation, after setting all properties.
