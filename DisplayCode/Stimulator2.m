@@ -22,7 +22,3 @@ movegui(hp,[10,170]);
 
 hmm = manualMapper;
 movegui(hmm,[380,240]);
-
-
-hg = gaGui;
-%movegui(hg,[380,240]);
