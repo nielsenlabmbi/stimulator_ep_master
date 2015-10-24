@@ -202,6 +202,7 @@ function module_Callback(hObject, eventdata, handles)
 global SelectedModId;
 SelectedModId = get(hObject,'value');
 configurePstate(SelectedModId,'P'); 
+initializeModule(SelectedModId); 
 refreshParamView(1); %we're changing lists
 
 % --- Executes during object creation, after setting all properties.
