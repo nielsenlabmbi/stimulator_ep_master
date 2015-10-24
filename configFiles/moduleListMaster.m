@@ -23,6 +23,8 @@ Plist{9} = {'AD' 'Adaptation' 'configPstate_Adapt' };
 
 Mlist{1} = {'MG' 'BW Grating'};
 Mlist{2} = {'MM' 'Bar'};
+Mlist{3} = {'MR' 'RDK'};
+
 
 
 if strcmp(listtype,'P')
