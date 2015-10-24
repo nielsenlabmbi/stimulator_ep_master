@@ -1,11 +1,16 @@
 function configurePstate(modID,listtype)
-%this function sets the global variable Pstate by calling the correct
-%config function
+% This function sets the global variable Pstate by calling the correct
+% config function. It also initializes/sets the global variable 
+% PstateHistory.
+% Accepts:
+%   modID:      Module number
+%   listtype:   p-list ('p') or m-list ('m')
+% Returns:
+%   Nothing
 
 global Pstate PstateHistory SelectedModId
 
-%modID: number of module
-Mlist=moduleListMaster(listtype);
+Mlist = moduleListMaster(listtype);
 
 % If the module exists in PstateHistory, then update Pstate with the one in
 % the history. Otherwise configure it and then save it in PstateHistory.
