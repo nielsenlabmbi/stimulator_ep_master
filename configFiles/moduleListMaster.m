@@ -20,6 +20,7 @@ Plist{6} = {'OF' 'Optic Flow'       'configPstate_OpticFlow'    ''};
 Plist{7} = {'IM' 'Images'           'configPstate_Img'          ''};
 Plist{8} = {'GA' 'GA'               'configPstate_GA'           'initializeModule_GA'};
 Plist{9} = {'AD' 'Adaptation'       'configPstate_Adapt'        ''};
+Plist{10} = {'PC' 'Color Grating'    'configPstate_PerGratingColor'   ''};
 
 
 Mlist{1} = {'MG' 'BW Grating'};
