@@ -344,9 +344,8 @@ function loadLooper_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-global Lstate
 
-[file path] = uigetfile('*.loop','Load looper state');
+[file, path] = uigetfile('*.loop','Load looper state');
 
 if file  %if 'cancel' was not pressed
     file = [path file];
@@ -361,9 +360,9 @@ function saveLooper_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-global Lstate
 
-[file path] = uiputfile('*.loop','Save as');
+
+[file, path] = uiputfile('*.loop','Save as');
 
 if file  %if 'cancel' was not pressed
     file = [path file];

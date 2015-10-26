@@ -4,6 +4,8 @@ global Lstate GUIhandles
 
 set(GUIhandles.looper.repeats,'string',Lstate.reps)
 set(GUIhandles.looper.randomflag,'value',Lstate.rand)
+set(GUIhandles.looper.blankflag,'value',Lstate.banks)
+set(GUIhandles.looper.blankPeriod,'string',Lstate.blankperiod)
 
 set(GUIhandles.looper.formula,'string',Lstate.formula)
 

@@ -22,7 +22,7 @@ function varargout = MainWindow(varargin)
 
 % Edit the above text to modify the response to help MainWindow
 
-% Last Modified by GUIDE v2.5 24-Jul-2013 17:22:19
+% Last Modified by GUIDE v2.5 24-Oct-2015 16:19:04
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -322,6 +322,38 @@ global DcomState
 fwrite(DcomState.serialPortHandle,'C;~')
 
 
+% --- Executes on button press in stimonlyflag.
+function stimonlyflag_Callback(hObject, eventdata, handles)
+% hObject    handle to stimonlyflag (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of stimonlyflag
+
+global GUIhandles
+
+flagS = get(handles.stimonlyflag,'value');
+flagE = get(handles.ephysflag,'value');
+flagT = get(handles.twopflag,'value');
+
+%make sure something is selected at all times
+if sum([flagS,flagE,flagT])== 0
+    flagS=1;
+end
+
+%stimonly selected; unselect the other ones
+if flagS==1
+    flagE=0;
+    flagT=0;
+end
+
+%update radiobuttons
+set(GUIhandles.main.stimonlyflag,'value',flagS);
+set(GUIhandles.main.ephysflag,'value',flagE);
+set(GUIhandles.main.twopflag,'value',flagT);
+
+
+
 % --- Executes on button press in ephysflag.
 function ephysflag_Callback(hObject, eventdata, handles)
 % hObject    handle to ephysflag (see GCBO)
@@ -332,11 +364,56 @@ function ephysflag_Callback(hObject, eventdata, handles)
 
 global GUIhandles
 
-flag = get(handles.ephysflag,'value');
-set(GUIhandles.main.ephysflag,'value',flag)
+flagS = get(handles.stimonlyflag,'value');
+flagE = get(handles.ephysflag,'value');
+flagT = get(handles.twopflag,'value');
+
+%make sure something is selected at all times
+if sum([flagS,flagE,flagT])== 0
+    flagS=1;
+end
+
+%ephys selected; unselect the other ones
+if flagE==1
+    flagS=0;
+    flagT=0;
+end
+
+%update radiobuttons
+set(GUIhandles.main.stimonlyflag,'value',flagS);
+set(GUIhandles.main.ephysflag,'value',flagE);
+set(GUIhandles.main.twopflag,'value',flagT);
 
 
 
+% --- Executes on button press in twopflag.
+function twopflag_Callback(hObject, eventdata, handles)
+% hObject    handle to twopflag (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of twopflag
+global GUIhandles
+
+flagS = get(handles.stimonlyflag,'value');
+flagE = get(handles.ephysflag,'value');
+flagT = get(handles.twopflag,'value');
+
+%make sure something is selected at all times
+if sum([flagS,flagE,flagT])== 0
+    flagS=1;
+end
+
+%2P selected; unselect the other ones
+if flagT==1
+    flagS=0;
+    flagE=0;
+end
+
+%update radiobuttons
+set(GUIhandles.main.stimonlyflag,'value',flagS);
+set(GUIhandles.main.ephysflag,'value',flagE);
+set(GUIhandles.main.twopflag,'value',flagT);
 
 function analyzerRoots_Callback(hObject, eventdata, handles)
 % hObject    handle to analyzerRoots (see GCBO)
@@ -441,3 +518,6 @@ function dataRoots_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+
