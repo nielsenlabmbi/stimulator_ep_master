@@ -1,12 +1,16 @@
 function configDisplayCom
 
+%configures communication with the stimulus slave
+
 global DcomState
 
-%Modification of MP285Config, for configuration of udp port connection to visual stimulus PC (pep) 	
-
-%DcomState is not initialized in the .ini file, nor is it saved in the state.headerString 
-
-rip = '172.30.11.142';
+%set IP addresses according to setup
+setup=getWindowsIP;
+if strcmp(setup,'172.30.11.131') %2p
+    rip='172.30.11.130';
+elseif strcmp(setup,'172.30.11.141') %ephys
+    rip = '172.30.11.142';
+end
 
 % close all open udp port objects on the same port and remove
 % the relevant object form the workspace

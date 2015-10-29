@@ -20,6 +20,11 @@ if Mstate.running && trialno<=nt
 
     %set eye shutter
     setShutter(c,trialno)
+    
+    %send breathing info (independent of whether or not it was selected ->
+    %this allows us to turn it off during the experiment if necessary)
+    updateSyncV(get(GUIhandles.main.syncVflag,'Value'));
+    waitforDisplayResp
 
     %%%Organization of commands is important for timing in this part of loop
     tic
@@ -27,7 +32,7 @@ if Mstate.running && trialno<=nt
     waitforDisplayResp   %Wait for serial port to respond from display
     toc 
     mod = getmoduleID;
-    startStimulus(mod)      %Tell Display to show its buffered images. TTL from stimulus computer "feeds back" to trigger acquisition
+    startStimulus(mod)      %Tell Display to show its buffered images. 
     %waitforDisplayResp
     
     trialno = trialno+1;
@@ -39,6 +44,10 @@ else
     %This is executed at the end of experiment and when abort button is hit
     if get(GUIhandles.main.ephysflag,'value');
         stopACQ;
+    elseif get(GUIhandles.main.twopflag,'value')
+        %give microscope a bit of time to finish acq
+        pause(5);
+        send_sbserver('S'); %stop microscope
     end
     
     Mstate.running = 0;

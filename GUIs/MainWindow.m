@@ -22,7 +22,7 @@ function varargout = MainWindow(varargin)
 
 % Edit the above text to modify the response to help MainWindow
 
-% Last Modified by GUIDE v2.5 24-Oct-2015 16:19:04
+% Last Modified by GUIDE v2.5 27-Oct-2015 20:33:43
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -78,6 +78,14 @@ set(handles.monitor,'string',Mstate.monitor)
 set(handles.dataRoots,'string',Mstate.dataRoot)
 
 
+%disable communication buttons based on setup
+setup=getWindowsIP;
+if strcmp(setup,'172.30.11.131') %2p
+    set(handles.ephysflag,'enable','off');
+elseif strcmp(setup,'172.30.11.141') %ephys
+    set(handles.twopflag,'enable','off');
+end
+
 GUIhandles.main = handles;
 
 
@@ -103,7 +111,7 @@ function animal_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of animal as text
 %        str2double(get(hObject,'String')) returns contents of animal as a double
 
-global Mstate
+global Mstate GUIhandles
 
 Mstate.anim = get(handles.animal,'string');
 
@@ -133,7 +141,9 @@ set(handles.exptcb,'string',newexpt)
 set(handles.unitcb,'string',newunit)
 set(handles.showTrial,'string','' )
 
-%UpdateACQExptName   %Send expt info to acquisition
+if get(GUIhandles.main.twopflag,'value')
+    UpdateACQExptName   %Send expt info to acquisition
+end
 
 
 % --- Executes during object creation, after setting all properties.
@@ -228,6 +238,15 @@ if ~Mstate.running
         end
     end
     
+    %check whether breathing is possible
+    if get(handles.syncVflag,'Value')==1
+        brOk=checkSyncV;
+        if brOk==0
+            warndlg('Trial too long to sync ventilator to stim!')
+            return
+        end
+    end
+    
     Mstate.running = 1;  %Global flag for interrupt in real-time loop ('Abort')
     
     %Update states just in case user has not pressed enter after inputing
@@ -257,9 +276,14 @@ if ~Mstate.running
     %%%%%%%%%%%%%%%%%%%%%%%%%%
 
     %%%Get the Acquisition ready:
-    if get(GUIhandles.main.ephysflag,'value');  %Flag for the link with scanimage
+    if get(GUIhandles.main.ephysflag,'value')  %Flag for the link with Blackrock
        startACQ
+    elseif get(GUIhandles.main.twopflag,'value')
+       UpdateACQExptName   %Send expt info to acquisition
+       send_sbserver('G'); %start microscope
+       pause(5);
     end
+        
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     trialno = 1;
     
@@ -282,7 +306,7 @@ function unitcb_Callback(hObject, eventdata, handles)
 % hObject    handle to unitcb (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global Mstate
+global Mstate GUIhandles
 
 newunit = sprintf('%03d',str2num(Mstate.unit)+1);
 Mstate.unit = newunit;
@@ -293,6 +317,9 @@ Mstate.expt = newexpt;
 set(handles.exptcb,'string',newexpt)
 set(handles.showTrial,'string','' )
 
+if get(GUIhandles.main.twopflag,'value')
+    UpdateACQExptName   %Send expt info to acquisition
+end
 
 
 % --- Executes on button press in exptcb.
@@ -301,14 +328,16 @@ function exptcb_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-global Mstate
+global Mstate GUIhandles
 
 newexpt = sprintf('%03d',str2num(Mstate.expt)+1);
 Mstate.expt = newexpt;
 set(handles.exptcb,'string',newexpt)
 set(handles.showTrial,'string','' )
 
-
+if get(GUIhandles.main.twopflag,'value')
+    UpdateACQExptName   %Send expt info to acquisition
+end
 
 
 % --- Executes on button press in closeDisplay.
@@ -518,6 +547,4 @@ function dataRoots_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-
-
 

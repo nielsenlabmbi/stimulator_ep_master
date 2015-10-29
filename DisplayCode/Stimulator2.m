@@ -8,11 +8,16 @@ configureLstate
 %Host-Host communication
 configDisplayCom    %stimulus computer
 
+setup=getWindowsIP;
+if strcmp(setup,'172.30.11.131') %2p
+    open_sbserver    %2p acquisition
+end
+
 
 
 %Open GUIs
 hm = MainWindow;
-movegui(hm,[10,560]);
+movegui(hm,[10,500]);
 
 hl = Looper ;
 movegui(hl,[380,445]);

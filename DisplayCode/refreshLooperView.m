@@ -4,8 +4,15 @@ global Lstate GUIhandles
 
 set(GUIhandles.looper.repeats,'string',Lstate.reps)
 set(GUIhandles.looper.randomflag,'value',Lstate.rand)
-set(GUIhandles.looper.blankflag,'value',Lstate.banks)
-set(GUIhandles.looper.blankPeriod,'string',Lstate.blankperiod)
+set(GUIhandles.looper.blankflag,'value',Lstate.blanks)
+
+if Lstate.blanks==1
+    set(GUIhandles.looper.blankPeriod,'string',Lstate.blankperiod)
+    set(GUIhandles.looper.blankPeriod,'enable','on')
+else
+    set(GUIhandles.looper.blankPeriod,'enable','off')
+end
+    
 
 set(GUIhandles.looper.formula,'string',Lstate.formula)
 
