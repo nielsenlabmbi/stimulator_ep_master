@@ -8,7 +8,7 @@ global DcomState
 setup=getWindowsIP;
 if strcmp(setup,'172.30.11.131') %2p
     rip='172.30.11.130';
-elseif strcmp(setup,'172.30.11.141') %ephys
+elseif strcmp(setup,'172.30.11.140') %ephys
     rip = '172.30.11.142';
 end
 
