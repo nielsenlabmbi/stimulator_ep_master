@@ -27,4 +27,5 @@ Pstate.param{end+1} = {'maskColor' 	'float'     0.5  	0     	''};
 Pstate.param{end+1} = {'background' 'float'     0       0    	''};
 Pstate.param{end+1} = {'contrast'   'float'     100   	0     	'%'};
 
-Pstate.param{end+1} = {'stimpath'   'string'  	'/Volumes/NielsenHome/Matlab/GA/projectTetrGA/stim/'       1                ''};
+Pstate.param{end+1} = {'stimPath'   'string'  	'/Volumes/NielsenHome/Matlab/GA/projectGA/stim/'       1                ''};
+Pstate.param{end+1} = {'respPath'   'string'  	'/Volumes/NielsenHome/Matlab/GA/projectGA/resp/'       1                ''};
