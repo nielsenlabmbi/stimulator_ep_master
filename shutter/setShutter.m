@@ -1,25 +1,15 @@
-function setShutter(cond,trial)
+function setShutter(cond)
 
-global DcomState
+%sets the shutter correctly for a particular condition
 
-%Sends loop information and buffers
-
-global looperInfo Mstate
+global looperInfo  
 
 
 bflag = strcmp(looperInfo.conds{cond}.symbol{1},'blank');
 
-%This is done just in case there are dependencies in the 'formula' on
-%Mstate.
-Mf = fields(Mstate);
-for i = 1:length(fields(Mstate))
-    eval([Mf{i} '= Mstate.'  Mf{i} ';' ])
-end
-
-
-if bflag==0  %if it is not a blank condition
+if bflag==0  %if it is not a blank condition - shutter will not be moved in blanks
     
-   
+    %execute any shutter related parameter settings
     Nparams = length(looperInfo.conds{cond}.symbol);
     for i = 1:Nparams
         pval = looperInfo.conds{cond}.val{i};
@@ -29,7 +19,7 @@ if bflag==0  %if it is not a blank condition
         eyefunc(psymbol,pval)  %This moves the eye shutters if its the right symbol
     end
     
-    %Append the message with the 'formula' information
+    %execute shutter commands in the formula
     fmla = looperInfo.formula;
     id = find(fmla == ' ');
     fmla(id) = [];
@@ -58,7 +48,7 @@ if bflag==0  %if it is not a blank condition
                 end
             end
             
-            psymbol_Fmla = fmla(delim1:ide(e)-1)
+            psymbol_Fmla = fmla(delim1:ide(e)-1);
             pval_Fmla = eval(psymbol_Fmla);
             
             eyefunc(psymbol_Fmla, pval_Fmla)  %This moves the eye shutters if its the right symbol

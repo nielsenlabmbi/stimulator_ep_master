@@ -1,4 +1,4 @@
-function nr = getnoreps(c)
+function nr = Sgetnoreps(c)
 
 global looperInfo
 

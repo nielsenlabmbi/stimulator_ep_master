@@ -1,8 +1,8 @@
-function nt = getnotrials
+function nt = Sgetnotrials
 
 global looperInfo
 
-nc = getnoconds;
+nc = Sgetnoconds;
 
 nt = 0;
 for c = 1:nc

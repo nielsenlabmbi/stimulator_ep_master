@@ -7,7 +7,7 @@ function run2
 global GUIhandles  Mstate trialno
 
 if Mstate.running
-    nt = getnotrials;
+    nt = Sgetnotrials;
 end
 
 
@@ -16,10 +16,10 @@ if Mstate.running && trialno<=nt
     
     set(GUIhandles.main.showTrial,'string',['Trial ' num2str(trialno) ' of ' num2str(nt)] ), drawnow
 
-    [c,~] = getcondrep(trialno);  %get cond and rep for this trialno
+    [c,~] = Sgetcondrep(trialno);  %get cond and rep for this trialno
 
     %set eye shutter
-    setShutter(c,trialno)
+    setShutter(c)
     
     %send breathing info (independent of whether or not it was selected ->
     %this allows us to turn it off during the experiment if necessary)
