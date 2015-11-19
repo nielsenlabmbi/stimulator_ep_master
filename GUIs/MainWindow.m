@@ -80,10 +80,13 @@ set(handles.dataRoots,'string',Mstate.dataRoot)
 
 %disable communication buttons based on setup
 setup=getWindowsIP;
+set(handles.stimonlyflag,'value',0);
 if strcmp(setup,'172.30.11.131') %2p
     set(handles.ephysflag,'enable','off');
-elseif strcmp(setup,'172.30.11.141') %ephys
+    set(handles.twopflag,'value',1);
+elseif strcmp(setup,'172.30.11.140') %ephys
     set(handles.twopflag,'enable','off');
+    set(handles.ephysflag,'value',1);
 end
 
 GUIhandles.main = handles;
