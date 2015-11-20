@@ -8,8 +8,8 @@ configureLstate
 %Host-Host communication
 configDisplayCom    %stimulus computer
 
-setup=getWindowsIP;
-if strcmp(setup,'172.30.11.131') %2p
+[setup,~]=getSetup;
+if strcmp(setup,'2P') %2p
     open_sbserver    %2p acquisition
 end
 

@@ -157,7 +157,7 @@ function loadParams_Callback(hObject, eventdata, handles)
 
 global Pstate SelectedModId PstateHistory
 
-[file path] = uigetfile({'*.param';'*.analyzer'},'Load parameter state');
+[file path] = uigetfile({'c:\params looper\*.param';'c:\VStimFiles\*.analyzer'},'Load parameter state');
 
 id = find(file == '.');
 fext = file(id+1:end);

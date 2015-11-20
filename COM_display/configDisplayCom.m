@@ -5,12 +5,7 @@ function configDisplayCom
 global DcomState
 
 %set IP addresses according to setup
-setup=getWindowsIP;
-if strcmp(setup,'172.30.11.131') %2p
-    rip='172.30.11.130';
-elseif strcmp(setup,'172.30.11.140') %ephys
-    rip = '172.30.11.142';
-end
+[~,rip]=getSetup;
 
 % close all open udp port objects on the same port and remove
 % the relevant object form the workspace

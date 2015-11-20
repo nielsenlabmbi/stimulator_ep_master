@@ -346,7 +346,7 @@ function loadLooper_Callback(hObject, eventdata, handles)
 
 global Lstate
 
-[file, path] = uigetfile('*.loop','Load looper state');
+[file, path] = uigetfile('c:\params looper\*.loop','Load looper state');
 
 if file  %if 'cancel' was not pressed
     file = [path file];
@@ -363,7 +363,7 @@ function saveLooper_Callback(hObject, eventdata, handles)
 
 global Lstate
 
-[file, path] = uiputfile('*.loop','Save as');
+[file, path] = uiputfile('c:\params looper\*.loop','Save as');
 
 if file  %if 'cancel' was not pressed
     file = [path file];
