@@ -133,4 +133,4 @@ sendMinfo
 waitforDisplayResp
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-startStimulus(modId) 
+startManual(modId) 
