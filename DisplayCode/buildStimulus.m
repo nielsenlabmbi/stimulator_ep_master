@@ -39,7 +39,7 @@ else
     if ~isempty(fmla)
         fmla = [';' fmla ';'];
         ide = find(fmla == '=');
-        ids = find(fmla == ';' | fmla == ',');
+        ids = find(fmla == ';'); % | fmla == ',');
         
         for e = 1:length(ide);
             

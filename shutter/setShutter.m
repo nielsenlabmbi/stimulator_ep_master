@@ -26,7 +26,7 @@ if bflag==0  %if it is not a blank condition - shutter will not be moved in blan
     if ~isempty(fmla)
         fmla = [';' fmla ';'];
         ide = find(fmla == '=');
-        ids = find(fmla == ';' | fmla == ',');
+        ids = find(fmla == ';'); % | fmla == ',');
 
         for e = 1:length(ide);
 
