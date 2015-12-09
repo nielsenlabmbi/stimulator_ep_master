@@ -1,5 +1,10 @@
 function makeLoop
 
+%this function generates the looper structure for the experiment; it takes
+%Lstate, which is set in updateLstate
+%returns:
+%  changes in the global variable looperInfo
+
 global Lstate GUIhandles looperInfo
 
 looperInfo = struct;  %reset 
@@ -8,7 +13,7 @@ Nparam = length(Lstate.param); %number of looper parameters
 
 %Produces a cell array 'd', with each element corresponding to a different
 %looper variable.  Each element contains a multidimensional array from
-%meshgrid with as many elements as there are conditions. They are id's, not
+%ndgrid with as many elements as there are conditions. They are id's, not
 %actually variable values.
 nc = 1;
 for i = 1:Nparam
