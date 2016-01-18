@@ -50,7 +50,7 @@ end
     
 for rep = 1:nr    
     if get(GUIhandles.looper.randomflag,'value')
-        seq{rep} = tv(randperm(length(tv)));  
+        seq{rep} = randperm(nc+bflag);  
     else                          
         seq{rep} = tv;                                   
     end                            
