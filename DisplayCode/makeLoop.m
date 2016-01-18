@@ -12,10 +12,10 @@ looperInfo = struct;  %reset
 Nparam = length(Lstate.param); %number of looper parameters
 
 %Produces a cell array 'd', with each element corresponding to a different
-%looper variable.  Each element contains a multidimensional array from
+%looper variable (parameter).  Each element contains a multidimensional array from
 %ndgrid with as many elements as there are conditions. They are id's, not
 %actually variable values.
-nc = 1;
+nc = 1; %nr of conditions
 for i = 1:Nparam
     eval(['paramV = ' Lstate.param{i}{2} ';']);
     nc = nc*length(paramV);
@@ -34,89 +34,64 @@ ostring = ['[' ostring ']'];
 eval([ostring ' = ' istring ';']);
 
 
+%blanks?
+bflag = get(GUIhandles.looper.blankflag,'value');
+bPer = str2num(get(GUIhandles.looper.blankPeriod,'string')); %blanks per repeat
 
-nr = str2num(get(GUIhandles.looper.repeats,'string'));                      
 
+                    
 
 %Create random sequence across conditions, for each repeat
-for rep = 1:nr
-    
+nr = str2num(get(GUIhandles.looper.repeats,'string')); 
+for rep = 1:nr    
     if get(GUIhandles.looper.randomflag,'value')
-        [dum seq{rep}] = sort(rand(1,nc));  %make random sequence
+        seq{rep} = randperm(nc+bflag);  
     else                          
-        seq{rep} = 1:nc;                                   
-    end
-                                
+        seq{rep} = 1:nc+bflag;                                   
+    end                            
 end 
 
-bflag = get(GUIhandles.looper.blankflag,'value');
-bPer = str2num(get(GUIhandles.looper.blankPeriod,'string'));
 
 %Make the analyzer structure
+if bflag==0
+    ntrialPerRep=nc;
+else
+    ntrialPerRep=nc+bPer;
+end
 
+%for each parameter value, save info and trials in which it is used
 for c = 1:nc
     for p = 1:Nparam
-        
-        idx = d{p}(c); %index into value vector of parameter p
+        idx = d{p}(c); %parameter value for condition c
 
-        paramS = Lstate.param{p}{1};
-        eval(['paramV = ' Lstate.param{p}{2} ';']);  %value vector
+        paramS = Lstate.param{p}{1}; %parameter name
+        eval(['paramV = ' Lstate.param{p}{2} ';']);  %parameter values
 
         looperInfo.conds{c}.symbol{p} = paramS;
         looperInfo.conds{c}.val{p} = paramV(idx);
-
     end
     
     for r = 1:nr
         pres = find(seq{r} == c);
-        looperInfo.conds{c}.repeats{r}.trialno = nc*(r-1) + pres;      
+        looperInfo.conds{c}.repeats{r}.trialno = ntrialPerRep*(r-1) + pres;      
     end
     
 end
 
-
-%Interleave the blanks:
-
-looperInfoDum = looperInfo;
-blankcounter = 0;
-if bflag
-    for t = 1:nr*nc
-        [c r] = getcr(t,looperInfoDum,nc);
-
-        if rem(t-1,bPer)==0 && t~=1
-            blankcounter = blankcounter+1;
-            looperInfo.conds{nc+1}.repeats{blankcounter}.trialno = t + blankcounter - 1;
-        end
-
-        looperInfo.conds{c}.repeats{r}.trialno = looperInfo.conds{c}.repeats{r}.trialno + blankcounter;
-
-    end
-
-end
-
-if blankcounter > 0  %If the total number of trials is less than the blank period, then no blanks are shown
+%add the blanks
+if bflag==1
     for p = 1:Nparam
         looperInfo.conds{nc+1}.symbol{p} = 'blank';
         looperInfo.conds{nc+1}.val{p} = [];
     end
+    for r = 1:nr
+        pres = find(seq{r} == nc+1);
+        looperInfo.conds{nc+1}.repeats{r}.trialno = ntrialPerRep*(r-1) + pres;      
+    end
 end
+
 
 %Put the formula in looperInfo
 looperInfo.formula = get(GUIhandles.looper.formula,'string');
 
 
-function [c r] = getcr(t,looperInfo,nc)
-
-%need to input nc so that it is always the number of conditions w/o blanks
-
-nr = length(looperInfo.conds{1}.repeats);
-
-for c = 1:nc
-    for r = 1:nr        
-        
-        if t == looperInfo.conds{c}.repeats{r}.trialno
-            return
-        end
-        
-    end
-end

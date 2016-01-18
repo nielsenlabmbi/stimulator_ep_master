@@ -24,6 +24,7 @@ else
         eval([Mf{i} '= Mstate.'  Mf{i} ';' ])
     end
     
+    %for each parameter in the looper, get value for the current condition
     Nparams = length(looperInfo.conds{cond}.symbol);
     for i = 1:Nparams
         pval = looperInfo.conds{cond}.val{i};

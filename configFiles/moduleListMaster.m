@@ -1,7 +1,7 @@
 function outlist = moduleListMaster(listtype)
 
 %list of all modules on the master
-%Plist is the list for the paramSelect window, Mlist for the master window
+%Plist is the list for the paramSelect window, Mlist for the mapper window
 %the first one is the module that is automatically loaded when starting
 %stimulator
 %we don't use the config files for the mapper (causes issues with

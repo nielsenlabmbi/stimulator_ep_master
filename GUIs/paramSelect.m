@@ -166,10 +166,21 @@ if file  %if 'cancel' was not pressed
     file = [path file];
     
     if strcmp(fext,'param')  %selecting saved param file
-        load(file,'-mat','Pstate')
+        tmp=load(file,'-mat','Pstate');
+        Ptmp=tmp.Pstate;
     elseif strcmp(fext,'analyzer')  %selecting old experiment
         load(file,'-mat','Analyzer')
-        Pstate = Analyzer.P;
+        Ptmp = Analyzer.P;
+    end
+    %check whether we're loading parameters for the correct module
+    mod = getmoduleID;
+    if isfield(Ptmp,'type') && strcmp(Ptmp.type,mod)==0
+        errordlg('Parameter file does not match selected module');
+    else
+        Pstate=Ptmp;
+        if ~isfield(Pstate,'type')
+            Pstate.type=mod;
+        end
     end
     PstateHistory{SelectedModId} = Pstate;
     refreshParamView

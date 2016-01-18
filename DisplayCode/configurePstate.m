@@ -16,11 +16,12 @@ Mlist = moduleListMaster(listtype);
 % the history. Otherwise configure it and then save it in PstateHistory.
 
 eval(Mlist{modID}{3});
+Pstate.type=Mlist{modID}(1);
 if isempty(PstateHistory)
     PstateHistory = cell(1,length(Mlist));
     SelectedModId = 1;
 elseif isempty(PstateHistory{modID})
     PstateHistory{modID} = Pstate;
 else  
-    Pstate = PstateHistory{modID};
+    Pstate = PstateHistory{modID};    
 end
