@@ -69,6 +69,10 @@ else
         %previous ;
         ids=strfind(fmla,';');
         
+        fmla = [';' fmla ';'];
+        ide = find(fmla == '=');
+        ids = find(fmla == ';'); % | fmla == ',');
+        
         for e = 1:length(ide);
             
             delim1 = max(find(ids<ide(e)));
@@ -77,12 +81,11 @@ else
             else
                 delim1 = ids(delim1)+1;
             end
+
                
             psymbol_Fmla = fmla(delim1:ide(e)-1);
             pval_Fmla = eval(psymbol_Fmla);
             
-            %update message - this checks whether the symbol actually
-            %appears in Pstate
             msg = updateMsg(pval_Fmla,psymbol_Fmla,msg);
         end
     end
