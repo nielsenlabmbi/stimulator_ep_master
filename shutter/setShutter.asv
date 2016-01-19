@@ -21,9 +21,8 @@ if bflag==0  %if it is not a blank condition - shutter will not be moved in blan
     for i = 1:length(Pstate.param)
         eval([Pstate.param{i}{1} '= Pstate.param{i}{3};' ])
     end
-    
     %for each parameter in the looper, get value for the current condition
-    %and execute any shutter related parameter settings
+    %execute any shutter related parameter settings
     Nparams = length(looperInfo.conds{cond}.symbol);
     for i = 1:Nparams
         pval = looperInfo.conds{cond}.val{i};
@@ -33,52 +32,43 @@ if bflag==0  %if it is not a blank condition - shutter will not be moved in blan
         eyefunc(psymbol,pval)  %This moves the eye shutters if its the right symbol
     end
     
-    %evaluate the formula - we're using the entire formula here so that we
-    %can use if statements etc; execute only shutter related commands
-    fmla=looperInfo.formula;
+    %execute shutter commands in the formula
+    fmla = looperInfo.formula;
+    id = find(fmla == ' ');
+    fmla(id) = [];
     if ~isempty(fmla)
-        if fmla(end)~=';'
-            fmla=[fmla ';'];
-        end
-        eval(fmla);
-    
-        %now go through and find variables in the formula; append them with
-        %their values to the message to the slave 
-        %find equal signs (variables are before them)
-        ide=strfind(fmla,'=');
-        
-        %remove == and ~= (for if statements)
-        id2=strfind(fmla,'==');
-        if ~isempty(id2)
-            ide(ide==id2 | ide==id2+1) = [];
-        end
-        
-        id2=strfind(fmla,'~=');
-        if ~isempty(id2)
-            ide(ide==id2+1)=[];
-        end
-        
-        %now loop through = and get variable names - between equal and
-        %previous ;
-        ids=strfind(fmla,';');
-        
+        fmla = [';' fmla ';'];
+        ide = find(fmla == '=');
+        ids = find(fmla == ';'); % | fmla == ',');
+
         for e = 1:length(ide);
-            
+
             delim1 = max(find(ids<ide(e)));
-            if isempty(delim1)
-                delim1=1;
-            else
-                delim1 = ids(delim1)+1;
+            delim1 = ids(delim1)+1;
+            delim2 = min(find(ids>ide(e)));
+            delim2 = ids(delim2)-1;
+
+            try
+                eval([fmla(delim1:delim2) ';'])  %any dependencies should have been established above
+            catch ME
+
+                if strcmp(ME.message(1:30),'Undefined function or variable')
+                    
+                    varname = ME.message(33:end-2);
+                    pval = getParamVal(varname);  %get the value from Pstate
+                    eval([varname '=' num2str(pval) ';']) 
+                    eval([fmla(delim1:delim2) ';'])  %try again   
+                end
             end
-               
+            
             psymbol_Fmla = fmla(delim1:ide(e)-1);
             pval_Fmla = eval(psymbol_Fmla);
             
-            %evaluate shutter related symbols
-            eyefunc(pval_Fmla,psymbol_Fmla);
+            eyefunc(psymbol_Fmla, pval_Fmla)  %This moves the eye shutters if its the right symbol
+            
         end
     end
-            
+    
 end
 
 

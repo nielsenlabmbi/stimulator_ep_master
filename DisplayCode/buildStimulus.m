@@ -61,8 +61,8 @@ else
         end
         
         id2=strfind(fmla,'~=');
-        if ~isemtpy(id2)
-            ide(ide=id2+1)=[];
+        if ~isempty(id2)
+            ide(ide==id2+1)=[];
         end
         
         %now loop through = and get variable names - between equal and
