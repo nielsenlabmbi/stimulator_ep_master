@@ -2,7 +2,7 @@ function setShutter(cond)
 
 %sets the shutter correctly for a particular condition
 
-global looperInfo  
+global looperInfo Mstate Pstate
 
 
 bflag = strcmp(looperInfo.conds{cond}.symbol{1},'blank');
