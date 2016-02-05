@@ -287,6 +287,11 @@ if ~Mstate.running
        pause(5);
     end
         
+    % clear all current trial details from Looper window
+    for ii=1:5
+        eval(['set(GUIhandles.looper.currtri' num2str(ii) ',''string'','' ''), drawnow;']);
+    end
+    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     trialno = 1;
     
