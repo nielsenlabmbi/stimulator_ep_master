@@ -4,7 +4,7 @@ global DcomState
 
 %Sends loop information and buffers
 
-global looperInfo Mstate Pstate
+global looperInfo Mstate Pstate GUIhandles
 
 bflag = strcmp(looperInfo.conds{cond}.symbol{1},'blank');
 
@@ -38,6 +38,7 @@ else
         psymbol = looperInfo.conds{cond}.symbol{i};
         msg = updateMsg(pval,psymbol,msg);
         eval([psymbol '=' num2str(pval) ';'])  
+		eval(['set(GUIhandles.looper.currtri' num2str(i) ',''string'',' num2str(pval) '), drawnow;']);
     end
     
     %evaluate the formula - we're using the entire formula here so that we
