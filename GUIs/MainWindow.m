@@ -147,7 +147,7 @@ set(handles.showTrial,'string','' )
 if get(GUIhandles.main.twopflag,'value')
     UpdateACQExptName   %Send expt info to acquisition
 end
-
+save(MstateHistoryFile(),'Mstate');
 
 % --- Executes during object creation, after setting all properties.
 function animal_CreateFcn(hObject, eventdata, handles)
@@ -176,6 +176,7 @@ global Mstate
 %This is not actually necessary since updateMstate is always called prior
 %to showing stimuli...
 Mstate.hemi = get(handles.hemisphere,'string');
+save(MstateHistoryFile(),'Mstate');
 
 % --- Executes during object creation, after setting all properties.
 function hemisphere_CreateFcn(hObject, eventdata, handles)
@@ -204,7 +205,7 @@ global Mstate
 %This is not actually necessary since updateMstate is always called prior
 %to showing stimuli...  
 Mstate.screenDist = str2num(get(handles.screendistance,'string'));
-
+save(MstateHistoryFile(),'Mstate');
 
 % --- Executes during object creation, after setting all properties.
 function screendistance_CreateFcn(hObject, eventdata, handles)
@@ -328,7 +329,7 @@ set(handles.showTrial,'string','' )
 if get(GUIhandles.main.twopflag,'value')
     UpdateACQExptName   %Send expt info to acquisition
 end
-
+save(MstateHistoryFile(),'Mstate');
 
 % --- Executes on button press in exptcb.
 function exptcb_Callback(hObject, eventdata, handles)
@@ -346,7 +347,7 @@ set(handles.showTrial,'string','' )
 if get(GUIhandles.main.twopflag,'value')
     UpdateACQExptName   %Send expt info to acquisition
 end
-
+save(MstateHistoryFile(),'Mstate');
 
 % --- Executes on button press in closeDisplay.
 function closeDisplay_Callback(hObject, eventdata, handles)
@@ -460,10 +461,11 @@ function analyzerRoots_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of analyzerRoots as text
 %        str2double(get(hObject,'String')) returns contents of analyzerRoots as a double
 
-
+global Mstate;
 %This is not actually necessary since updateMstate is always called prior
 %to showing stimuli...
 Mstate.analyzerRoot = get(handles.analyzerRoots,'string');
+save(MstateHistoryFile(),'Mstate');
 
 % --- Executes during object creation, after setting all properties.
 function analyzerRoots_CreateFcn(hObject, eventdata, handles)
@@ -520,6 +522,7 @@ Mstate.monitor = get(handles.monitor,'string');
 
 updateMonitorValues
 sendMonitor
+save(MstateHistoryFile(),'Mstate');
 
 % --- Executes during object creation, after setting all properties.
 function monitor_CreateFcn(hObject, eventdata, handles)
@@ -542,7 +545,9 @@ function dataRoots_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of dataRoots as text
 %        str2double(get(hObject,'String')) returns contents of dataRoots as a double
+global Mstate
 Mstate.dataRoot = get(handles.dataRoots,'string');
+save(MstateHistoryFile(),'Mstate');
 
 % --- Executes during object creation, after setting all properties.
 function dataRoots_CreateFcn(hObject, eventdata, handles)
@@ -556,3 +561,5 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
+function filename = MstateHistoryFile()
+filename = 'C:\stimulator_master\MstateHistory.mat';
