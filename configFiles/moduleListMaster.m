@@ -23,6 +23,8 @@ Plist{10} = {'AD' 'Adaptation'       'configPstate_Adapt'        ''};
 Plist{11} = {'PC' 'Color Grating'   'configPstate_PerGratingColor'   ''};
 Plist{12} = {'BP' 'Barber Pole'     'configPstate_BarberPole'   ''};
 Plist{13} = {'BR' 'Bar'             'configPstate_Bar'   ''};
+Plist{14} = {'RB' 'RC Bars'             'configPstate_RCBars'   ''};
+
 
 Mlist{1} = {'MG' 'BW Grating'};
 Mlist{2} = {'MM' 'Bar'};
