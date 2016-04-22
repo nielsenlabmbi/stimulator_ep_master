@@ -22,7 +22,7 @@ function varargout = MainWindow(varargin)
 
 % Edit the above text to modify the response to help MainWindow
 
-% Last Modified by GUIDE v2.5 27-Oct-2015 20:33:43
+% Last Modified by GUIDE v2.5 21-Apr-2016 18:49:05
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -225,7 +225,12 @@ function runbutton_Callback(hObject, eventdata, handles)
 % hObject    handle to runbutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global Mstate GUIhandles  trialno
+global Mstate GUIhandles  trialno Lstate exptType
+
+if ~exist(ExperimentMasterListFile(),'file')
+    resetExperimentMasterListFile()
+end
+load(ExperimentMasterListFile());
 
 %Run it!
 if ~Mstate.running
@@ -296,6 +301,14 @@ if ~Mstate.running
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     trialno = 1;
     
+    count = count + 1;
+    expts(count).Mstate = Mstate;
+    expts(count).Lstate = Lstate;
+    expts(count).exptType = exptType;
+    expts(count).abort = 0;
+    
+    save(ExperimentMasterListFile(),'expts','count','-append');
+    
     run2  %gets recalled after each trial (in 'endAcquisition' or 'Displaycb')
     
     
@@ -303,6 +316,8 @@ else
     Mstate.running = 0;  %Global flag for interrupt in real-time loop ('Abort')    
     set(handles.runbutton,'string','Run')
     
+    expts(count).abort = 1;
+    save(ExperimentMasterListFile(),'expts','-append');
 end
 
 %This is done to ensure that user builds a new stimulus before doing
@@ -563,3 +578,58 @@ end
 
 function filename = MstateHistoryFile()
 filename = 'C:\stimulator_master\MstateHistory.mat';
+
+function filename = ExperimentMasterListFile()
+filename = 'C:\stimulator_master\experimentMasterList.mat';
+
+% --- Executes on selection change in exptTypeMenu.
+function exptTypeMenu_Callback(hObject, eventdata, handles)
+    % hObject    handle to exptTypeMenu (see GCBO)
+    % eventdata  reserved - to be defined in a future version of MATLAB
+    % handles    structure with handles and user data (see GUIDATA)
+
+    % Hints: contents = cellstr(get(hObject,'String')) returns exptTypeMenu contents as cell array
+    %        contents{get(hObject,'Value')} returns selected item from exptTypeMenu
+    global exptType;
+
+    contents = cellstr(get(hObject,'String'));
+    selectedType = contents{get(hObject,'Value')};
+    if ~strcmp(selectedType,'add type...')
+        exptType = selectedType;
+    else
+        if ~exist(ExperimentMasterListFile(),'file')
+            resetExperimentMasterListFile()
+        end
+        load(ExperimentMasterListFile());
+        newType = inputdlg('Enter new experiment type:','New type...');
+        if ~isempty(cell2mat(strfind(exptTypes,newType{1})))
+            errordlg('Type already exists.'); return;
+        end
+        exptTypes{end} = newType{1};
+        exptTypes{end+1} = 'add type...';
+        save(ExperimentMasterListFile(),'exptTypes','count','-append');
+        set(hObject,'String',exptTypes);
+    end
+
+% --- Executes during object creation, after setting all properties.
+function exptTypeMenu_CreateFcn(hObject, eventdata, handles)
+    % hObject    handle to exptTypeMenu (see GCBO)
+    % eventdata  reserved - to be defined in a future version of MATLAB
+    % handles    empty - handles not created until after all CreateFcns called
+
+    % Hint: popupmenu controls usually have a white background on Windows.
+    %       See ISPC and COMPUTER.
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
+    if ~exist(ExperimentMasterListFile(),'file')
+        resetExperimentMasterListFile()
+    end
+    load(ExperimentMasterListFile());
+    set(hObject,'String',exptTypes);
+
+function resetExperimentMasterListFile()
+    exptTypes = {'ori','contrast','ga','ori16x16','retinotopy','s_freq','center surround','normalization','add type...'};
+    count = 0;
+    expts = [];
+    save(ExperimentMasterListFile(),'exptTypes','expts','count');
