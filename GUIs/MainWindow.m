@@ -289,6 +289,7 @@ if ~Mstate.running
        startACQ
     elseif get(GUIhandles.main.twopflag,'value')
        UpdateACQExptName   %Send expt info to acquisition
+       pause(10);
        send_sbserver('G'); %start microscope
        pause(5);
     end

@@ -24,6 +24,7 @@ Plist{11} = {'PC' 'Color Grating'   'configPstate_PerGratingColor'   ''};
 Plist{12} = {'BP' 'Barber Pole'     'configPstate_BarberPole'   ''};
 Plist{13} = {'BR' 'Bar'             'configPstate_Bar'   ''};
 Plist{14} = {'RB' 'RC Bars'          'configPstate_RCBars'   ''};
+Plist{15} = {'FR' 'Radial Freq'          'configPstate_RadialFreq'   ''};
 
 
 Mlist{1} = {'MG' 'BW Grating'};
