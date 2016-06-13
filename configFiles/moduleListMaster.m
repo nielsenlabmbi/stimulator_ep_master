@@ -20,10 +20,12 @@ Plist{7} = {'OF' 'Optic Flow'       'configPstate_OpticFlow'    ''};
 Plist{8} = {'IM' 'Images'           'configPstate_Img'          ''};
 Plist{9} = {'GA' 'GA'               'configPstate_GA'           'initializeModule_GA'};
 Plist{10} = {'AD' 'Adaptation'       'configPstate_Adapt'        ''};
-Plist{11} = {'RA' 'RC Adapt'       'configPstate_RCAdaptGrating'        ''};
-Plist{12} = {'PC' 'Color Grating'   'configPstate_PerGratingColor'   ''};
-Plist{13} = {'BP' 'Barber Pole'     'configPstate_BarberPole'   ''};
-Plist{14} = {'BR' 'Bar'             'configPstate_Bar'   ''};
+Plist{11} = {'PC' 'Color Grating'   'configPstate_PerGratingColor'   ''};
+Plist{12} = {'BP' 'Barber Pole'     'configPstate_BarberPole'   ''};
+Plist{13} = {'BR' 'Bar'             'configPstate_Bar'   ''};
+Plist{14} = {'RB' 'RC Bars'          'configPstate_RCBars'   ''};
+Plist{15} = {'FR' 'Radial Freq'          'configPstate_RadialFreq'   ''};
+
 
 Mlist{1} = {'MG' 'BW Grating'};
 Mlist{2} = {'MM' 'Bar'};
