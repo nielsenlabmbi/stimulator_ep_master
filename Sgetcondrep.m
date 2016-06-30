@@ -1,4 +1,4 @@
-function [c r] = Sgetcondrep(trialno)
+function [c,r] = Sgetcondrep(trialno)
 
 %trialno is 1 to N
 

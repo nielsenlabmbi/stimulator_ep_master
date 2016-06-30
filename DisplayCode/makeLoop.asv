@@ -91,7 +91,7 @@ if ~any(blockpar) %no blocking
         end
     end
     
-else %blocking
+elseif sum(blockpar)<length(blockpar) %
    
     %determine which parameter(s) are blocked
     blockidx=find(blockpar==1); 

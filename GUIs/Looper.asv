@@ -442,32 +442,27 @@ function block1_Callback(hObject, eventdata, handles)
 
 % Hint: get(hObject,'Value') returns toggle state of block1
 
-if get(hObject,'Value')
-    %need to make sure that at least one parameter is not selected as blocked,
-    %only taking into account existing parameters
-    pstring{1}=get(handles.symbol1,'String');
-    pstring{2}=get(handles.symbol2,'String');
-    pstring{3}=get(handles.symbol3,'String');
-    pstring{4}=get(handles.symbol4,'String');
-    pstring{5}=get(handles.symbol5,'String');
-    
-    blockval(1)=get(handles.block1,'Value');
-    blockval(2)=get(handles.block2,'Value');
-    blockval(3)=get(handles.block3,'Value');
-    blockval(4)=get(handles.block4,'Value');
-    blockval(5)=get(handles.block5,'Value');
-    
-    bout=[];
-    for i=1:5
-        if ~isempty(pstring{i})
-            bout=[bout;blockval(i)];
-        end
-    end
-    if all(bout)
-        errordlg('Not all parameters can be blocked! Resetting.');
-        set(hObject,'Value',0);
+%need to make sure that at least one parameter is not selected as blocked,
+%only taking into account existing parameters
+pstring{1}=get(handles.symbol1,'String');
+pstring{2}=get(handles.symbol2,'String');
+pstring{3}=get(handles.symbol3,'String');
+pstring{4}=get(handles.symbol4,'String');
+pstring{5}=get(handles.symbol5,'String');
+
+blockval(1)=get(handles.block1,'Value');
+blockval(2)=get(handles.block2,'Value');
+blockval(3)=get(handles.block3,'Value');
+blockval(4)=get(handles.block4,'Value');
+blockval(5)=get(handles.block5,'Value');
+
+bout=[];
+for i=1:5
+    if ~isempty(pstring{i})
+        bout=[bout;blockval(i)];
     end
 end
+
 
 
 % --- Executes on button press in block2.
@@ -477,32 +472,7 @@ function block2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of block2
-if get(hObject,'Value')
-    %need to make sure that at least one parameter is not selected as blocked,
-    %only taking into account existing parameters
-    pstring{1}=get(handles.symbol1,'String');
-    pstring{2}=get(handles.symbol2,'String');
-    pstring{3}=get(handles.symbol3,'String');
-    pstring{4}=get(handles.symbol4,'String');
-    pstring{5}=get(handles.symbol5,'String');
-    
-    blockval(1)=get(handles.block1,'Value');
-    blockval(2)=get(handles.block2,'Value');
-    blockval(3)=get(handles.block3,'Value');
-    blockval(4)=get(handles.block4,'Value');
-    blockval(5)=get(handles.block5,'Value');
-    
-    bout=[];
-    for i=1:5
-        if ~isempty(pstring{i})
-            bout=[bout;blockval(i)];
-        end
-    end
-    if all(bout)
-        errordlg('Not all parameters can be blocked! Resetting.');
-        set(hObject,'Value',0);
-    end
-end
+
 
 % --- Executes on button press in block3.
 function block3_Callback(hObject, eventdata, handles)
@@ -511,32 +481,7 @@ function block3_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of block3
-if get(hObject,'Value')
-    %need to make sure that at least one parameter is not selected as blocked,
-    %only taking into account existing parameters
-    pstring{1}=get(handles.symbol1,'String');
-    pstring{2}=get(handles.symbol2,'String');
-    pstring{3}=get(handles.symbol3,'String');
-    pstring{4}=get(handles.symbol4,'String');
-    pstring{5}=get(handles.symbol5,'String');
-    
-    blockval(1)=get(handles.block1,'Value');
-    blockval(2)=get(handles.block2,'Value');
-    blockval(3)=get(handles.block3,'Value');
-    blockval(4)=get(handles.block4,'Value');
-    blockval(5)=get(handles.block5,'Value');
-    
-    bout=[];
-    for i=1:5
-        if ~isempty(pstring{i})
-            bout=[bout;blockval(i)];
-        end
-    end
-    if all(bout)
-        errordlg('Not all parameters can be blocked! Resetting.');
-        set(hObject,'Value',0);
-    end
-end
+
 
 % --- Executes on button press in block4.
 function block4_Callback(hObject, eventdata, handles)
@@ -545,32 +490,7 @@ function block4_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of block4
-if get(hObject,'Value')
-    %need to make sure that at least one parameter is not selected as blocked,
-    %only taking into account existing parameters
-    pstring{1}=get(handles.symbol1,'String');
-    pstring{2}=get(handles.symbol2,'String');
-    pstring{3}=get(handles.symbol3,'String');
-    pstring{4}=get(handles.symbol4,'String');
-    pstring{5}=get(handles.symbol5,'String');
-    
-    blockval(1)=get(handles.block1,'Value');
-    blockval(2)=get(handles.block2,'Value');
-    blockval(3)=get(handles.block3,'Value');
-    blockval(4)=get(handles.block4,'Value');
-    blockval(5)=get(handles.block5,'Value');
-    
-    bout=[];
-    for i=1:5
-        if ~isempty(pstring{i})
-            bout=[bout;blockval(i)];
-        end
-    end
-    if all(bout)
-        errordlg('Not all parameters can be blocked! Resetting.');
-        set(hObject,'Value',0);
-    end
-end
+
 
 % --- Executes on button press in block5.
 function block5_Callback(hObject, eventdata, handles)
@@ -579,29 +499,3 @@ function block5_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of block5
-if get(hObject,'Value')
-    %need to make sure that at least one parameter is not selected as blocked,
-    %only taking into account existing parameters
-    pstring{1}=get(handles.symbol1,'String');
-    pstring{2}=get(handles.symbol2,'String');
-    pstring{3}=get(handles.symbol3,'String');
-    pstring{4}=get(handles.symbol4,'String');
-    pstring{5}=get(handles.symbol5,'String');
-    
-    blockval(1)=get(handles.block1,'Value');
-    blockval(2)=get(handles.block2,'Value');
-    blockval(3)=get(handles.block3,'Value');
-    blockval(4)=get(handles.block4,'Value');
-    blockval(5)=get(handles.block5,'Value');
-    
-    bout=[];
-    for i=1:5
-        if ~isempty(pstring{i})
-            bout=[bout;blockval(i)];
-        end
-    end
-    if all(bout)
-        errordlg('Not all parameters can be blocked! Resetting.');
-        set(hObject,'Value',0);
-    end
-end
