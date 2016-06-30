@@ -19,9 +19,11 @@ function refreshLooperView
     for i = 1:length(Lstate.param)
         eval(['symhandle = GUIhandles.looper.symbol' num2str(i) ';'])
         eval(['valhandle = GUIhandles.looper.valvec' num2str(i) ';'])
+        eval(['blockhandle = GUIhandles.looper.block' num2str(i) ';'])
 
         set(symhandle,'string',Lstate.param{i}{1})
         set(valhandle,'string',Lstate.param{i}{2})
+        set(blockhandle,'value',Lstate.param{i}{3})
     end
 end
 
@@ -38,10 +40,12 @@ function clearLooperView
     for ii = 1:5
         eval(['symhandle = GUIhandles.looper.symbol' num2str(ii) ';'])
         eval(['valhandle = GUIhandles.looper.valvec' num2str(ii) ';'])
+        eval(['blockhandle = GUIhandles.looper.block' num2str(ii) ';'])
         eval(['currtrihandle = GUIhandles.looper.currtri' num2str(ii) ';'])
 
         set(symhandle,'string','')
         set(valhandle,'string','')
+        set(blockhandle,'value',0)
         set(currtrihandle,'string','') 
     end
 end

@@ -351,6 +351,11 @@ global Lstate
 if file  %if 'cancel' was not pressed
     file = [path file];
     load(file,'-mat','Lstate')
+    if length(Lstate.param{1})<3 %backwards compatibility after adding blocking option
+        for i=1:length(Lstate.param)
+            Lstate.param{i}{3}=0;
+        end
+    end
     refreshLooperView
 end
 
@@ -463,7 +468,8 @@ if get(hObject,'Value')
             bout=[bout;blockval(i)];
         end
     end
-    if all(bout)
+    
+    if ~isempty(bout) && all(bout)
         errordlg('Not all parameters can be blocked! Resetting.');
         set(hObject,'Value',0);
     end
@@ -498,7 +504,7 @@ if get(hObject,'Value')
             bout=[bout;blockval(i)];
         end
     end
-    if all(bout)
+    if ~isempty(bout) && all(bout)
         errordlg('Not all parameters can be blocked! Resetting.');
         set(hObject,'Value',0);
     end
@@ -532,7 +538,7 @@ if get(hObject,'Value')
             bout=[bout;blockval(i)];
         end
     end
-    if all(bout)
+    if ~isempty(bout) && all(bout)
         errordlg('Not all parameters can be blocked! Resetting.');
         set(hObject,'Value',0);
     end
@@ -566,7 +572,7 @@ if get(hObject,'Value')
             bout=[bout;blockval(i)];
         end
     end
-    if all(bout)
+    if ~isempty(bout) && all(bout)
         errordlg('Not all parameters can be blocked! Resetting.');
         set(hObject,'Value',0);
     end
@@ -600,7 +606,7 @@ if get(hObject,'Value')
             bout=[bout;blockval(i)];
         end
     end
-    if all(bout)
+    if ~isempty(bout) && all(bout)
         errordlg('Not all parameters can be blocked! Resetting.');
         set(hObject,'Value',0);
     end

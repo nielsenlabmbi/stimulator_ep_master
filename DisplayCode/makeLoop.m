@@ -40,7 +40,7 @@ bflag = get(GUIhandles.looper.blankflag,'value');
 bPer = str2num(get(GUIhandles.looper.blankPeriod,'string')); %blanks per repeat
 
 %randomization and repeats
-nr = str2num(get(GUIhandles.looper.repeats,'string'));
+nrep = str2num(get(GUIhandles.looper.repeats,'string'));
 randomflag = get(GUIhandles.looper.randomflag,'value');
 
 
