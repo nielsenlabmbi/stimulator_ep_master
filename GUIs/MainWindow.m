@@ -286,7 +286,8 @@ if ~Mstate.running
 
     %%%Get the Acquisition ready:
     if get(GUIhandles.main.ephysflag,'value')  %Flag for the link with Blackrock
-       startACQ
+        pause(5);
+        startACQ
     elseif get(GUIhandles.main.twopflag,'value')
        UpdateACQExptName   %Send expt info to acquisition
        pause(10);

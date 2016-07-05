@@ -43,6 +43,7 @@ else
     
     %This is executed at the end of experiment and when abort button is hit
     if get(GUIhandles.main.ephysflag,'value');
+        pause(5);
         stopACQ;
     elseif get(GUIhandles.main.twopflag,'value')
         %give microscope a bit of time to finish acq
