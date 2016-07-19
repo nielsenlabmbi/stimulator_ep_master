@@ -290,9 +290,8 @@ if ~Mstate.running
         startACQ
     elseif get(GUIhandles.main.twopflag,'value')
        UpdateACQExptName   %Send expt info to acquisition
-       pause(10);
        send_sbserver('G'); %start microscope
-       pause(5);
+       pause(2);
     end
         
     % clear all current trial details from Looper window
