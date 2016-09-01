@@ -25,8 +25,9 @@ Plist{12} = {'PC' 'Color Grating'   'configPstate_PerGratingColor'   ''};
 Plist{13} = {'BP' 'Barber Pole'     'configPstate_BarberPole'   ''};
 Plist{14} = {'TP' 'Transparent Plaid'     'configPstate_TransparentPlaid'   ''};
 Plist{15} = {'BR' 'Bar'             'configPstate_Bar'   ''};
-Plist{16} = {'RB' 'RC Bars'          'configPstate_RCBars'   ''};
-Plist{17} = {'FR' 'Radial Freq'          'configPstate_RadialFreq'   ''};
+Plist{16} = {'BK' 'Kalatsky'             'configPstate_Kalatsky'   ''};
+Plist{17} = {'RB' 'RC Bars'          'configPstate_RCBars'   ''};
+Plist{18} = {'FR' 'Radial Freq'          'configPstate_RadialFreq'   ''};
 
 
 Mlist{1} = {'MG' 'BW Grating'};
