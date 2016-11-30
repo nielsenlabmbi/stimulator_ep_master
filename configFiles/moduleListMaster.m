@@ -28,6 +28,8 @@ Plist{15} = {'BR' 'Bar'             'configPstate_Bar'   ''};
 Plist{16} = {'BK' 'Kalatsky'             'configPstate_Kalatsky'   ''};
 Plist{17} = {'RB' 'RC Bars'          'configPstate_RCBars'   ''};
 Plist{18} = {'FR' 'Radial Freq'          'configPstate_RadialFreq'   ''};
+Plist{19} = {'PM' 'V4 Pacman'          'configPstate_Pacman'   ''};
+Plist{20} = {'GL' 'Glass'          'configPstate_Glass'   ''};
 
 
 Mlist{1} = {'MG' 'BW Grating'};
