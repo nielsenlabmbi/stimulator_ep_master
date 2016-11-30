@@ -118,7 +118,7 @@ global Mstate GUIhandles
 
 Mstate.anim = get(handles.animal,'string');
 
-roots = parseString(Mstate.analyzerRoot,';');
+roots = strsplit(Mstate.analyzerRoot,';');
 
 dirinfo = dir([roots{1} '\' Mstate.anim]); %Use the first root path for the logic below
 
@@ -236,7 +236,7 @@ load(ExperimentMasterListFile());
 if ~Mstate.running
     
     %Check if this analyzer file already exists!
-    roots = parseString(Mstate.analyzerRoot,';');    
+    roots = strsplit(Mstate.analyzerRoot,';');    
     for i = 1:length(roots)  %loop through each root
         title = [Mstate.anim '_' sprintf('u%s',Mstate.unit) '_' Mstate.expt];
         dd = [roots{i} '\' Mstate.anim '\' title '.analyzer'];
@@ -264,13 +264,6 @@ if ~Mstate.running
     updateMstate    
     
     makeLoop;  %makes 'looperInfo'.  This must be done before saving the analyzer file.
-    
-%     if strcmp('RD',getmoduleID) %if raindropper
-%         if getParamVal('randseed_bit') %if random seed bit is set
-%             rval = round(rand(1)*1000)/1000;
-%             updatePstate('rseed',rval)
-%         end
-%     end
 
     saveExptParams  %Save .analyzer. Do this before running... in case something crashes
 
