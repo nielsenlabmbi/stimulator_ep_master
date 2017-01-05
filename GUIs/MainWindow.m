@@ -22,7 +22,7 @@ function varargout = MainWindow(varargin)
 
 % Edit the above text to modify the response to help MainWindow
 
-% Last Modified by GUIDE v2.5 21-Apr-2016 18:49:05
+% Last Modified by GUIDE v2.5 09-Dec-2016 14:34:22
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -77,17 +77,6 @@ set(handles.screendistance,'string',Mstate.screenDist)
 set(handles.monitor,'string',Mstate.monitor)
 set(handles.dataRoots,'string',Mstate.dataRoot)
 
-
-%disable communication buttons based on setup
-[setup,~]=getSetup;
-set(handles.stimonlyflag,'value',0);
-if strcmp(setup,'2P') 
-    set(handles.ephysflag,'enable','off');
-    set(handles.twopflag,'value',1);
-elseif strcmp(setup,'EP') %ephys
-    set(handles.twopflag,'enable','off');
-    set(handles.ephysflag,'value',1);
-end
 
 GUIhandles.main = handles;
 
@@ -144,9 +133,10 @@ set(handles.exptcb,'string',newexpt)
 set(handles.unitcb,'string',newunit)
 set(handles.showTrial,'string','' )
 
-if get(GUIhandles.main.twopflag,'value')
-    UpdateACQExptName   %Send expt info to acquisition
+if get(GUIhandles.main.daqflag,'value')
+    updateAcqName   %Send expt info to acquisition
 end
+
 save(MstateHistoryFile(),'Mstate');
 
 % --- Executes during object creation, after setting all properties.
@@ -278,13 +268,10 @@ if ~Mstate.running
     %%%%%%%%%%%%%%%%%%%%%%%%%%
 
     %%%Get the Acquisition ready:
-    if get(GUIhandles.main.ephysflag,'value')  %Flag for the link with Blackrock
+    if get(GUIhandles.main.daqflag,'value')  %Flag for the link with Blackrock
         pause(5);
-        startACQ
-    elseif get(GUIhandles.main.twopflag,'value')
-       UpdateACQExptName   %Send expt info to acquisition
-       send_sbserver('G'); %start microscope
-       pause(2);
+        startAcq;
+        pause(2);
     end
         
     % clear all current trial details from Looper window
@@ -335,9 +322,10 @@ Mstate.expt = newexpt;
 set(handles.exptcb,'string',newexpt)
 set(handles.showTrial,'string','' )
 
-if get(GUIhandles.main.twopflag,'value')
-    UpdateACQExptName   %Send expt info to acquisition
+if get(GUIhandles.main.daqflag,'value')
+    updateAcqName   %Send expt info to acquisition
 end
+
 save(MstateHistoryFile(),'Mstate');
 
 % --- Executes on button press in exptcb.
@@ -353,9 +341,10 @@ Mstate.expt = newexpt;
 set(handles.exptcb,'string',newexpt)
 set(handles.showTrial,'string','' )
 
-if get(GUIhandles.main.twopflag,'value')
-    UpdateACQExptName   %Send expt info to acquisition
+if get(GUIhandles.main.daqflag,'value')
+    updateAcqName   %Send expt info to acquisition
 end
+
 save(MstateHistoryFile(),'Mstate');
 
 % --- Executes on button press in closeDisplay.
@@ -380,87 +369,53 @@ function stimonlyflag_Callback(hObject, eventdata, handles)
 global GUIhandles
 
 flagS = get(handles.stimonlyflag,'value');
-flagE = get(handles.ephysflag,'value');
-flagT = get(handles.twopflag,'value');
+flagD = get(handles.daqflag,'value');
 
 %make sure something is selected at all times
-if sum([flagS,flagE,flagT])== 0
+if flagS+flagD==0
     flagS=1;
 end
 
-%stimonly selected; unselect the other ones
+%stimonly selected; unselect the other one
 if flagS==1
-    flagE=0;
-    flagT=0;
+    flagD=0;
 end
 
 %update radiobuttons
 set(GUIhandles.main.stimonlyflag,'value',flagS);
-set(GUIhandles.main.ephysflag,'value',flagE);
-set(GUIhandles.main.twopflag,'value',flagT);
+set(GUIhandles.main.daqflag,'value',flagD);
 
 
 
-% --- Executes on button press in ephysflag.
-function ephysflag_Callback(hObject, eventdata, handles)
-% hObject    handle to ephysflag (see GCBO)
+% --- Executes on button press in daqflag.
+function daqflag_Callback(hObject, eventdata, handles)
+% hObject    handle to daqflag (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hint: get(hObject,'Value') returns toggle state of ephysflag
+% Hint: get(hObject,'Value') returns toggle state of daqflag
 
 global GUIhandles
 
 flagS = get(handles.stimonlyflag,'value');
-flagE = get(handles.ephysflag,'value');
-flagT = get(handles.twopflag,'value');
+flagD = get(handles.daqflag,'value');
 
 %make sure something is selected at all times
-if sum([flagS,flagE,flagT])== 0
+if flagS+flagD== 0
     flagS=1;
 end
 
 %ephys selected; unselect the other ones
-if flagE==1
+if flagD==1
     flagS=0;
-    flagT=0;
 end
 
 %update radiobuttons
 set(GUIhandles.main.stimonlyflag,'value',flagS);
-set(GUIhandles.main.ephysflag,'value',flagE);
-set(GUIhandles.main.twopflag,'value',flagT);
+set(GUIhandles.main.daqflag,'value',flagD);
 
 
 
-% --- Executes on button press in twopflag.
-function twopflag_Callback(hObject, eventdata, handles)
-% hObject    handle to twopflag (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hint: get(hObject,'Value') returns toggle state of twopflag
-global GUIhandles
-
-flagS = get(handles.stimonlyflag,'value');
-flagE = get(handles.ephysflag,'value');
-flagT = get(handles.twopflag,'value');
-
-%make sure something is selected at all times
-if sum([flagS,flagE,flagT])== 0
-    flagS=1;
-end
-
-%2P selected; unselect the other ones
-if flagT==1
-    flagS=0;
-    flagE=0;
-end
-
-%update radiobuttons
-set(GUIhandles.main.stimonlyflag,'value',flagS);
-set(GUIhandles.main.ephysflag,'value',flagE);
-set(GUIhandles.main.twopflag,'value',flagT);
 
 function analyzerRoots_Callback(hObject, eventdata, handles)
 % hObject    handle to analyzerRoots (see GCBO)

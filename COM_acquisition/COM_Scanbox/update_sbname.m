@@ -1,4 +1,4 @@
-function UpdateACQExptName
+function update_sbname
 
 global Mstate
 

@@ -2,14 +2,11 @@ function configDisplayCom
 
 %configures communication with the stimulus slave
 
-global DcomState
-
-%set IP addresses according to setup
-[~,rip]=getSetup;
+global DcomState setupDefault
 
 % close all open udp port objects on the same port and remove
 % the relevant object form the workspace
-port = instrfindall('RemoteHost',rip);
+port = instrfindall('RemoteHost',setupDefault.slaveIP);
 if length(port) > 0; 
     fclose(port); 
     delete(port);
@@ -17,7 +14,7 @@ if length(port) > 0;
 end
 
 % make udp object named 'stim'
-DcomState.serialPortHandle = udp(rip,'RemotePort',8000,'LocalPort',9000);
+DcomState.serialPortHandle = udp(setupDefault.slaveIP,'RemotePort',8000,'LocalPort',9000);
 
 set(DcomState.serialPortHandle, 'OutputBufferSize', 1024)
 set(DcomState.serialPortHandle, 'InputBufferSize', 1024)

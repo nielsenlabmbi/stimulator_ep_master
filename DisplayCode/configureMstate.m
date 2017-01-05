@@ -1,6 +1,6 @@
 function configureMstate
 
-global Mstate
+global Mstate setupDefault
 
 if exist('C:\stimulator_master\MstateHistory.mat','file')
     load('C:\stimulator_master\MstateHistory.mat');
@@ -18,13 +18,8 @@ else
     Mstate.dataRoot='c:\data';
     
     % initialize setup specific Mstate values
-    if strcmp(getSetup,'EP')
-        Mstate.monitor = 'VSN';  %This should match the default value in Display
-        Mstate.analyzerRoot = 'C:\VStimFiles\AnalyzerFiles; Z:\Ephys\AnalyzerFiles';
-    else
-        Mstate.monitor = 'LCD';  %This should match the default value in Display
-        Mstate.analyzerRoot = 'C:\VStimFiles\AnalyzerFiles; Z:\2P\Analyzer';
-    end
+    Mstate.monitor=setupDefault.defaultMonitor;
+    Mstate.analyzerRoot=setupDefault.analyzerRoot;
     
     save('C:\stimulator_master\MstateHistory.mat','Mstate');
 end

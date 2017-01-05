@@ -1,21 +1,41 @@
-function [setupID,slaveIP]=getSetup
+function getSetup
 
-setupIP=getWindowsIP;
+%get the default parameters for this setup
 
-switch setupIP
-    case '172.30.11.131'
-        setupID='2P';
-        slaveIP='172.30.11.130';
-        
-    case '172.30.11.140'
-        setupID='EP';
-        slaveIP='172.30.11.142';
-        
-    otherwise
-        disp('Unknown setup IP');
-        setupID='';
-        slaveIP='';
+global setupDefault
+setupDefault=struct;
+
+%location of setup file
+filePath='e:/misc/';
+fileName='setupDefault.txt';
+
+%open file
+fId=fopen(fullfile(filePath,fileName));
+
+%read the text (logic: parameter name: parameter setting)
+c=textscan(fId,'%s %s');
+
+%transform into structure
+
+for i=1:length(c{1})
+    %get parameter name minus the trailing colon
+    pn=c{1}{i}(1:end-1);
+    
+    %get parameter value
+    vn=c{2}{i};
+    
+    if isfield(setupDefault,pn)==0
+        setupDefault.(pn)=vn;
+    else %this mostly covers the case of multiple analyzer files
+        tmp=setupDefault.(pn);
+        setupDefault.(pn)=[tmp '; ' vn];
+    end
+    
 end
+
+fclose(fId);
+
+
         
         
 

@@ -5,14 +5,9 @@ configurePstate(1,'P') %this updates the parameters to the first module selected
 configureMstate
 configureLstate
 
-%Host-Host communication
+%host-host communication
 configDisplayCom    %stimulus computer
-
-[setup,~]=getSetup;
-if strcmp(setup,'2P') %2p
-    open_sbserver    %2p acquisition
-end
-
+configAcqCom %acquisition machine
 
 
 %Open GUIs

@@ -42,13 +42,9 @@ if Mstate.running && trialno<=nt
 else
     
     %This is executed at the end of experiment and when abort button is hit
-    if get(GUIhandles.main.ephysflag,'value');
+    if get(GUIhandles.main.daqflag,'value');
         pause(5);
-        stopACQ;
-    elseif get(GUIhandles.main.twopflag,'value')
-        %give microscope a bit of time to finish acq
-        pause(5);
-        send_sbserver('S'); %stop microscope
+        stopAcq;
     end
     
     Mstate.running = 0;
