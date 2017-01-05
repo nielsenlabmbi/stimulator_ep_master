@@ -1,12 +1,21 @@
 function getSetup
 
 %get the default parameters for this setup
+%format of setupDefault.txt for master:
+%setupID: XXX
+%slaveIP: XXX
+%defaultMonitor: XXX
+%analyzerRoot: XXX
+%analyzerRoot: XXX (in case there are more than one analyzer directories)
+%acqIP: XXX (in a 3 computer case)
+%
+%do not change the names of these fields!!!
 
 global setupDefault
 setupDefault=struct;
 
 %location of setup file
-filePath='e:/misc/';
+filePath='c:/';
 fileName='setupDefault.txt';
 
 %open file
