@@ -13,9 +13,9 @@ if bflag
     msg = 'L';
     
 else
-    mod = getmoduleID;
+    Mod = getmoduleID;
     
-    msg = ['B;' mod ';' num2str(trial)];
+    msg = ['B;' Mod ';' num2str(trial)];
     
     %evaluate all Mstate parameters locally, in case of dependencies in the
     %formula

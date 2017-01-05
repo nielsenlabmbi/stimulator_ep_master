@@ -54,5 +54,15 @@ switch Mstate.monitor
         Mstate.xpixels = 1920;
         Mstate.ypixels = 1080;
 
+     case 'LG43'
+
+%         Mstate.screenXcm = 32.5;
+%         Mstate.screenYcm = 24;
+        
+        Mstate.screenXcm = 94.3;
+        Mstate.screenYcm = 53.4;
+        
+        Mstate.xpixels = 1920;
+        Mstate.ypixels = 1080;
         
 end
