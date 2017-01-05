@@ -4,6 +4,7 @@ function configDisplayCom
 
 global DcomState setupDefault
 
+
 % close all open udp port objects on the same port and remove
 % the relevant object form the workspace
 port = instrfindall('RemoteHost',setupDefault.slaveIP);

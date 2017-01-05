@@ -1,5 +1,7 @@
 function Stimulator2
 
+getSetup;
+
 %Initialize stimulus parameter structures
 configurePstate(1,'P') %this updates the parameters to the first module selected in paramSelect
 configureMstate

@@ -15,7 +15,7 @@ global setupDefault
 setupDefault=struct;
 
 %location of setup file
-filePath='c:/';
+filePath='c:/params looper/';
 fileName='setupDefault.txt';
 
 %open file
