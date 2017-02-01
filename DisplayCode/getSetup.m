@@ -2,12 +2,16 @@ function getSetup
 
 %get the default parameters for this setup
 %format of setupDefault.txt for master:
-%setupID: XXX
-%slaveIP: XXX
-%defaultMonitor: XXX
-%analyzerRoot: XXX
-%analyzerRoot: XXX (in case there are more than one analyzer directories)
-%acqIP: XXX (in a 3 computer case)
+%setupID: setup identification
+%slaveIP: slave IP
+%defaultMonitor: default monitor (long string or 3 letter code)
+%alternativeMonitor: list of other monitors available
+%analyzerRoot: location for saving analyzer file
+%analyzerRoot: in case there are more than one analyzer directories
+%acqIP: acquisition IP in a 3 computer case
+%MstateHistoryFile: path to mstate history file
+%ExperimentMasterFile: path to database file
+%useDatabase: use database
 %
 %do not change the names of these fields!!!
 
@@ -35,7 +39,7 @@ for i=1:length(c{1})
     
     if isfield(setupDefault,pn)==0
         setupDefault.(pn)=vn;
-    else %this mostly covers the case of multiple analyzer files
+    else %this covers the case of multiple analyzer files and the monitor list
         tmp=setupDefault.(pn);
         setupDefault.(pn)=[tmp '; ' vn];
     end

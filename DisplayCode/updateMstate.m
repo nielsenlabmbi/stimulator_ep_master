@@ -10,6 +10,9 @@ Mstate.anim = get(GUIhandles.main.animal,'string');
 Mstate.hemi = get(GUIhandles.main.hemisphere,'string');
 Mstate.screenDist = str2num(get(GUIhandles.main.screendistance,'string'));
 Mstate.analyzerRoot = get(GUIhandles.main.analyzerRoots,'string');
-Mstate.monitor = get(GUIhandles.main.monitor,'string');
+
+mTmp=get(GUIhandles.main.monitor,'string');
+mVal=get(GUIhandles.main.monitor,'value');
+Mstate.monitorName = mTmp{mVal};
 
 updateMonitorValues

@@ -62,7 +62,7 @@ guidata(hObject, handles);
 % uiwait(handles.figure1);
 
 
-global GUIhandles Mstate
+global GUIhandles Mstate setupDefault
 
 Mstate.running = 0;
 
@@ -74,9 +74,14 @@ set(handles.unitcb,'string',Mstate.unit)
 set(handles.exptcb,'string',Mstate.expt)
 set(handles.hemisphere,'string',Mstate.hemi)
 set(handles.screendistance,'string',Mstate.screenDist)
-set(handles.monitor,'string',Mstate.monitor)
 set(handles.dataRoots,'string',Mstate.dataRoot)
 
+monitorName{1}=setupDefault.defaultMonitor;
+mTmp=strsplit(setupDefault.alternativeMonitor,';');
+for i=1:length(mTmp)
+    monitorName{i+1}=mTmp{i};
+end
+set(handles.monitor,'string',monitorName)
 
 GUIhandles.main = handles;
 
@@ -103,7 +108,7 @@ function animal_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of animal as text
 %        str2double(get(hObject,'String')) returns contents of animal as a double
 
-global Mstate GUIhandles
+global Mstate GUIhandles setupDefault
 
 Mstate.anim = get(handles.animal,'string');
 
@@ -137,7 +142,7 @@ if get(GUIhandles.main.daqflag,'value')
     updateAcqName   %Send expt info to acquisition
 end
 
-save(MstateHistoryFile(),'Mstate');
+save(setupDefault.MstateHistoryFile,'Mstate');
 
 % --- Executes during object creation, after setting all properties.
 function animal_CreateFcn(hObject, eventdata, handles)
@@ -161,12 +166,12 @@ function hemisphere_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of hemisphere as text
 %        str2double(get(hObject,'String')) returns contents of hemisphere as a double
 
-global Mstate
+global Mstate setupDefault
 
 %This is not actually necessary since updateMstate is always called prior
 %to showing stimuli...
 Mstate.hemi = get(handles.hemisphere,'string');
-save(MstateHistoryFile(),'Mstate');
+save(setupDefault.MstateHistoryFile,'Mstate');
 
 % --- Executes during object creation, after setting all properties.
 function hemisphere_CreateFcn(hObject, eventdata, handles)
@@ -190,12 +195,12 @@ function screendistance_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of screendistance as text
 %        str2double(get(hObject,'String')) returns contents of screendistance as a double
 
-global Mstate
+global Mstate setupDefault
 
 %This is not actually necessary since updateMstate is always called prior
 %to showing stimuli...  
 Mstate.screenDist = str2num(get(handles.screendistance,'string'));
-save(MstateHistoryFile(),'Mstate');
+save(setupDefault.MstateHistoryFile,'Mstate');
 
 % --- Executes during object creation, after setting all properties.
 function screendistance_CreateFcn(hObject, eventdata, handles)
@@ -215,12 +220,12 @@ function runbutton_Callback(hObject, eventdata, handles)
 % hObject    handle to runbutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global Mstate GUIhandles  trialno Lstate exptType
+global Mstate GUIhandles  trialno Lstate setupDefault
 
-if ~exist(ExperimentMasterListFile(),'file')
-    resetExperimentMasterListFile()
+if ~exist(setupDefault.ExperimentMasterFile,'file')
+    resetExperimentMasterListFile;
 end
-load(ExperimentMasterListFile());
+load(setupDefault.ExperimentMasterFile); %generates expts and count
 
 %Run it!
 if ~Mstate.running
@@ -257,6 +262,13 @@ if ~Mstate.running
 
     saveExptParams  %Save .analyzer. Do this before running... in case something crashes
 
+    count = count + 1; %Save for database
+    expts(count).Mstate = Mstate;
+    expts(count).Lstate = Lstate;
+    expts(count).abort = 0;
+    
+    save(setupDefault.ExperimentMasterList(),'expts','count','-append');
+    
     set(handles.runbutton,'string','Abort')    
     
     %%%%Send initial parameters to display
@@ -281,15 +293,7 @@ if ~Mstate.running
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     trialno = 1;
-    
-    count = count + 1;
-    expts(count).Mstate = Mstate;
-    expts(count).Lstate = Lstate;
-    expts(count).exptType = exptType;
-    expts(count).abort = 0;
-    
-    save(ExperimentMasterListFile(),'expts','count','-append');
-    
+       
     run2  %gets recalled after each trial (in 'endAcquisition' or 'Displaycb')
     
     
@@ -298,12 +302,10 @@ else
     set(handles.runbutton,'string','Run')
     
     expts(count).abort = 1;
-    save(ExperimentMasterListFile(),'expts','-append');
+    save(setupDefault.ExperimentMasterFile(),'expts','-append');
 end
 
-%This is done to ensure that user builds a new stimulus before doing
-%'playsample'.  Otherwise it will open the shutter.
-%set(GUIhandles.param.playSample,'enable','off')
+
 
 
 % --- Executes on button press in unitcb.
@@ -311,7 +313,7 @@ function unitcb_Callback(hObject, eventdata, handles)
 % hObject    handle to unitcb (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global Mstate GUIhandles
+global Mstate GUIhandles setupDefault
 
 newunit = sprintf('%03d',str2num(Mstate.unit)+1);
 Mstate.unit = newunit;
@@ -326,7 +328,7 @@ if get(GUIhandles.main.daqflag,'value')
     updateAcqName   %Send expt info to acquisition
 end
 
-save(MstateHistoryFile(),'Mstate');
+save(setupDefault.MstateHistoryFile,'Mstate');
 
 % --- Executes on button press in exptcb.
 function exptcb_Callback(hObject, eventdata, handles)
@@ -334,7 +336,7 @@ function exptcb_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-global Mstate GUIhandles
+global Mstate GUIhandles setupDefault
 
 newexpt = sprintf('%03d',str2num(Mstate.expt)+1);
 Mstate.expt = newexpt;
@@ -345,7 +347,7 @@ if get(GUIhandles.main.daqflag,'value')
     updateAcqName   %Send expt info to acquisition
 end
 
-save(MstateHistoryFile(),'Mstate');
+save(setupDefault.MstateHistoryFile,'Mstate');
 
 % --- Executes on button press in closeDisplay.
 function closeDisplay_Callback(hObject, eventdata, handles)
@@ -425,11 +427,11 @@ function analyzerRoots_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of analyzerRoots as text
 %        str2double(get(hObject,'String')) returns contents of analyzerRoots as a double
 
-global Mstate;
+global Mstate setupDefault
 %This is not actually necessary since updateMstate is always called prior
 %to showing stimuli...
 Mstate.analyzerRoot = get(handles.analyzerRoots,'string');
-save(MstateHistoryFile(),'Mstate');
+save(setupDefault.MstateHistoryFile,'Mstate');
 
 % --- Executes during object creation, after setting all properties.
 function analyzerRoots_CreateFcn(hObject, eventdata, handles)
@@ -480,13 +482,15 @@ function monitor_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of monitor as text
 %        str2double(get(hObject,'String')) returns contents of monitor as a double
 
-global Mstate
+global Mstate setupDefault
 
-Mstate.monitor = get(handles.monitor,'string');
+mTmp=get(handles.monitor,'string');
+mVal=get(handles.monitor,'value');
+Mstate.monitorName = mTmp{mVal};
 
 updateMonitorValues
 sendMonitor
-save(MstateHistoryFile(),'Mstate');
+save(setupDefault.MstateHistoryFile,'Mstate');
 
 % --- Executes during object creation, after setting all properties.
 function monitor_CreateFcn(hObject, eventdata, handles)
@@ -509,9 +513,9 @@ function dataRoots_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of dataRoots as text
 %        str2double(get(hObject,'String')) returns contents of dataRoots as a double
-global Mstate
+global Mstate setupDefault
 Mstate.dataRoot = get(handles.dataRoots,'string');
-save(MstateHistoryFile(),'Mstate');
+save(setupDefault.MstateHistoryFile,'Mstate');
 
 % --- Executes during object creation, after setting all properties.
 function dataRoots_CreateFcn(hObject, eventdata, handles)
@@ -525,60 +529,9 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-function filename = MstateHistoryFile()
-filename = 'C:\stimulator_master\MstateHistory.mat';
+function resetExperimentMasterListFile
 
-function filename = ExperimentMasterListFile()
-filename = 'C:\stimulator_master\experimentMasterList.mat';
-
-% --- Executes on selection change in exptTypeMenu.
-function exptTypeMenu_Callback(hObject, eventdata, handles)
-    % hObject    handle to exptTypeMenu (see GCBO)
-    % eventdata  reserved - to be defined in a future version of MATLAB
-    % handles    structure with handles and user data (see GUIDATA)
-
-    % Hints: contents = cellstr(get(hObject,'String')) returns exptTypeMenu contents as cell array
-    %        contents{get(hObject,'Value')} returns selected item from exptTypeMenu
-    global exptType;
-
-    contents = cellstr(get(hObject,'String'));
-    selectedType = contents{get(hObject,'Value')};
-    if ~strcmp(selectedType,'add type...')
-        exptType = selectedType;
-    else
-        if ~exist(ExperimentMasterListFile(),'file')
-            resetExperimentMasterListFile()
-        end
-        load(ExperimentMasterListFile());
-        newType = inputdlg('Enter new experiment type:','New type...');
-        if ~isempty(cell2mat(strfind(exptTypes,newType{1})))
-            errordlg('Type already exists.'); return;
-        end
-        exptTypes{end} = newType{1};
-        exptTypes{end+1} = 'add type...';
-        save(ExperimentMasterListFile(),'exptTypes','count','-append');
-        set(hObject,'String',exptTypes);
-    end
-
-% --- Executes during object creation, after setting all properties.
-function exptTypeMenu_CreateFcn(hObject, eventdata, handles)
-    % hObject    handle to exptTypeMenu (see GCBO)
-    % eventdata  reserved - to be defined in a future version of MATLAB
-    % handles    empty - handles not created until after all CreateFcns called
-
-    % Hint: popupmenu controls usually have a white background on Windows.
-    %       See ISPC and COMPUTER.
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-    if ~exist(ExperimentMasterListFile(),'file')
-        resetExperimentMasterListFile()
-    end
-    load(ExperimentMasterListFile());
-    set(hObject,'String',exptTypes);
-
-function resetExperimentMasterListFile()
-    exptTypes = {'ori','contrast','ga','ori16x16','retinotopy','s_freq','center surround','normalization','add type...'};
-    count = 0;
-    expts = [];
-    save(ExperimentMasterListFile(),'exptTypes','expts','count');
+global setupDefault
+count = 0;
+expts = [];
+save(setupDefault.ExperimentMasterFile,'expts','count');

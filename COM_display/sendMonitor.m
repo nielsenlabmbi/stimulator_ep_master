@@ -1,9 +1,9 @@
-function sendMonitor(str)
+function sendMonitor
 
 global Mstate DcomState
 
 %This updates the gamma table and screen size at the display.
 
-msg = ['MON;' Mstate.monitor ';~'];
+msg = ['MON;' Mstate.monitorID ';~'];
 
 fwrite(DcomState.serialPortHandle,msg);

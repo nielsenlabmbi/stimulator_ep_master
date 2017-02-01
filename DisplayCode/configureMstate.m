@@ -18,7 +18,7 @@ else
     Mstate.dataRoot='c:\data';
     
     % initialize setup specific Mstate values
-    Mstate.monitor=setupDefault.defaultMonitor;
+    Mstate.monitorName=setupDefault.defaultMonitor;
     Mstate.analyzerRoot=setupDefault.analyzerRoot;
     
     save('C:\stimulator_master\MstateHistory.mat','Mstate');

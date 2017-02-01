@@ -30,7 +30,10 @@ Plist{17} = {'RB' 'RC Bars'          'configPstate_RCBars'   ''};
 Plist{18} = {'FR' 'Radial Freq'          'configPstate_RadialFreq'   ''};
 Plist{19} = {'PM' 'V4 Pacman'          'configPstate_Pacman'   ''};
 Plist{20} = {'GL' 'Glass'          'configPstate_Glass'   ''};
-Plist{20} = {'CK' 'Checkerboard'          'configPstate_CheckerBoard'   ''};
+Plist{21} = {'CK' 'Checkerboard'          'configPstate_CheckerBoard'   ''};
+Plist{22} = {'WG' 'Warped Grating'          'configPstate_WarpedGrating'   ''};
+Plist{23} = {'WC' 'Warperd Checkerb'          'configPstate_WarpedChecker'   ''};
+
 
 
 Mlist{1} = {'MG' 'BW Grating'};
