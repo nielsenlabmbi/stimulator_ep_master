@@ -9,4 +9,5 @@ elseif strcmp(setupDefault.setupID,'2P')  %scanbox acquisition (on separate mach
     updateAcqName   %Send expt info to acquisition
     send_sbserver('G'); %start microscope
 
+    
 end

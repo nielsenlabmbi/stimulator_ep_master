@@ -77,7 +77,7 @@ set(handles.screendistance,'string',Mstate.screenDist)
 set(handles.dataRoots,'string',Mstate.dataRoot)
 
 monitorName{1}=setupDefault.defaultMonitor;
-mTmp=strsplit(setupDefault.alternativeMonitor,';');
+mTmp=strtrim(strsplit(setupDefault.alternativeMonitor,';'));
 for i=1:length(mTmp)
     monitorName{i+1}=mTmp{i};
 end
@@ -267,7 +267,7 @@ if ~Mstate.running
     expts(count).Lstate = Lstate;
     expts(count).abort = 0;
     
-    save(setupDefault.ExperimentMasterList(),'expts','count','-append');
+    save(setupDefault.ExperimentMasterFile,'expts','count','-append');
     
     set(handles.runbutton,'string','Abort')    
     
@@ -302,7 +302,7 @@ else
     set(handles.runbutton,'string','Run')
     
     expts(count).abort = 1;
-    save(setupDefault.ExperimentMasterFile(),'expts','-append');
+    save(setupDefault.ExperimentMasterFile,'expts','-append');
 end
 
 
