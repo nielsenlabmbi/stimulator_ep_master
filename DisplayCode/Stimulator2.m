@@ -12,7 +12,7 @@ configDisplayCom    %stimulus computer
 configAcqCom %acquisition machine
 
 
-%Open GUIs
+%Open general GUIs
 hm = MainWindow;
 movegui(hm,[10,500]);
 
@@ -24,3 +24,6 @@ movegui(hp,[10,110]);
 
 hmm = manualMapper;
 movegui(hmm,[365,275]);
+
+%setup specific GUIs
+openSetupGui

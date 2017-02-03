@@ -10,3 +10,4 @@ analyzerRoot: Z:\Ephys\AnalyzerFiles
 MstateHistoryFile: C:\stimulator_master\MstateHistory.mat
 ExperimentMasterFile: C:\stimulator_master\experimentMasterList.mat
 useDatabase: 0
+isiRoot: C:\isidata\processed data

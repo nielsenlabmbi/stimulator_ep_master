@@ -21,6 +21,11 @@ if Mstate.running && trialno<=nt
     %set eye shutter
     setShutter(c)
     
+    %start acquisition if necessary
+    if get(GUIhandles.main.daqflag,'value')  %Flag for the link with Blackrock
+        startAcqTrial;
+    end
+    
     %send breathing info (independent of whether or not it was selected ->
     %this allows us to turn it off during the experiment if necessary)
     updateSyncV(get(GUIhandles.main.syncVflag,'Value'));
@@ -35,9 +40,17 @@ if Mstate.running && trialno<=nt
     startStimulus(mod)      %Tell Display to show its buffered images. 
     %waitforDisplayResp
     
+    if get(GUIhandles.main.daqflag,'value')  %Flag for the link with acquisition programs
+        finishAcqTrial;
+    end
+    
     trialno = trialno+1;
 
-
+    if get(GUIhandles.main.daqflag,'value')  %Flag for the link with acquisition programs
+        runNextTrialAcq;
+    end
+    
+    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 else
     

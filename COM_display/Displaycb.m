@@ -17,5 +17,5 @@ inString = inString(1:end-1)  %Get rid of the terminator
 %If it just played a stimulus, and scanimage is not acquiring, then run
 %next trial...
 if strcmp(inString,'nextT')    
-    run2    
+    runNextTrialDisp    
 end

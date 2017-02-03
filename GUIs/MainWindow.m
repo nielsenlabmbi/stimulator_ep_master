@@ -231,16 +231,21 @@ load(setupDefault.ExperimentMasterFile); %generates expts and count
 if ~Mstate.running
     
     %Check if this analyzer file already exists!
-    roots = strsplit(Mstate.analyzerRoot,';');    
+    roots = strtrim(strsplit(Mstate.analyzerRoot,';'));    
     for i = 1:length(roots)  %loop through each root
         title = [Mstate.anim '_' sprintf('u%s',Mstate.unit) '_' Mstate.expt];
         dd = [roots{i} '\' Mstate.anim '\' title '.analyzer'];
         
         if(exist(dd))
-            warndlg('Directory exists!!!  Please advance experiment before running')
+            warndlg('File exists!!!  Please advance experiment before running')
             return
         end
     end
+    
+    if get(GUIhandles.main.daqflag,'value')
+        setAcqDir   %check (and set) acquisition file if necessary
+    end
+    
     
     %check whether breathing is possible
     if get(handles.syncVflag,'Value')==1

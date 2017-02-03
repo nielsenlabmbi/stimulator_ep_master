@@ -2,6 +2,11 @@ function configAcqCom
 
 global setupDefault
 
-if strcmp(setupDefault.setupID,'2P') %2p
-    open_sbserver    %2p acquisition
+switch setupDefault.setupID
+    
+    case '2P'  %scanbox
+        open_sbserver  
+        
+    case 'ISI' %intrinsic imaging rig
+        configSyncInput
 end

@@ -2,12 +2,15 @@ function startAcq
 
 global setupDefault
 
-if strcmp(setupDefault.setupID,'EP')  %Blackrock acquisition (runs on same machine)
-    startBlackrockAcq
+switch setupDefault.setupID
+    case 'EP' %Blackrock acquisition (runs on same machine)
+        startBlackrockAcq 
     
-elseif strcmp(setupDefault.setupID,'2P')  %scanbox acquisition (on separate machine)
-    updateAcqName   %Send expt info to acquisition
-    send_sbserver('G'); %start microscope
+    case '2P' %scanbox acquisition (on separate machine)
+        updateAcqName   %Send expt info to acquisition
+        send_sbserver('G'); %start microscope
 
+    case 'ISI' %intrinsic imaging (on same machine)
+        startIsiAcq
     
 end
