@@ -83,6 +83,15 @@ for i=1:length(mTmp)
 end
 set(handles.monitor,'string',monitorName)
 
+if setupDefault.useMCDaq==0
+    set(handles.REflag,'Enable','off')
+    set(handles.LEflag,'Enable','off')
+end
+
+if setupDefault.useMCDaq==0 || setupDefault.useVentilator==0
+    set(handles.syncVflag,'Enable','off')
+end
+
 GUIhandles.main = handles;
 
 

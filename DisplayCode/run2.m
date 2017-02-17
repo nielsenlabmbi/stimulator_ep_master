@@ -4,7 +4,7 @@ function run2
 %This function now gets called for play sample, as well. Hence the global
 %conditional of Mstate.runnind
 
-global GUIhandles  Mstate trialno
+global GUIhandles  Mstate trialno setupDefault
 
 if Mstate.running
     nt = Sgetnotrials;
@@ -18,8 +18,11 @@ if Mstate.running && trialno<=nt
 
     [c,~] = Sgetcondrep(trialno);  %get cond and rep for this trialno
 
-    %set eye shutter
-    setShutter(c)
+    %set eye shutter (only if daq is being used; otherwise this is
+    %pointless)
+    if setupDefault.useMCDaq==1 
+        setShutter(c)
+    end
     
     %start acquisition if necessary
     if get(GUIhandles.main.daqflag,'value')  %Flag for the link with Blackrock
@@ -28,9 +31,11 @@ if Mstate.running && trialno<=nt
     
     %send breathing info (independent of whether or not it was selected ->
     %this allows us to turn it off during the experiment if necessary)
-    updateSyncV(get(GUIhandles.main.syncVflag,'Value'));
-    waitforDisplayResp
-
+    if setupDefault.useVentilator && setupDefault.useMCDaq
+        updateSyncV(get(GUIhandles.main.syncVflag,'Value'));
+        waitforDisplayResp
+    end
+    
     %%%Organization of commands is important for timing in this part of loop
     tic
     buildStimulus(c,trialno)    %Tell stimulus to buffer the images
