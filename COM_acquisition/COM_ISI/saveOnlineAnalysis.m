@@ -9,7 +9,7 @@ U = Mstate.unit;
 E = Mstate.expt;
 UE = [U '_' E];
 
-path=setupDefault.isiRoot;
+path=setupDefault.isiOnlineRoot;
 
 filename=fullfile(path,[A '_' UE]);
 uisave('f1m',filename)

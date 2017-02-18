@@ -9,7 +9,8 @@ analyzerRoot: C:\VStimFiles\AnalyzerFiles
 analyzerRoot: Z:\Ephys\AnalyzerFiles
 MstateHistoryFile: C:\stimulator_master\MstateHistory.mat
 ExperimentMasterFile: C:\stimulator_master\experimentMasterList.mat
-isiRoot: C:\isidata\processed data
+acqDataRoot: C:\data
+isiOnlineRoot: C:\isidata\processed data
 useDatabase: 0
 useMCDaq: 1
 useVentilator: 1

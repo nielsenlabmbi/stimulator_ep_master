@@ -22,7 +22,7 @@ function varargout = IsiAnalysisGui(varargin)
 
 % Edit the above text to modify the response to help IsiAnalysisGui
 
-% Last Modified by GUIDE v2.5 02-Feb-2017 21:40:56
+% Last Modified by GUIDE v2.5 17-Feb-2017 19:26:07
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -51,6 +51,10 @@ function IsiAnalysisGui_OpeningFcn(hObject, eventdata, handles, varargin)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to IsiAnalysisGui (see VARARGIN)
+
+global Mstate
+set(handles.isiRoot,'string',Mstate.isiOnlineRoot)
+
 
 % Choose default command line output for IsiAnalysisGui
 handles.output = hObject;
@@ -107,4 +111,31 @@ if get(hObject,'Value')==1
 else
     set(handles.analysisYes,'Value',1);
     onlineIsiAnalysis=1;
+end
+
+
+
+function isiroot_Callback(hObject, eventdata, handles)
+% hObject    handle to isiroot (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of isiroot as text
+%        str2double(get(hObject,'String')) returns contents of isiroot as a double
+
+global Mstate
+Mstate.isiOnlineRoot = get(handles.isiRoot,'string');
+
+
+
+% --- Executes during object creation, after setting all properties.
+function isiroot_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to isiroot (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
 end

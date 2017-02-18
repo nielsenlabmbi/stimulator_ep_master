@@ -15,7 +15,18 @@ else
     Mstate.syncSize = 4;  %Size of the screen sync in cm
 
     Mstate.running = 0;
-    Mstate.dataRoot='c:\data';
+    
+    if isfield(setupDefault,'acqDataRoot')
+        Mstate.dataRoot=setupDefault.acqDataRoot;
+    else
+        Mstate.dataRoot='';
+    end
+    
+    if isfield(setupDefault,'isiOnlineRoot')
+        Mstate.isiOnlineRoot=setupDefault.isiOnlineRoot;
+    else
+        Mstate.isiOnlineRoot='';
+    end
     
     % initialize setup specific Mstate values
     Mstate.monitorName=setupDefault.defaultMonitor;
