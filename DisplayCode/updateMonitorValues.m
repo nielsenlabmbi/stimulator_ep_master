@@ -1,13 +1,13 @@
 function updateMonitorValues
 
-global Mstate
+global Mstate setupDefault
 
 %get the important monitor parameters; we largely do this here because we
 %may need correct settings for the computation of parameters in the looper
 %(e.g. retinotopy experiments) 
 
+monitorPar=feval(setupDefault.monitorList,Mstate.monitor);
 
-monitorPar=monitorList(Mstate.monitorName);
 
 Mstate.monitorID=monitorPar.ID;
 Mstate.screenXcm = monitorPar.screenXcm;
