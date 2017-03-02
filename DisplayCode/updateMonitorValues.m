@@ -6,7 +6,7 @@ global Mstate setupDefault
 %may need correct settings for the computation of parameters in the looper
 %(e.g. retinotopy experiments) 
 
-monitorPar=feval(setupDefault.monitorList,Mstate.monitor);
+monitorPar=feval(setupDefault.monitorList,Mstate.monitorName);
 
 
 Mstate.monitorID=monitorPar.ID;

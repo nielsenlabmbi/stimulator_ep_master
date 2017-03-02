@@ -75,7 +75,7 @@ if bflag==0  %if it is not a blank condition - shutter will not be moved in blan
             pval_Fmla = eval(psymbol_Fmla);
             
             %evaluate shutter related symbols
-            eyefunc(pval_Fmla,psymbol_Fmla);
+            eyefunc(psymbol_Fmla,pval_Fmla);
         end
     end
             
