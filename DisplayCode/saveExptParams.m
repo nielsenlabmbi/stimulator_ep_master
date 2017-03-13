@@ -1,6 +1,6 @@
 function saveExptParams
 
-global Mstate Pstate Lstate looperInfo
+global Mstate Pstate Lstate looperInfo setupDefault
 
 %Save the analzer file
 
@@ -32,3 +32,7 @@ for i = 1:length(roots)
     
 end
 
+if setupDefault.useDatabase
+    disp(['Saving analyzer to database:  ' setupDefault.dbHost ': ' setupDefault.dbName])
+    insertExpIntoDb(Analyzer,setupDefault.dbHost,setupDefault.dbName,setupDefault.dbUser,setupDefault.dbPass)
+end
