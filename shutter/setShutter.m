@@ -71,7 +71,7 @@ if bflag==0  %if it is not a blank condition - shutter will not be moved in blan
                 delim1 = ids(delim1)+1;
             end
                
-            psymbol_Fmla = deblank(fmla(delim1:ide(e)-1));
+            psymbol_Fmla = strtrim(fmla(delim1:ide(e)-1));
             pval_Fmla = eval(psymbol_Fmla);
             
             %evaluate shutter related symbols

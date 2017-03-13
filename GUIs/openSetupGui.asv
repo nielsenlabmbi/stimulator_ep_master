@@ -12,6 +12,6 @@ end
 
 if setupDefault.useShutter
     h2=shutterSetting;
-    movegui(h2,[575,170]);
+    movegui(h2,[550,275]);
 end
     
