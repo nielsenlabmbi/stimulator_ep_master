@@ -4,7 +4,7 @@ getSetup;
 
 %Initialize stimulus parameter structures
 configurePstate(1,'P') %this updates the parameters to the first module selected in paramSelect
-configureMstate
+configureMstate %this will update the monitor as well
 configureLstate
 
 %host-host communication
@@ -25,5 +25,6 @@ movegui(hp,[10,110]);
 hmm = manualMapper;
 movegui(hmm,[365,275]);
 
-%setup specific GUIs
-openSetupGui
+%setup specific configuration of parameters and GUIs
+configureSetup;
+openSetupGui;

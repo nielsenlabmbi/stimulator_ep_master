@@ -2,7 +2,7 @@ function setShutter(cond)
 
 %sets the shutter correctly for a particular condition
 
-global looperInfo Mstate Pstate
+global looperInfo Mstate Pstate 
 
 
 bflag = strcmp(looperInfo.conds{cond}.symbol{1},'blank');
@@ -71,7 +71,7 @@ if bflag==0  %if it is not a blank condition - shutter will not be moved in blan
                 delim1 = ids(delim1)+1;
             end
                
-            psymbol_Fmla = fmla(delim1:ide(e)-1);
+            psymbol_Fmla = deblank(fmla(delim1:ide(e)-1));
             pval_Fmla = eval(psymbol_Fmla);
             
             %evaluate shutter related symbols
@@ -85,28 +85,36 @@ end
 
 function eyefunc(sym,bit)
 
+global shutterInfo
+
 if strcmp(sym,'Leye_bit')
-    moveShutter(1,bit);
+    if shutterInfo.LEopen==0
+        bit=1-bit;
+    end
+    moveShutter(shutterInfo.LEch,bit);
     waitforDisplayResp;
 elseif strcmp(sym,'Reye_bit')
-    moveShutter(2,bit);
+    if shutterInfo.REopen==0
+        bit=1-bit;
+    end
+    moveShutter(shutterInfo.REch,bit);
     waitforDisplayResp;
 elseif strcmp(sym,'eye_bit')
     switch bit
-        case 0
-            moveShutter(1,1);
+        case 0 %LE open, RE closed
+            moveShutter(shutterInfo.LEch,shutterInfo.LEopen);
             waitforDisplayResp
-            moveShutter(2,0);
+            moveShutter(shutterInfo.REch,1-shutterInfo.REopen);
             waitforDisplayResp
-        case 1
-            moveShutter(1,0);
+        case 1 %RE open, LE closed
+            moveShutter(shutterInfo.LEch,1-shutterInfo.LEopen);
             waitforDisplayResp
-            moveShutter(2,1);
+            moveShutter(shutterInfo.REch,shutterInfo.REopen);
             waitforDisplayResp
-        case 2
-            moveShutter(1,1);
+        case 2 %both open
+            moveShutter(shutterInfo.LEch,shutterInfo.LEopen);
             waitforDisplayResp
-            moveShutter(2,1);
+            moveShutter(shutterInfo.REch,shutterInfo.REopen);
             waitforDisplayResp
         otherwise
     end

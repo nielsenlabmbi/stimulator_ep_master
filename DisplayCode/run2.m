@@ -4,7 +4,7 @@ function run2
 %This function now gets called for play sample, as well. Hence the global
 %conditional of Mstate.runnind
 
-global GUIhandles  Mstate trialno setupDefault
+global GUIhandles  Mstate trialno setupDefault shutterInfo
 
 if Mstate.running
     nt = Sgetnotrials;
@@ -20,8 +20,9 @@ if Mstate.running && trialno<=nt
 
     %set eye shutter (only if daq is being used; otherwise this is
     %pointless)
-    if setupDefault.useMCDaq==1 
+    if setupDefault.useShutter==1 
         setShutter(c)
+        pause(shutterInfo.waitTime/1000);
     end
     
     %start acquisition if necessary

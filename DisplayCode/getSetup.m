@@ -59,6 +59,9 @@ if isfield(setupDefault,'useVentilator')
     setupDefault.useVentilator=str2num(setupDefault.useVentilator);
 end
 
+if isfield(setupDefault,'useShutter')
+    setupDefault.useShutter=str2num(setupDefault.useShutter);
+end
 
 fclose(fId);
 

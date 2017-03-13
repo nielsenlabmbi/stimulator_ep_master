@@ -83,10 +83,6 @@ for i=1:length(mTmp)
 end
 set(handles.monitor,'string',monitorName)
 
-if setupDefault.useMCDaq==0
-    set(handles.REflag,'Enable','off')
-    set(handles.LEflag,'Enable','off')
-end
 
 if setupDefault.useMCDaq==0 || setupDefault.useVentilator==0
     set(handles.syncVflag,'Enable','off')
@@ -459,32 +455,6 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-
-% --- Executes on button press in REflag.
-function REflag_Callback(hObject, eventdata, handles)
-% hObject    handle to REflag (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hint: get(hObject,'Value') returns toggle state of REflag
-
-REbit = get(handles.REflag,'value');
-moveShutter(2,REbit);
-waitforDisplayResp
-
-
-
-% --- Executes on button press in LEflag.
-function LEflag_Callback(hObject, eventdata, handles)
-% hObject    handle to LEflag (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hint: get(hObject,'Value') returns toggle state of LEflag
-
-LEbit = get(handles.LEflag,'value');
-moveShutter(1,LEbit);
-waitforDisplayResp
 
 
 
