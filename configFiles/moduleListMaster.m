@@ -33,6 +33,7 @@ Plist{20} = {'GL' 'Glass'          'configPstate_Glass'   ''};
 Plist{21} = {'CK' 'Checkerboard'          'configPstate_CheckerBoard'   ''};
 Plist{22} = {'WG' 'Warped Grating'          'configPstate_WarpedGrating'   ''};
 Plist{23} = {'WC' 'Warperd Checkerb'          'configPstate_WarpedChecker'   ''};
+Plist{24} = {'PW' 'Piecewise' 'configPstate_Piecewise' ''};
 
 
 
@@ -41,7 +42,7 @@ Mlist{2} = {'MM' 'Bar'};
 Mlist{3} = {'MR' 'RDK'};
 Mlist{4} = {'MI' 'Images'};
 Mlist{5} = {'MP' 'Pacman'};
-
+Mlist{6} = {'MC' 'Piecewise'};
 
 
 if strcmp(listtype,'P')
