@@ -10,40 +10,38 @@ function outlist = moduleListMaster(listtype)
 % Plist format: Module ID - Module name - Pstate config function - Module specific config requirements method name
 % Mlist format: Module ID - Module name
 
-Plist{1} = {'PG' 'BW Grating'       'configPstate_PerGrating'   ''};
-Plist{2} = {'RD' 'Random Dot'       'configPstate_RDK'          ''};
-Plist{3} = {'RG' 'RC 1 Grating'     'configPstate_RCGrating'    ''};
-Plist{4} = {'RT' 'RC 2 Gratings'    'configPstate_RC2Gratings'  ''};
-Plist{5} = {'RP' 'RC Grat Plaid'    'configPstate_RCGratPlaid'  ''};
-Plist{6} = {'RN' 'RC N Gratings'    'configPstate_RCNGratings'  ''};
-Plist{7} = {'OF' 'Optic Flow'       'configPstate_OpticFlow'    ''};
-Plist{8} = {'IM' 'Images'           'configPstate_Img'          ''};
-Plist{9} = {'GA' 'GA'               'configPstate_GA'           'initializeModule_GA'};
-Plist{10} = {'AD' 'Adaptation'       'configPstate_Adapt'        ''};
-Plist{11} = {'RA' 'RC Adapt'       'configPstate_RCAdaptGrating'        ''};
-Plist{12} = {'PC' 'Color Grating'   'configPstate_PerGratingColor'   ''};
-Plist{13} = {'BP' 'Barber Pole'     'configPstate_BarberPole'   ''};
-Plist{14} = {'TP' 'Transparent Plaid'     'configPstate_TransparentPlaid'   ''};
-Plist{15} = {'BR' 'Bar'             'configPstate_Bar'   ''};
-Plist{16} = {'BK' 'Kalatsky'             'configPstate_Kalatsky'   ''};
-Plist{17} = {'RB' 'RC Bars'          'configPstate_RCBars'   ''};
-Plist{18} = {'FR' 'Radial Freq'          'configPstate_RadialFreq'   ''};
-Plist{19} = {'PM' 'V4 Pacman'          'configPstate_Pacman'   ''};
-Plist{20} = {'GL' 'Glass'          'configPstate_Glass'   ''};
-Plist{21} = {'CK' 'Checkerboard'          'configPstate_CheckerBoard'   ''};
-Plist{22} = {'WG' 'Warped Grating'          'configPstate_WarpedGrating'   ''};
-Plist{23} = {'WC' 'Warperd Checkerb'          'configPstate_WarpedChecker'   ''};
-Plist{24} = {'PW' 'Piecewise' 'configPstate_Piecewise' ''};
+Plist{1}  = {'PG' 'BW Grating'        		'configPstate_PerGrating'   		''};
+Plist{2}  = {'RD' 'Random Dot'        		'configPstate_RDK'          		''};
+Plist{3}  = {'RG' 'RC 1 Grating'      		'configPstate_RCGrating'    		''};
+Plist{4}  = {'RT' 'RC 2 Gratings'     		'configPstate_RC2Gratings'  		''};
+Plist{5}  = {'RP' 'RC Grat Plaid'     		'configPstate_RCGratPlaid'  		''};
+Plist{6}  = {'RN' 'RC N Gratings'     		'configPstate_RCNGratings'  		''};
+Plist{7}  = {'OF' 'Optic Flow'        		'configPstate_OpticFlow'    		''};
+Plist{8}  = {'IM' 'Images'             		'configPstate_Img'          		''};
+Plist{9}  = {'GA' 'GA'                		'configPstate_GA'           		'initializeModule_GA'};
+Plist{10} = {'AD' 'Adaptation'        		'configPstate_Adapt'        		''};
+Plist{11} = {'RA' 'RC Adapt'          		'configPstate_RCAdaptGrating'       ''};
+Plist{12} = {'PC' 'Color Grating'     		'configPstate_PerGratingColor'   	''};
+Plist{13} = {'BP' 'Barber Pole'       		'configPstate_BarberPole'   		''};
+Plist{14} = {'TP' 'Transparent Plaid' 		'configPstate_TransparentPlaid'   	''};
+Plist{15} = {'BR' 'Bar'               		'configPstate_Bar'   				''};
+Plist{16} = {'BK' 'Kalatsky'          		'configPstate_Kalatsky'   			''};
+Plist{17} = {'RB' 'RC Bars'           		'configPstate_RCBars'   			''};
+Plist{18} = {'FR' 'Radial Freq'       		'configPstate_RadialFreq'   		''};
+Plist{19} = {'PM' 'V4 Pacman'         		'configPstate_Pacman'   			''};
+Plist{20} = {'GL' 'Glass'             		'configPstate_Glass'   				''};
+Plist{21} = {'CK' 'Checkerboard'      		'configPstate_CheckerBoard'   		''};
+Plist{22} = {'WG' 'Warped Grating'    		'configPstate_WarpedGrating'   		''};
+Plist{23} = {'WC' 'Warperd Checkerb'        'configPstate_WarpedChecker'   		''};
+Plist{24} = {'PW' 'Piecewise' 				'configPstate_Piecewise' 			''};
+Plist{25} = {'PR' 'Piecewise Retinotopy'	'configPstate_PiecewiseRetinotopy'	''};
 
-
-
-Mlist{1} = {'MG' 'BW Grating'};
-Mlist{2} = {'MM' 'Bar'};
-Mlist{3} = {'MR' 'RDK'};
-Mlist{4} = {'MI' 'Images'};
-Mlist{5} = {'MP' 'Pacman'};
-Mlist{6} = {'MC' 'Piecewise'};
-
+Mlist{1}  = {'MG' 'BW Grating'};
+Mlist{2}  = {'MM' 'Bar'};
+Mlist{3}  = {'MR' 'RDK'};
+Mlist{4}  = {'MI' 'Images'};
+Mlist{5}  = {'MP' 'Pacman'};
+Mlist{6}  = {'MC' 'Piecewise'};
 
 if strcmp(listtype,'P')
     outlist=Plist;
