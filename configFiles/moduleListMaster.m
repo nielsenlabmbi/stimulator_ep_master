@@ -31,10 +31,11 @@ Plist{18} = {'FR' 'Radial Freq'       		'configPstate_RadialFreq'   		''};
 Plist{19} = {'PM' 'V4 Pacman'         		'configPstate_Pacman'   			''};
 Plist{20} = {'GL' 'Glass'             		'configPstate_Glass'   				''};
 Plist{21} = {'CK' 'Checkerboard'      		'configPstate_CheckerBoard'   		''};
-Plist{22} = {'WG' 'Warped Grating'    		'configPstate_WarpedGrating'   		''};
-Plist{23} = {'WC' 'Warperd Checkerb'        'configPstate_WarpedChecker'   		''};
-Plist{24} = {'PW' 'Piecewise' 				'configPstate_Piecewise' 			''};
-Plist{25} = {'PR' 'Piecewise Retinotopy'	'configPstate_PiecewiseRetinotopy'	''};
+Plist{22} = {'CG' 'Counter Grating'      	'configPstate_CounterBar'   		''};
+Plist{23} = {'WG' 'Warped Grating'    		'configPstate_WarpedGrating'   		''};
+Plist{24} = {'WC' 'Warperd Checkerb'        'configPstate_WarpedChecker'   		''};
+Plist{25} = {'PW' 'Piecewise' 				'configPstate_Piecewise' 			''};
+Plist{26} = {'PR' 'Piecewise Retinotopy'	'configPstate_PiecewiseRetinotopy'	''};
 
 Mlist{1}  = {'MG' 'BW Grating'};
 Mlist{2}  = {'MM' 'Bar'};
