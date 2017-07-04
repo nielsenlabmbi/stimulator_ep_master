@@ -12,5 +12,7 @@ switch setupDefault.setupID
 
     case 'ISI' %intrinsic imaging (on same machine)
         startIsiAcq
-    
+        
+    case 'ISI_NL'
+        startCamAcq
 end

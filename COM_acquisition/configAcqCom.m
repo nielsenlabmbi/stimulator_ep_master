@@ -9,4 +9,7 @@ switch setupDefault.setupID
         
     case 'ISI' %intrinsic imaging rig
         configSyncInput
+        
+    case 'ISI_NL'
+        configCam4Preview
 end
