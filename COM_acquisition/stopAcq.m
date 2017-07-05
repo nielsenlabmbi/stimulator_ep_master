@@ -13,5 +13,8 @@ switch setupDefault.setupID
     case 'ISI' %isi acquisition (on same machine)
         stopIsi
     
+    case 'ISI_NL'
+        stopCamAcq
+    
 
 end
