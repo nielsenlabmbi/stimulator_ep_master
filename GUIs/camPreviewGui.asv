@@ -69,6 +69,7 @@ axes(handles.axes1); set(handles.axes2,'XTick',[],'YTick',[]); axis tight;
 x = [0 1 1 0];
 y = [0 0 1 1];
 patch(x,y,'black'); 
+handles.hImage
 % Update handles structure
 guidata(hObject, handles);
 

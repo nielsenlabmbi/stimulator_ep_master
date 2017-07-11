@@ -20,3 +20,6 @@ src.PacketSize = 9000;
 %set details of movie acquisition
 camInfo.Fps = 15;  % Hz
 camInfo.resizeScale = 0.25;  % 0.5;    reduce frame size
+
+%launch preview gui
+camPreviewGui

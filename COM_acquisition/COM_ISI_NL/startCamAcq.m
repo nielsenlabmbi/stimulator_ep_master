@@ -24,5 +24,5 @@ cam.FrameGrabInterval = 1;          % save every frame
 cam.FramesPerTrigger = framesPerTrigger / cam.FrameGrabInterval;
 src.TriggerSelector = 'FrameBurstStart';
 triggerconfig(cam,'hardware','DeviceSpecific','DeviceSpecific');
-%set(cam, 'TriggerFcn', @camTriggerOccurred);
-
+set(cam, 'TriggerFcn', @camTriggered);
+set(src, 'TriggerMode', 'On');
