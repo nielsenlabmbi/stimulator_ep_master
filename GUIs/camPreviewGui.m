@@ -22,7 +22,7 @@ function varargout = camPreviewGui(varargin)
 
 % Edit the above text to modify the response to help camPreviewGui
 
-% Last Modified by GUIDE v2.5 11-Jul-2017 14:17:32
+% Last Modified by GUIDE v2.5 12-Jul-2017 13:36:35
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -56,44 +56,46 @@ function handles = camPreviewGui_OpeningFcn(hObject, eventdata, handles, varargi
 handles.output = hObject;
 
 set(gcf,'toolbar','none')
+set(handles.sliderHigh,'Enable','off');
+set(handles.sliderLow,'Enable','off');
 
-global axes2 axes1;
+global axes2 axes1 
 axes2 = handles.axes2;
 axes1 = handles.axes1;
-axes(handles.axes2); set(handles.axes1,'XTick',[],'YTick',[]); axis tight;
+axes(handles.axes2); set(handles.axes1,'XTick',[],'YTick',[]); %axis tight;
 x = [0 1 1 0];
 y = [0 0 1 1];
 patch(x,y,'red');
 
-axes(handles.axes1); set(handles.axes2,'XTick',[],'YTick',[]); axis tight;
-x = [0 1 1 0];
-y = [0 0 1 1];
-patch(x,y,'black'); 
+axes(handles.axes1); set(handles.axes2,'XTick',[],'YTick',[]); %axis tight;
+handles.image = zeros(100);
+imshow(handles.image);
+handles.oImage = handles.image;
+
 % Update handles structure
 guidata(hObject, handles);
 
-% UIWAIT makes camPreviewGui wait for user response (see UIRESUME)
-% uiwait(handles.figure1);
-% cam = handles.cam;
-% 
-% axes(handles.axes1); axis tight;
-% 
-% src = getselectedsource(cam);
-% set(src, 'TriggerMode', 'Off');
-% triggerconfig(cam,'immediate','none','none');
-% 
-% vidRes = cam.VideoResolution;
-% nBands = cam.NumberOfBands;
-% handles.hImage = image( zeros(vidRes(2), vidRes(1), nBands) );
-% handles.oImage = handles.hImage;
-% % Update handles structure
-% guidata(hObject,handles);
+
+%Initialize camera
+cam = handles.cam;
+src = getselectedsource(cam);
+set(src, 'TriggerMode', 'Off');
+triggerconfig(cam,'immediate','none','none');
+vidRes = cam.VideoResolution;
+nBands = cam.NumberOfBands;
+handles.hImage = image( zeros(vidRes(2), vidRes(1), nBands) );
+
+% Update handles structure
+guidata(hObject,handles);
 
 % --- Executes on button press in getPreview.
 function getPreview_Callback(hObject, eventdata, handles)
 % hObject    handle to getPreview (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set(handles.sliderHigh,'Enable','off');
+set(handles.sliderLow,'Enable','off');
+
 fprintf('Generating preview\n');
 axes(handles.axes1); set(handles.axes1,'XTick',[],'YTick',[]); axis tight;
 preview(handles.cam, handles.hImage);
@@ -125,11 +127,13 @@ function getSnapshot_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 cam = handles.cam;
-handles.hImage = getsnapshot(cam);
-handles.oImage = handles.hImage;
+handles.image = getsnapshot(cam);
+handles.oImage = handles.image;
 stoppreview(cam);
 cla(handles.axes1); axes(handles.axes1);  set(handles.axes1,'XTick',[],'YTick',[]); axis tight;
 image(frame);
+set(handles.sliderHigh,'Enable','on');
+set(handles.sliderLow,'Enable','on');
 axes(handles.axes2);  set(handles.axes1,'XTick',[],'YTick',[]); axis tight;
 x = [0 1 1 0];
 y = [0 0 1 1];
@@ -139,16 +143,16 @@ guidata(hObject,handles);
 
 % --- Executes on slider movement.
 function sliderLow_Callback(hObject, eventdata, handles)
-    handles.hImage = adjustImage(handles);
-    image(handles.hImage,'parent',handles.axes1);
+    handles.image = adjustImage(handles);
+    image(handles.image,'parent',handles.axes1);
     set(handles.axes1,'XTick',[],'YTick',[]); axis tight;
     updateSliders(hObject, handles);
     guidata(hObject, handles);
 
 % --- Executes on slider movement.
 function sliderHigh_Callback(hObject, eventdata, handles)
-    handles.hImage = adjustImage(handles);
-    image(handles.hImage,'parent',handles.axes1);
+    handles.image = adjustImage(handles);
+    image(handles.image,'parent',handles.axes1);
     set(handles.axes1,'XTick',[],'YTick',[]);
     updateSliders(hObject, handles);
     guidata(hObject, handles);
@@ -167,7 +171,7 @@ function im = adjustImage(handles)
     gl = get(handles.sliderLow,'Value');
     gh = get(handles.sliderHigh,'Value');
     
-    im = handles.hImage;
+    im = handles.image;
     im(:,:,2) = imadjust(handles.oImage(:,:,1),[gl gh],[0 1]);
     im(:,:,1) = im(:,:,2);
     im(:,:,3) = im(:,:,2);
@@ -194,7 +198,7 @@ function updateSliders(hObject, handles)
 % % eventdata  reserved - to be defined in a future version of MATLAB
 % % handles    structure with handles and user data (see GUIDATA)
 % cla; delete(findobj(handles.main,'type','uicontextmenu'));
-% preview(handles.cam, handles.hImage);
+% preview(handles.cam, handles.image);
 % 
 % % --------------------------------------------------------------------
 % function ctxt_menu_Callback(hObject, eventdata, handles)
@@ -221,9 +225,9 @@ varargout{1} = handles.output;
 
 
 % --------------------------------------------------------------------
-function uipushtool4_ClickedCallback(hObject, eventdata, handles)
-% hObject    handle to uipushtool4 (see GCBO)
+function SaveSnapshot_ClickedCallback(hObject, eventdata, handles)
+% hObject    handle to SaveSnapshot (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-figure; image(handles.hImage);
+figure; imshow(handles.image);
 filemenufcn(gcf,'FileSaveAs')
