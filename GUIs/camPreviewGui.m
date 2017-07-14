@@ -22,7 +22,7 @@ function varargout = camPreviewGui(varargin)
 
 % Edit the above text to modify the response to help camPreviewGui
 
-% Last Modified by GUIDE v2.5 12-Jul-2017 13:36:35
+% Last Modified by GUIDE v2.5 14-Jul-2017 17:21:50
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -54,20 +54,22 @@ function handles = camPreviewGui_OpeningFcn(hObject, eventdata, handles, varargi
 
 % Choose default command line output for camPreviewGui
 handles.output = hObject;
+global cam camInfo
+handles.cam = cam;
 
 set(gcf,'toolbar','none')
 set(handles.sliderHigh,'Enable','off');
 set(handles.sliderLow,'Enable','off');
 
-global axes2 axes1 
-axes2 = handles.axes2;
-axes1 = handles.axes1;
-axes(handles.axes2); set(handles.axes1,'XTick',[],'YTick',[]); %axis tight;
+global acqYN previewImg 
+acqYN = handles.acqYN;
+previewImg = handles.previewImg;
+axes(handles.acqYN); set(handles.acqYN,'XTick',[],'YTick',[]); axis tight;
 x = [0 1 1 0];
 y = [0 0 1 1];
 patch(x,y,'red');
 
-axes(handles.axes1); set(handles.axes2,'XTick',[],'YTick',[]); %axis tight;
+axes(handles.previewImg); set(handles.previewImg,'XTick',[],'YTick',[]); axis tight;
 handles.image = zeros(100);
 imshow(handles.image);
 handles.oImage = handles.image;
@@ -81,9 +83,8 @@ cam = handles.cam;
 src = getselectedsource(cam);
 set(src, 'TriggerMode', 'Off');
 triggerconfig(cam,'immediate','none','none');
-vidRes = cam.VideoResolution;
-nBands = cam.NumberOfBands;
-handles.hImage = image( zeros(vidRes(2), vidRes(1), nBands) );
+handles.vidRes = cam.VideoResolution;
+handles.nBands = cam.NumberOfBands;
 
 % Update handles structure
 guidata(hObject,handles);
@@ -97,14 +98,15 @@ set(handles.sliderHigh,'Enable','off');
 set(handles.sliderLow,'Enable','off');
 
 fprintf('Generating preview\n');
-axes(handles.axes1); set(handles.axes1,'XTick',[],'YTick',[]); axis tight;
+axes(handles.previewImg); set(handles.previewImg,'XTick',[],'YTick',[]); axis tight;
+handles.hImage = image( zeros(handles.vidRes(2), handles.vidRes(1), handles.nBands) );
 preview(handles.cam, handles.hImage);
 title('GigE preview');
 
-axes(handles.axes2); set(handles.axes2,'XTick',[],'YTick',[]); axis tight;
+axes(handles.acqYN); set(handles.acqYN,'XTick',[],'YTick',[]); axis tight;
 x = [0 1 1 0];
 y = [0 0 1 1];
-patch(x,y,'green');
+patch(x,y,'green','parent',handles.acqYN);
 % Update handles structure
 guidata(hObject,handles);
 
@@ -114,10 +116,10 @@ function stopPreview_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 stoppreview(handles.cam);
-axes(handles.axes2);set(handles.axes2,'XTick',[],'YTick',[]); axis tight;
+axes(handles.acqYN);set(handles.acqYN,'XTick',[],'YTick',[]); axis tight;
 x = [0 1 1 0];
 y = [0 0 1 1];
-patch(x,y,'red');
+patch(x,y,'red','parent',handles.acqYN);
 % Update handles structure
 guidata(hObject,handles);
 
@@ -130,30 +132,30 @@ cam = handles.cam;
 handles.image = getsnapshot(cam);
 handles.oImage = handles.image;
 stoppreview(cam);
-cla(handles.axes1); axes(handles.axes1);  set(handles.axes1,'XTick',[],'YTick',[]); axis tight;
-image(frame);
+cla(handles.previewImg); axes(handles.previewImg);  set(handles.previewImg,'XTick',[],'YTick',[]); axis tight;
+image(handles.image);
 set(handles.sliderHigh,'Enable','on');
 set(handles.sliderLow,'Enable','on');
-axes(handles.axes2);  set(handles.axes1,'XTick',[],'YTick',[]); axis tight;
+axes(handles.acqYN);  set(handles.previewImg,'XTick',[],'YTick',[]); axis tight;
 x = [0 1 1 0];
 y = [0 0 1 1];
-patch(x,y,'red');
+patch(x,y,'red','parent',handles.acqYN);
 % Update handles structure
 guidata(hObject,handles);
 
 % --- Executes on slider movement.
 function sliderLow_Callback(hObject, eventdata, handles)
     handles.image = adjustImage(handles);
-    image(handles.image,'parent',handles.axes1);
-    set(handles.axes1,'XTick',[],'YTick',[]); axis tight;
+    image(handles.image,'parent',handles.previewImg);
+    set(handles.previewImg,'XTick',[],'YTick',[]); axis tight;
     updateSliders(hObject, handles);
     guidata(hObject, handles);
 
 % --- Executes on slider movement.
 function sliderHigh_Callback(hObject, eventdata, handles)
     handles.image = adjustImage(handles);
-    image(handles.image,'parent',handles.axes1);
-    set(handles.axes1,'XTick',[],'YTick',[]);
+    image(handles.image,'parent',handles.previewImg);
+    set(handles.previewImg,'XTick',[],'YTick',[]);
     updateSliders(hObject, handles);
     guidata(hObject, handles);
     
