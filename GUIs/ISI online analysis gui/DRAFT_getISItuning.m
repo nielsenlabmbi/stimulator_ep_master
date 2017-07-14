@@ -8,6 +8,7 @@ v = VideoReader([fname,'.avi']);
 count = 1;
 while hasFrame(v);
     data(:,:,count) = rgb2gray(readFrame(v));
+    count = count+1;
 end
 toc
 

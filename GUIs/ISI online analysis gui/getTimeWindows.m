@@ -1,5 +1,5 @@
 function timeWindows = getTimeWindows(imagingDetail,respFrames)
-% because we don't know for how many frames teh stim was on, the format of
+% because we don't know for how many frames the stim was on, the format of
 % time windows is a bit idiosyncratic
 % baselineFrames = number of frames in 0 -> stim on
 % postFrames = number of frames after stim off

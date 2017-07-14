@@ -7,7 +7,7 @@ function [pixelTuning,trialResp] = getPixelTuning(trialDetail,timeWindows,filter
     % kernel = ones(2*filterPx + 1) / ((2*filterPx + 1)^2); % boxcar kernel
     kernel = makeGaussianKernel([1 1],[filterPx filterPx],1); % gaussian kernel
     
-    hWaitbar = waitbar(0,'1','Name','Getting pixel tuning..');
+    hWaitbar = waitbar(0,'1','Name','Getting pixel tuning...');
     for t=1:trialDetail.nTrial
         if ~isDffCalculated
             % calculate mean of baseline frames

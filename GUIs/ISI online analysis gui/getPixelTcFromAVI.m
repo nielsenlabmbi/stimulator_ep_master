@@ -1,4 +1,4 @@
-function success  = getPixelTcFromAvi(maxBaselineFrames,maxPostFrames)
+function success  = getPixelTcFromAVI(maxBaselineFrames,maxPostFrames)
     global pixelTc imagingDetail exptDetail
 
     if ~exist('maxBaselineFrames','var');   maxBaselineFrames = 10; end
@@ -18,29 +18,41 @@ function success  = getPixelTcFromAvi(maxBaselineFrames,maxPostFrames)
     imagingDetail.maxBaselineFrames = maxBaselineFrames;
     imagingDetail.maxPostFrames = maxPostFrames;
     imagingDetail.projectedStimFrames = 20;
-
-    clearvars sampleFrame;
     
     load(analyzerPath,'-mat');
-    load([aviPath '.mat']);
+    load([aviPath '_meta.mat']);
 
     trialDetail = getTrialDetail(Analyzer);
 
     pixelTc = cell(1,trialDetail.nTrial);
     
-    stimOnOffIdx = find(info.event_id == 2);
-    stimOnIdx = stimOnOffIdx(1:2:end);
-    stimOffIdx = stimOnOffIdx(2:2:end);
-    
     success = true;
-    if length(stimOnIdx) == length(trialDetail.trials)
-        hWaitbar = waitbar(0,'1','Name','Extracting pixel data from sbx file. This may take a while...',...
+    if length(meta) == length(trialDetail.trials)
+        hWaitbar = waitbar(0,'1','Name','Extracting pixel data from avi file. This may take a while...',...
                 'CreateCancelBtn',...
                 'setappdata(gcbf,''canceling'',1)');
         setappdata(hWaitbar,'canceling',0);
-        for t=1:length(stimOnIdx)
+
+        count = 1;
+        while hasFrame(v);
+            data(:,:,count) = rgb2gray(readFrame(v));
             if getappdata(hWaitbar,'canceling'); success = false; break; end
-            waitbar(t/length(stimOnIdx),hWaitbar,['Trial number ' num2str(t)]);
+            waitbar(count/(v.Duration*v.FrameRate));
+            count = count+1;
+            delete(hWaitbar);
+        end
+
+        for t=1:length(meta)
+            if t == 1
+                trial(t).data =  data(:,:,1:length(meta{t}.metadata));
+            else
+                trial(t).data = data(:,:,(length(meta{t-1}.metadata)+1):(length(meta{t-1}.metadata) + length(meta{t}.metadata)));
+            end
+            
+            % create info structure and get stimonsets
+            trial(t).info.TriggerIndex = [meta{t}.metadata.TriggerIndex]';
+            trial(t).info.Frame = [meta{t}.metadata.FrameNumber];
+         
             stimOnFrame = info.frame(stimOnIdx(t));
             stimOffFrame = info.frame(stimOffIdx(t));
             baselineFrameStart = stimOnFrame-imagingDetail.maxBaselineFrames;

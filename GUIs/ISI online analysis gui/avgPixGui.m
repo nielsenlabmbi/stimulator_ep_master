@@ -795,7 +795,7 @@ function handles = loadDataAndRefreshGui(handles,maxBaselineFrames,maxPostFrames
     if ~exist('maxPostFrames','var');       maxPostFrames = 20;     end
     if ~exist('respFrames','var');          respFrames = [1 8];     end
 
-    if ~getPixelTcFromSbx(maxBaselineFrames,maxPostFrames)
+    if ~getPixelTcFromAVI(maxBaselineFrames,maxPostFrames)
         msgbox('File does not exist or trials don''t match.','Error','error');
         handles.messages = addMessage(handles.messages,'File does not exist or trials don''t match.');
         set(handles.listbox_messages,'String',handles.messages.messageList);
