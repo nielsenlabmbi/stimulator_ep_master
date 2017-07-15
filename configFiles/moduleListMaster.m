@@ -37,6 +37,7 @@ Plist{24} = {'WC' 'Warperd Checkerb'        'configPstate_WarpedChecker'   		''}
 Plist{25} = {'PW' 'Piecewise' 				'configPstate_Piecewise' 			''};
 Plist{26} = {'PR' 'Piecewise Retinotopy'	'configPstate_PiecewiseRetinotopy'	''};
 Plist{27} = {'IG' '3D Grating'	            'configPstate_ImgGrating'	        ''};
+Plist{28} = {'RI' 'RC Images'	            'configPstate_RCImg'	            ''};
 
 
 Mlist{1}  = {'MG' 'BW Grating'};
