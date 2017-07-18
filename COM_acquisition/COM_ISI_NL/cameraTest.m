@@ -11,6 +11,7 @@ framesPerTrigger = 15; % We're counting on a software stop
 cam.FrameGrabInterval = 2;          % save every other frame
 cam.FramesPerTrigger = framesPerTrigger / cam.FrameGrabInterval;
 src.TriggerSelector = 'FrameBurstStart';
+cam.TriggerRepeat = 2;
 % triggerconfig(cam,'hardware','DeviceSpecific','DeviceSpecific');
 %set(cam, 'TriggerFcn', @camTriggerOccurred);
 

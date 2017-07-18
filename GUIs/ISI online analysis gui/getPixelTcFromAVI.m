@@ -52,43 +52,32 @@ function success  = getPixelTcFromAVI(maxBaselineFrames,maxPostFrames)
             % create info structure and get stimonsets
             trial(t).info.TriggerIndex = [meta{t}.metadata.TriggerIndex]';
             trial(t).info.Frame = [meta{t}.metadata.FrameNumber];
-         
-            stimOnFrame = info.frame(stimOnIdx(t));
-            stimOffFrame = info.frame(stimOffIdx(t));
+            
+            stimOnIdx = find(trial(t).info.TriggerIndex == 2,1);
+            stimOffIdx = find(trial(t).info.TriggerIndex == 3,1) - 1;
+            
+            stimOnFrame = trial(t).info.Frame(stimOnIdx);
+            stimOffFrame = trial(t).info.Frame(stimOffIdx);
             baselineFrameStart = stimOnFrame-imagingDetail.maxBaselineFrames;
             
             epochs = [1 imagingDetail.maxBaselineFrames...
-                imagingDetail.maxBaselineFrames+(stimOffFrame-stimOnFrame)...
-                imagingDetail.maxBaselineFrames+(stimOffFrame-stimOnFrame)+imagingDetail.maxPostFrames];
+                imagingDetail.maxBaselineFrames+(stimOffFrame-stimOnFrame)+1 ...
+                imagingDetail.maxBaselineFrames+(stimOffFrame-stimOnFrame)+imagingDetail.maxPostFrames+1];
             
             % baseline
-            framesRead = sbxread(aviPath,baselineFrameStart,imagingDetail.maxBaselineFrames);
-            framesRead = double(squeeze(framesRead(1,:,:,:)));
-            if ~isempty(alignStruct); framesRead = alignFrames(framesRead,alignStruct.T(baselineFrameStart:baselineFrameStart+imagingDetail.maxBaselineFrames-1,:)); end
-            pixelTc{t}(:,:,epochs(1):epochs(2)) = framesRead;
+            framesRead = trial(t).data(:,:,baselineFrameStart:stimOnFrame-1);
+            pixelTc{t}(:,:,epochs(1):epochs(2)) = double(framesRead);
             
             % stim
-            framesRead = sbxread(aviPath,stimOnFrame,stimOffFrame-stimOnFrame);
-            framesRead = double(squeeze(framesRead(1,:,:,:)));
-            if ~isempty(alignStruct); framesRead = alignFrames(framesRead,alignStruct.T(stimOnFrame:stimOffFrame-1,:)); end
-            pixelTc{t}(:,:,epochs(2)+1:epochs(3)) = framesRead;
+            framesRead = trial(t).data(:,:,stimOnFrame:stimOffFrame);
+            pixelTc{t}(:,:,epochs(2)+1:epochs(3)) = double(framesRead);
             
             % post
-            framesRead = sbxread(aviPath,stimOffFrame,imagingDetail.maxPostFrames);
-            framesRead = double(squeeze(framesRead(1,:,:,:)));
-            if ~isempty(alignStruct); framesRead = alignFrames(framesRead,alignStruct.T(stimOffFrame:stimOffFrame+imagingDetail.maxPostFrames-1,:)); end
-            pixelTc{t}(:,:,epochs(3)+1:epochs(4)) = framesRead;     
+            framesRead = trial(t).data(:,:,stimOffFrame+1:stimOffFrame+imagingDetail.maxPostFrames);
+            pixelTc{t}(:,:,epochs(3)+1:epochs(4)) = double(framesRead);     
         end
-        delete(hWaitbar);
     else
         disp('Something went wrong. TTL pulses don''t match up with nTrials.')
         success = false;
-    end
-end
-
-function alignedFrames = alignFrames(inputFrames,shift)
-    alignedFrames = nan(size(inputFrames));
-    for frameCount=1:size(inputFrames,3)
-        alignedFrames(:,:,frameCount) = circshift(squeeze(inputFrames(:,:,frameCount)),shift(frameCount,:));
     end
 end

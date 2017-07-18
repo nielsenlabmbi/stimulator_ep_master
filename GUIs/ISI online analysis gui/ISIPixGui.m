@@ -2,12 +2,12 @@
 % =========================== CORE CALLBACKS ==============================
 % =========================================================================
 
-function varargout = avgPixGui(varargin)
+function varargout = ISIPixGui(varargin)
     gui_Singleton = 1;
     gui_State = struct('gui_Name',       mfilename, ...
                        'gui_Singleton',  gui_Singleton, ...
-                       'gui_OpeningFcn', @avgPixGui_OpeningFcn, ...
-                       'gui_OutputFcn',  @avgPixGui_OutputFcn, ...
+                       'gui_OpeningFcn', @ISIPixGui_OpeningFcn, ...
+                       'gui_OutputFcn',  @ISIPixGui_OutputFcn, ...
                        'gui_LayoutFcn',  [] , ...
                        'gui_Callback',   []);
     if nargin && ischar(varargin{1})
@@ -20,16 +20,16 @@ function varargout = avgPixGui(varargin)
         gui_mainfcn(gui_State, varargin{:});
     end
 
-function avgPixGui_OpeningFcn(hObject, ~, handles, varargin)
+function ISIPixGui_OpeningFcn(hObject, ~, handles, varargin)
     % This function has no output args, see OutputFcn.
     % hObject    handle to figure
     % eventdata  reserved - to be defined in a future version of MATLAB
     % handles    structure with handles and user data (see GUIDATA)
-    % varargin   command line arguments to avgPixGui (see VARARGIN)
+    % varargin   command line arguments to ISIPixGui (see VARARGIN)
 
     global Analyzer exptDetail imagingDetail;
 
-    % Choose default command line output for avgPixGui
+    % Choose default command line output for ISIPixGui
     handles.output = hObject;
     
     % preset some important flags
@@ -196,7 +196,7 @@ function avgPixGui_OpeningFcn(hObject, ~, handles, varargin)
     % Update handles structure
     guidata(hObject, handles);
 
-function varargout = avgPixGui_OutputFcn(~, ~, handles) 
+function varargout = ISIPixGui_OutputFcn(~, ~, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -495,7 +495,6 @@ function slider_filterPx_Callback(hObject, ~, handles)
         [handles.plotDetail.dispImage,handles.plotDetail.param1val] = getImage(handles.pixelTuning,handles.trialDetail,handles.plotDetail);
         handles.plotDetail.funcImage = plotImage(handles.plotDetail.dispImage,handles.plotDetail,handles.axis_image);
         handles.plotDetail.anatomy = getAnatomy;
-        enableMaskMode(handles);
     else
         handles.plotDetail.param1val = [];
         handles.plotDetail.anatomy = [];
@@ -931,3 +930,25 @@ function handles = updateTimeWindowsAndReplot(handles,respFrames)
 % =========================================================================
 % ======================= HELPER FUNCTIONS DONE ===========================
 % =========================================================================
+
+
+% --- Executes on slider movement.
+function slider5_Callback(hObject, eventdata, handles)
+% hObject    handle to slider_filterPx (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function slider5_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider_filterPx (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end

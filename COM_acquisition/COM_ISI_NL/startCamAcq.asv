@@ -17,15 +17,13 @@ open(camInfo.writerObj);
 camMeta = {};
 
 %%%%%%%%%%%% Set up camera
-
 % set camera trigger for the experiment params (overwrite preview)
 P = getParamStruct;
-% framesPerTrigger = ceil(P.predelay*camInfo.Fps); % only image during the pre delay and stim
-% cam.FrameGrabInterval = 1;          % save every frame
-% cam.FramesPerTrigger = framesPerTrigger / cam.FrameGrabInterval;
-% cam.FramesPerTrigger = ceil(P.predelay*camInfo.Fps); 
-cam.TriggerRepeat = 3; %once for predelay, once for stim_on
+framesPerTrigger = ceil(P.predelay*camInfo.Fps); % only image during the pre delay and stim
+cam.FrameGrabInterval = 1;          % save every frame
+cam.FramesPerTrigger = framesPerTrigger / cam.FrameGrabInterval;
+cam.TriggerRepeat = 3;
 src.TriggerSelector = 'FrameBurstStart';
 triggerconfig(cam,'hardware','DeviceSpecific','DeviceSpecific');
-% set(cam, 'TriggerFcn', @camTriggered);
+set(cam, 'TriggerFcn', @camTriggered);
 set(src, 'TriggerMode', 'On');
