@@ -145,8 +145,21 @@ function pushbuttonGenerate_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global Mstate;
+
+%Check if this analyzer file already exists!
+roots = strtrim(strsplit(Mstate.analyzerRoot,';'));    
+for ii=1:length(roots)  %loop through each root
+    title = [Mstate.anim '_' sprintf('u%s',Mstate.unit) '_' Mstate.expt];
+    dd = [roots{ii} '\' Mstate.anim '\' title '.analyzer'];
+
+    if(exist(dd,'file'))
+        warndlg('File exists. Please advance experiment before running.')
+        return
+    end
+end
+
 if ~Mstate.running
-    set(handles.textStatus,'String','Please wait. Calculating...');
+    set(handles.textStatus,'String','Please wait. Calculating...'); drawnow;
     
     imagesLoc = get(handles.editImagesLocation,'String');
     outputLoc = get(handles.editOutputLocation,'String');
@@ -163,18 +176,6 @@ if ~Mstate.running
         selectedImages(:,:,(nStim*(ii-1)+1):(ii*nStim)) = st(:,:,selectedIds(:,ii));
     end
     
-    %Check if this analyzer file already exists!
-    roots = strtrim(strsplit(Mstate.analyzerRoot,';'));    
-    for ii=1:length(roots)  %loop through each root
-        title = [Mstate.anim '_' sprintf('u%s',Mstate.unit) '_' Mstate.expt];
-        dd = [roots{ii} '\' Mstate.anim '\' title '.analyzer'];
-        
-        if(exist(dd,'file'))
-            warndlg('File exists. Please advance experiment before running.')
-            return
-        end
-    end
-
     title = [Mstate.anim '_' Mstate.unit '_' Mstate.expt];
     save([outputLoc '/' title '_imgRevCorr.mat'],'selectedIds','selectedImages','stimIds')
     save([outputLoc '/tmp.mat'],'selectedIds','selectedImages','stimIds')
