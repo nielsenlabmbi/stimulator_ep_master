@@ -284,9 +284,11 @@ if ~Mstate.running
     %%%%Send initial parameters to display
     modID = getmoduleID;
     sendPinfo(modID)
-    waitforDisplayResp
+    disp('send P')
+    waitforDisplayResp;
     sendMinfo
-    waitforDisplayResp
+    disp('send M')
+    waitforDisplayResp;
     %%%%%%%%%%%%%%%%%%%%%%%%%%
 
     %%%Get the Acquisition ready:

@@ -34,15 +34,26 @@ if Mstate.running && trialno<=nt
     %this allows us to turn it off during the experiment if necessary)
     if setupDefault.useVentilator && setupDefault.useMCDaq
         updateSyncV(get(GUIhandles.main.syncVflag,'Value'));
-        waitforDisplayResp
+        waitforDisplayResp;
     end
     
     %%%Organization of commands is important for timing in this part of loop
     tic
     buildStimulus(c,trialno)    %Tell stimulus to buffer the images
-    waitforDisplayResp   %Wait for serial port to respond from display
+    disp('build stim')
+    cerr=waitforDisplayResp(10);   %Wait for serial port to respond from display
+    if cerr==1 %communication timed out
+        %try again
+        cerrCount=1;
+        while cerrCount<5 && cerr==1
+            disp('Comm error at build stimulus; resending!')
+            cerr=waitforDisplayResp(10);
+            cerrCount=cerrCount+1;
+        end
+    end 
     toc 
     mod = getmoduleID;
+    disp('start stim')
     startStimulus(mod)      %Tell Display to show its buffered images. 
     %waitforDisplayResp
     
