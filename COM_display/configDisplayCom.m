@@ -17,8 +17,8 @@ end
 % make udp object named 'stim'
 DcomState.serialPortHandle = udp(setupDefault.slaveIP,'RemotePort',8002,'LocalPort',9000);
 
-%set(DcomState.serialPortHandle, 'OutputBufferSize', 1024)
-%set(DcomState.serialPortHandle, 'InputBufferSize', 1024)
+set(DcomState.serialPortHandle, 'OutputBufferSize', 1024)
+set(DcomState.serialPortHandle, 'InputBufferSize', 1024)
 set(DcomState.serialPortHandle, 'Datagramterminatemode', 'off')
 
 %Establish serial port event callback criterion  
