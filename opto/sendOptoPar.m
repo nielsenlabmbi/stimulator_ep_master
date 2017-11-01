@@ -7,8 +7,7 @@ optoPar=fieldnames(optoInfo);
 msg='OP';
 
 for i=1:length(optoPar)
-    v=getfield(optoInfo,optoPar{i});
-    msg = sprintf('%s;%s=%d',msg,optoPar{i},v);
+    msg = sprintf('%s;%s=%d',msg,optoPar{i},optoInfo.(optoPar{i}));
 end
 
 msg = [msg ';~'];  %add the "Terminator"
