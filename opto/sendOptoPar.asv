@@ -1,0 +1,16 @@
+function sendOptoPar
+
+global DcomState optoInfo
+
+optoPar=fieldnames(optoInfo);
+
+msg='O';
+
+for i=1:length(optoPar)
+    v=getfield(optoInfo,opto
+    msg = sprintf('%s;%s=%d',msg,optoPar{i},round(double(p{3})));
+
+msg=['O;' num2str(eye) ';' num2str(pos) ';~'];
+disp(msg)
+fwrite(DcomState.serialPortHandle,msg);
+    

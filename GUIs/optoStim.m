@@ -59,7 +59,10 @@ handles.output = hObject;
 guidata(hObject, handles);
 
 global optoInfo
-
+set(handles.eCh,'string',num2str(optoInfo.Ch));
+set(handles.eDur,'string',num2str(optoInfo.pulseDur));
+set(handles.eHz,'string',num2str(optoInfo.pulseFreq));
+set(handles.eTrainDur,'string',num2str(optoInfo.trainDur));
 
 % UIWAIT makes optoStim wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
@@ -81,6 +84,10 @@ function bSingle_Callback(hObject, eventdata, handles)
 % hObject    handle to bSingle (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+sendOptoPar;
+waitforDisplayResp
+optoPulseGo(1);
+waitforDisplayResp
 
 
 % --- Executes on button press in bTrain.
@@ -99,6 +106,8 @@ function eDur_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of eDur as text
 %        str2double(get(hObject,'String')) returns contents of eDur as a double
 
+global optoInfo
+optoInfo.pulseDur=str2num(get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function eDur_CreateFcn(hObject, eventdata, handles)
@@ -113,30 +122,6 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-
-function eInt_Callback(hObject, eventdata, handles)
-% hObject    handle to eInt (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of eInt as text
-%        str2double(get(hObject,'String')) returns contents of eInt as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function eInt_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to eInt (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
 function eHz_Callback(hObject, eventdata, handles)
 % hObject    handle to eHz (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -145,6 +130,8 @@ function eHz_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of eHz as text
 %        str2double(get(hObject,'String')) returns contents of eHz as a double
 
+global optoInfo
+optoInfo.pulseFreq=str2num(get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function eHz_CreateFcn(hObject, eventdata, handles)
@@ -167,7 +154,8 @@ function eTrainDur_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of eTrainDur as text
 %        str2double(get(hObject,'String')) returns contents of eTrainDur as a double
-
+global optoInfo
+optoInfo.trainDur=str2num(get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function eTrainDur_CreateFcn(hObject, eventdata, handles)
@@ -190,7 +178,8 @@ function eCh_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of eCh as text
 %        str2double(get(hObject,'String')) returns contents of eCh as a double
-
+global optoInfo
+optoInfo.Ch=str2num(get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function eCh_CreateFcn(hObject, eventdata, handles)
