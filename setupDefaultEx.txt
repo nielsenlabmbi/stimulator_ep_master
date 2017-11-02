@@ -16,3 +16,4 @@ useDatabase: 0
 useMCDaq: 1
 useVentilator: 1
 useShutter: 1
+useOpto: 1
