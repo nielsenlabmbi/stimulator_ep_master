@@ -16,7 +16,7 @@ if setupDefault.useOpto
     global optoInfo
     
     optoInfo.Ch=3;
-    optoInfo.pulseDur=1;
+    optoInfo.pulseDur=100;
     optoInfo.pulseFreq=1;
     optoInfo.trainDur=2;
 end

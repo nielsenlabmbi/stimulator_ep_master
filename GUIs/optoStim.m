@@ -86,7 +86,7 @@ function bSingle_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 sendOptoPar;
 waitforDisplayResp
-optoPulseGo(1);
+sendOptoGo(1);
 waitforDisplayResp
 
 
