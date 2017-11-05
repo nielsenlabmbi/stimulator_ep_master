@@ -63,6 +63,10 @@ if isfield(setupDefault,'useShutter')
     setupDefault.useShutter=str2num(setupDefault.useShutter);
 end
 
+if isfield(setupDefault,'useOpto')
+    setupDefault.useOpto=str2num(setupDefault.useOpto);
+end
+
 fclose(fId);
 
 
