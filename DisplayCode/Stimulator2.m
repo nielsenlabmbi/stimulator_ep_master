@@ -8,7 +8,7 @@ configureMstate %this will update the monitor as well
 configureLstate
 
 %host-host communication
-configDisplayCom    %stimulus computer
+configDisplayCom_tcp    %stimulus computer
 configAcqCom %acquisition machine
 
 

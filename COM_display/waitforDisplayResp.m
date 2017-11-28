@@ -2,7 +2,7 @@ function comerr=waitforDisplayResp(varargin)
 
 global DcomState 
 
-comhandle = DcomState.serialPortHandle;
+comhandle = DcomState.serialPortHandleReceiver;
 
 %Clear the buffer
 n = get(comhandle,'BytesAvailable');
