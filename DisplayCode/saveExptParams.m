@@ -24,7 +24,7 @@ for i = 1:length(roots)
         mkdir(dd);  %if there is a new animal
     end
 
-    dd = [dd '\' title '.analyzer'];
+    dd = strtrim([dd '\' title '.analyzer']);
 
     disp(['Saving analyzer file at location:  ' dd])
 
