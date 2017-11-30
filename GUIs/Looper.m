@@ -357,6 +357,7 @@ if file  %if 'cancel' was not pressed
         end
     end
     refreshLooperView
+    disp(['File loaded: ' file]);
 end
 
 

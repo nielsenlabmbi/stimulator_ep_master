@@ -230,7 +230,9 @@ global Mstate GUIhandles  trialno Lstate setupDefault
 if ~exist(setupDefault.ExperimentMasterFile,'file')
     resetExperimentMasterListFile;
 end
-load(setupDefault.ExperimentMasterFile); %generates expts and count
+tempStruct = load(setupDefault.ExperimentMasterFile); %generates expts and count
+count = tempStruct.count;
+expts = tempStruct.expts;
 
 %Run it!
 if ~Mstate.running
@@ -284,10 +286,10 @@ if ~Mstate.running
     %%%%Send initial parameters to display
     modID = getmoduleID;
     sendPinfo(modID)
-    disp('send P')
+    % disp('send P')
     waitforDisplayResp;
     sendMinfo
-    disp('send M')
+    % disp('send M')
     waitforDisplayResp;
     %%%%%%%%%%%%%%%%%%%%%%%%%%
 
