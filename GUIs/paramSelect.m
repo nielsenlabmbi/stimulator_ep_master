@@ -188,6 +188,7 @@ if file  %if 'cancel' was not pressed
     end
     PstateHistory{SelectedModId} = Pstate;
     refreshParamView
+    disp(['File loaded: ' file]);
 end
 
 % --- Executes on button press in saveParams.
@@ -250,18 +251,21 @@ updateMstate %this is only necessary for screendistance
 mod = getmoduleID;
 
 %%%%Send parameters to display
+disp('Sending stimulus params.');
 sendPinfo(mod)
-waitforDisplayResp
+waitforDisplayResp;
 sendMinfo
-waitforDisplayResp
+waitforDisplayResp;
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%Tell it to buffer the stimulus
+disp('Building stimulus and buffering frames.');
 msg = ['B;' mod ';-1;~'];  %-1 tells the display we're not looping, but just playing a sample
 fwrite(DcomState.serialPortHandle,msg);  %Tell it to buffer images
-waitforDisplayResp
+waitforDisplayResp;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+disp('Ready to play.');
 set(handles.playSample,'enable','on')
 
 % --- Executes on button press in playSample.

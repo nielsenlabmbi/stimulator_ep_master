@@ -36,5 +36,7 @@ if ~strcmp(stat, 'open')
     return;
 end
 
+DcomState.serialPortHandleReceiver = DcomState.serialPortHandle;
+% for backwards compatibility with new TCP implementation
 
 

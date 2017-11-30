@@ -23,3 +23,4 @@ msg = [msg ';~'];  %add the "Terminator"
 
 
 fwrite(DcomState.serialPortHandle,msg);
+disp('Sending param values.');

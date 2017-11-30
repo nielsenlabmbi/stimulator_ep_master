@@ -12,7 +12,7 @@ else
 end
 
 inString = inString(1:end-1);  %Get rid of the terminator
-disp(['Message received from slave: ' inString]);
+fprintf('\t'); disp(['Message received from slave: ' inString]);
     
 %'nextT' is the string sent after stimulus is played
 %If it just played a stimulus, and scanimage is not acquiring, then run

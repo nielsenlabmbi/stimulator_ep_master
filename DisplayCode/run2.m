@@ -39,21 +39,23 @@ if Mstate.running && trialno<=nt
     
     %%%Organization of commands is important for timing in this part of loop
     tic
+    disp(['Building and sending stimulus.']);
     buildStimulus(c,trialno)    %Tell stimulus to buffer the images
-    disp('build stim')
-    cerr=waitforDisplayResp(10);   %Wait for serial port to respond from display
-    if cerr==1 %communication timed out
-        %try again
-        cerrCount=1;
-        while cerrCount<5 && cerr==1
-            disp('Comm error at build stimulus; resending!')
-            cerr=waitforDisplayResp(10);
-            cerrCount=cerrCount+1;
-        end
-    end 
-    toc 
+    waitforDisplayResp;
+%     cerr=waitforDisplayResp(10);   %Wait for serial port to respond from display
+%     if cerr==1 %communication timed out
+%         %try again
+%         cerrCount=1;
+%         while cerrCount<5 && cerr==1
+%             disp('Comm error at build stimulus; resending!')
+%             cerr=waitforDisplayResp(10);
+%             cerrCount=cerrCount+1;
+%         end
+%     end 
+    buildSendTime = toc;
+    fprintf('\t'); disp(['Computation/communication time: ' num2str(buildSendTime) 's.']) 
     mod = getmoduleID;
-    disp('start stim')
+    fprintf('\t'); disp('Playing stimulus...');
     startStimulus(mod)      %Tell Display to show its buffered images. 
     %waitforDisplayResp
     
