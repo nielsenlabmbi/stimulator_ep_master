@@ -260,9 +260,12 @@ waitforDisplayResp;
 
 %%%Tell it to buffer the stimulus
 disp('Building stimulus and buffering frames.');
+tic;
 msg = ['B;' mod ';-1;~'];  %-1 tells the display we're not looping, but just playing a sample
 fwrite(DcomState.serialPortHandle,msg);  %Tell it to buffer images
 waitforDisplayResp;
+timeElapsed = toc;
+fprintf('\tBuild time: %4.2f seconds\n',timeElapsed);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 disp('Ready to play.');
