@@ -12,7 +12,7 @@ function selectedIds = v4_3d_getFineIds(id)
     if length(selectedIds) > 20
         selectedIds = selectedIds((sum(allNorm(selectedIds,:) == 0,2) ~= 0));
     end
-    
+    selectedIds = selectedIds';
 %     for ii=1:20
 %         line([0 allNorm(selectedIds(ii),1)],[0 allNorm(selectedIds(ii),2)],[0 allNorm(selectedIds(ii),3)]);
 %         hold on;
