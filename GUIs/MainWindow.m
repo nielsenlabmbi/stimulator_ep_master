@@ -119,7 +119,7 @@ Mstate.anim = get(handles.animal,'string');
 
 roots = strsplit(Mstate.analyzerRoot,';');
 
-dirinfo = dir([roots{1} '\' Mstate.anim]); %Use the first root path for the logic below
+dirinfo = dir(fullfile(roots{1},Mstate.anim)); %Use the first root path for the logic below
 
 if length(dirinfo) > 2 %If the animal folder exists and there are files in it
     
@@ -241,7 +241,7 @@ if ~Mstate.running
     roots = strtrim(strsplit(Mstate.analyzerRoot,';'));    
     for i = 1:length(roots)  %loop through each root
         title = [Mstate.anim '_' sprintf('u%s',Mstate.unit) '_' Mstate.expt];
-        dd = [roots{i} '\' Mstate.anim '\' title '.analyzer'];
+        dd = fullfile(roots{i},Mstate.anim,[title '.analyzer']);
         
         if(exist(dd))
             warndlg('File exists!!!  Please advance experiment before running')

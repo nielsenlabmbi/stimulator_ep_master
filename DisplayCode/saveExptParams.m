@@ -18,13 +18,13 @@ roots = strsplit(Mstate.analyzerRoot,';');
 %Save each root:
 for i = 1:length(roots)
 
-    dd = [roots{i} '\' Mstate.anim];
+    dd = fullfile(roots{i},Mstate.anim);
 
     if(~exist(dd))
         mkdir(dd);  %if there is a new animal
     end
 
-    dd = strtrim([dd '\' title '.analyzer']);
+    dd = strtrim(fullfile(dd,[title '.analyzer']));
 
     disp(['Saving analyzer file at location:  ' dd])
 

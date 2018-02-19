@@ -12,13 +12,13 @@ clear syncInfo
 %Save each root:
 for i = 1:length(roots)
 
-    dd = [roots{i} '\' Mstate.anim];
+    dd = fullfile(roots{i},Mstate.anim);
 
     if(~exist(dd))
         mkdir(dd);  %if there is a new animal
     end
 
-    dd = [dd '\' title '.analyzer'];
+    dd = fullfile(dd,[title '.analyzer']);
 
     disp(['Appending sync info to .analyzer file at location:  ' dd])
 

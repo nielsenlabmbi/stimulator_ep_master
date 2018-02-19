@@ -2,8 +2,8 @@ function configureMstate
 
 global Mstate setupDefault
 
-if exist('C:\stimulator_master\MstateHistory.mat','file')
-    load('C:\stimulator_master\MstateHistory.mat');
+if exist(setupDefault.MstateHistoryFile,'file')
+    load(setupDefault.MstateHistoryFile);
 else
     Mstate.anim = 'xxxx0';
     Mstate.unit = '000';
@@ -32,7 +32,9 @@ else
     Mstate.monitorName=setupDefault.defaultMonitor;
     Mstate.analyzerRoot=setupDefault.analyzerRoot;
     
-    save('C:\stimulator_master\MstateHistory.mat','Mstate');
+    disp(Mstate.analyzerRoot)
+    
+    save(setupDefault.MstateHistoryFile,'Mstate');
 end
     
 updateMonitorValues

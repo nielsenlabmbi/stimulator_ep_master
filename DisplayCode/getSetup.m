@@ -19,7 +19,11 @@ global setupDefault
 setupDefault=struct;
 
 %location of setup file
-filePath='c:/params looper/';
+if IsLinux~=1
+    filePath='c:/params looper/';
+else
+    filePath='/home/nielsenlab/params_looper/';
+end
 fileName='setupDefault.txt';
 
 %open file

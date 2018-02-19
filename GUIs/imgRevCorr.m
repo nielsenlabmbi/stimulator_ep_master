@@ -150,7 +150,7 @@ global Mstate;
 roots = strtrim(strsplit(Mstate.analyzerRoot,';'));    
 for ii=1:length(roots)  %loop through each root
     title = [Mstate.anim '_' sprintf('u%s',Mstate.unit) '_' Mstate.expt];
-    dd = [roots{ii} '\' Mstate.anim '\' title '.analyzer'];
+    dd = fullfile(roots{ii},Mstate.anim, [title '.analyzer']);
 
     if(exist(dd,'file'))
         warndlg('File exists. Please advance experiment before running.')
