@@ -22,7 +22,7 @@ setupDefault=struct;
 if IsLinux~=1
     filePath='c:/params looper/';
 else
-    filePath='/home/nielsenlab/params_looper/';
+    filePath='/usr/local/';
 end
 fileName='setupDefault.txt';
 
