@@ -22,7 +22,7 @@ function varargout = MainWindow(varargin)
 
 % Edit the above text to modify the response to help MainWindow
 
-% Last Modified by GUIDE v2.5 09-Dec-2016 14:34:22
+% Last Modified by GUIDE v2.5 26-Mar-2018 18:07:48
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -523,3 +523,11 @@ global setupDefault
 count = 0;
 expts = [];
 save(setupDefault.ExperimentMasterFile,'expts','count');
+
+
+% --- Executes on button press in reconnectSlave.
+function reconnectSlave_Callback(hObject, eventdata, handles)
+% hObject    handle to reconnectSlave (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+configDisplayCom_tcp;
