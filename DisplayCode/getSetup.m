@@ -19,11 +19,11 @@ global setupDefault
 setupDefault=struct;
 
 %location of setup file
-if IsLinux~=1
+% if IsLinux~=1
     filePath='c:/params looper/';
-else
-    filePath='/usr/local/';
-end
+% else
+%     filePath='/usr/local/';
+% end
 fileName='setupDefault.txt';
 
 %open file

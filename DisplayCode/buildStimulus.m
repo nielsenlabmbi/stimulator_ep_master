@@ -10,7 +10,7 @@ bflag = strcmp(looperInfo.conds{cond}.symbol{1},'blank');
 
 if bflag
     %in the blanks, no stimulus needs to be built
-    msg = 'L';
+    msg = ['L;' num2str(trial)];
     
 else
     Mod = getmoduleID;

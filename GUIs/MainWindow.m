@@ -268,7 +268,10 @@ if ~Mstate.running
     %Update states just in case user has not pressed enter after inputing
     %fields:
     updateLstate
-    updateMstate    
+    updateMstate   
+    
+    %update randum number generator seed
+    rng(datenum(date)+100*str2double(Mstate.unit)+str2double(Mstate.expt));
     
     makeLoop;  %makes 'looperInfo'.  This must be done before saving the analyzer file.
 
