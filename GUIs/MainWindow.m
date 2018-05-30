@@ -22,7 +22,7 @@ function varargout = MainWindow(varargin)
 
 % Edit the above text to modify the response to help MainWindow
 
-% Last Modified by GUIDE v2.5 26-Mar-2018 18:07:48
+% Last Modified by GUIDE v2.5 29-May-2018 16:31:59
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -86,6 +86,10 @@ set(handles.monitor,'string',monitorName)
 
 if setupDefault.useMCDaq==0 || setupDefault.useVentilator==0
     set(handles.syncVflag,'Enable','off')
+end
+
+if strcmp(setupDefault.setupID,'EP') 
+    set(handles.connectIntan,'Visible','on');
 end
 
 GUIhandles.main = handles;
@@ -534,3 +538,11 @@ function reconnectSlave_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 configDisplayCom_tcp;
+
+
+% --- Executes on button press in connectIntan.
+function connectIntan_Callback(hObject, eventdata, handles)
+% hObject    handle to connectIntan (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+configIntanCom;

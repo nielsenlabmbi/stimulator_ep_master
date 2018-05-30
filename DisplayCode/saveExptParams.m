@@ -13,7 +13,7 @@ Analyzer.modID = getmoduleID;
 
 title = [Mstate.anim '_' sprintf('u%s',Mstate.unit) '_' Mstate.expt];
 
-roots = strsplit(Mstate.analyzerRoot,';');
+roots = strtrim(strsplit(Mstate.analyzerRoot,';'));
 
 %Save each root:
 for i = 1:length(roots)

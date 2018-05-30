@@ -3,8 +3,10 @@ function startAcq
 global setupDefault
 
 switch setupDefault.setupID
-    case 'EP' %Blackrock acquisition (runs on same machine)
-        startBlackrockAcq 
+    case 'EP' %Intan acquisition (runs on same machine)
+        %startBlackrockAcq
+        updateAcqName %Send expt info to acquisition
+        startIntanAcq
     
     case '2P' %scanbox acquisition (on separate machine)
         updateAcqName   %Send expt info to acquisition
