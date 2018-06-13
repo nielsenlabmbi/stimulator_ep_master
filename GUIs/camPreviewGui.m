@@ -26,7 +26,7 @@ function varargout = camPreviewGui(varargin)
 
 % Begin initialization code - DO NOT EDIT
 
-%This is an unnecessary comment 
+
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
