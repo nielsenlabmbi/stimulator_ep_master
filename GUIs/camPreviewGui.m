@@ -22,7 +22,7 @@ function varargout = camPreviewGui(varargin)
 
 % Edit the above text to modify the response to help camPreviewGui
 
-% Last Modified by GUIDE v2.5 14-Jul-2017 17:21:50
+% Last Modified by GUIDE v2.5 14-Jun-2018 14:40:58
 
 % Begin initialization code - DO NOT EDIT
 
@@ -56,15 +56,12 @@ function handles = camPreviewGui_OpeningFcn(hObject, eventdata, handles, varargi
 
 % Choose default command line output for camPreviewGui
 handles.output = hObject;
-global cam camInfo
-handles.cam = cam;
 
 set(gcf,'toolbar','none')
 set(handles.sliderHigh,'Enable','off');
 set(handles.sliderLow,'Enable','off');
 
-global acqYN previewImg 
-acqYN = handles.acqYN;
+global previewImg GUIhandles
 previewImg = handles.previewImg;
 axes(handles.acqYN); set(handles.acqYN,'XTick',[],'YTick',[]); axis tight;
 x = [0 1 1 0];
@@ -79,36 +76,46 @@ handles.oImage = handles.image;
 % Update handles structure
 guidata(hObject, handles);
 
-
-%Initialize camera
-cam = handles.cam;
-src = getselectedsource(cam);
-set(src, 'TriggerMode', 'Off');
-triggerconfig(cam,'immediate','none','none');
-handles.vidRes = cam.VideoResolution;
-handles.nBands = cam.NumberOfBands;
+if (exist('cam','var'))
+    set(handles.openCam,'Enable','Off');
+    set(handles.closeCam,'Enable','On');
+else
+    set(handles.openCam,'Enable','On');
+    set(handles.closeCam,'Enable','Off');
+end
 
 % Update handles structure
 guidata(hObject,handles);
+
+GUIhandles.ISI_NL = handles;
 
 % --- Executes on button press in getPreview.
 function getPreview_Callback(hObject, eventdata, handles)
 % hObject    handle to getPreview (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+%Initialize camera
+global cam
+src = getselectedsource(cam);
+set(src, 'TriggerMode', 'Off');
+triggerconfig(cam,'immediate','none','none');
+handles.vidRes = cam.VideoResolution;
+handles.nBands = cam.NumberOfBands;
+
 set(handles.sliderHigh,'Enable','off');
 set(handles.sliderLow,'Enable','off');
 
 fprintf('Generating preview\n');
 axes(handles.previewImg); set(handles.previewImg,'XTick',[],'YTick',[]); axis tight;
 handles.hImage = image( zeros(handles.vidRes(2), handles.vidRes(1), handles.nBands) );
-preview(handles.cam, handles.hImage);
+preview(cam, handles.hImage);
 title('GigE preview');
 
 axes(handles.acqYN); set(handles.acqYN,'XTick',[],'YTick',[]); axis tight;
 x = [0 1 1 0];
 y = [0 0 1 1];
 patch(x,y,'green','parent',handles.acqYN);
+    
 % Update handles structure
 guidata(hObject,handles);
 
@@ -117,11 +124,16 @@ function stopPreview_Callback(hObject, eventdata, handles)
 % hObject    handle to stopPreview (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-stoppreview(handles.cam);
-axes(handles.acqYN);set(handles.acqYN,'XTick',[],'YTick',[]); axis tight;
+global cam
+stoppreview(cam);
+
+axes(handles.acqYN);  set(handles.previewImg,'XTick',[],'YTick',[]); axis tight;
 x = [0 1 1 0];
 y = [0 0 1 1];
 patch(x,y,'red','parent',handles.acqYN);
+
+fprintf('Preview done\n');
+
 % Update handles structure
 guidata(hObject,handles);
 
@@ -130,7 +142,7 @@ function getSnapshot_Callback(hObject, eventdata, handles)
 % hObject    handle to getSnapshot (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-cam = handles.cam;
+global cam
 handles.image = getsnapshot(cam);
 handles.oImage = handles.image;
 stoppreview(cam);
@@ -142,8 +154,64 @@ axes(handles.acqYN);  set(handles.previewImg,'XTick',[],'YTick',[]); axis tight;
 x = [0 1 1 0];
 y = [0 0 1 1];
 patch(x,y,'red','parent',handles.acqYN);
+
 % Update handles structure
 guidata(hObject,handles);
+
+% --------------------------------------------------------------------
+function SaveSnapshot_ClickedCallback(hObject, eventdata, handles)
+% hObject    handle to SaveSnapshot (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+figure; imshow(handles.image);
+filemenufcn(gcf,'FileSaveAs')
+
+
+% --- Executes on button press in closeCam.
+function closeCam_Callback(hObject, eventdata, handles)
+% hObject    handle to closeCam (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global cam;
+
+src = getselectedsource(cam);
+if(exist('cam', 'var'))
+    delete(cam);
+    clear cam;
+    clear src;
+end
+
+set(handles.openCam,'Enable','On');
+set(handles.closeCam,'Enable','Off');
+
+% --- Executes on button press in openCam.
+function openCam_Callback(hObject, eventdata, handles)
+% hObject    handle to openCam (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% create camera 
+global camInfo cam
+
+cam = videoinput('gige', 1);
+src = getselectedsource(cam);
+stop(cam);
+
+P = getParamStruct;
+framesPerTrigger = ceil(P.predelay*camInfo.Fps); % only image during the pre delay and stim
+cam.FrameGrabInterval = 1;          % save every frame
+cam.FramesPerTrigger = framesPerTrigger / cam.FrameGrabInterval;
+cam.TriggerSelector = 'FrameBurstStart';
+triggerconfig(cam,'hardware','DeviceSpecific','DeviceSpecific');
+set(cam, 'TriggerFcn', @camTriggered);
+
+% make sure Jumbo Frames are set to 9k in the GigE NIC adapter settings
+src.PacketSize = 9000;
+
+%set details of movie acquisition
+camInfo.Fps = 15;  % Hz
+camInfo.resizeScale = 0.25;  % 0.5;    reduce frame size
+set(handles.closeCam,'Enable','On');
+set(handles.openCam,'Enable','Off');
 
 % --- Executes on slider movement.
 function sliderLow_Callback(hObject, eventdata, handles)
@@ -153,7 +221,7 @@ function sliderLow_Callback(hObject, eventdata, handles)
     updateSliders(hObject, handles);
     guidata(hObject, handles);
 
-% --- Executes on slider movement.
+% --- Executes on slider movement.src = getselectedsource(cam);
 function sliderHigh_Callback(hObject, eventdata, handles)
     handles.image = adjustImage(handles);
     image(handles.image,'parent',handles.previewImg);
@@ -171,7 +239,8 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
 
-function im = adjustImage(handles)
+
+function im = adjustImage(hObject, eventdata, handles)
     gl = get(handles.sliderLow,'Value');
     gh = get(handles.sliderHigh,'Value');
     
@@ -227,11 +296,11 @@ varargout{1} = handles.output;
 % 
 % fprintf('Preview done\n');
 
-
-% --------------------------------------------------------------------
-function SaveSnapshot_ClickedCallback(hObject, eventdata, handles)
-% hObject    handle to SaveSnapshot (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-figure; imshow(handles.image);
-filemenufcn(gcf,'FileSaveAs')
+function figure1_CloseRequestFcn(hObject,eventdata,handles)
+global cam
+src = getselectedsource(cam);
+if(exist('cam', 'var'))
+    delete(cam);
+    clear cam;
+    clear src;
+end

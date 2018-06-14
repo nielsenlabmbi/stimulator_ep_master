@@ -5,6 +5,14 @@ global trialno cam camInfo camMeta;
 disp('Acquisition stopped');
 stop(cam);
 
+%configure the previewGUI
+global GUIhandles
+%acquisition flag
+axes(GUIhandles.ISI_NL.acqYN); set(GUIhandles.ISI_NL.acqYN,'XTick',[],'YTick',[]); axis tight;
+x = [0 1 1 0];
+y = [0 0 1 1];
+patch(x,y,'red','parent',GUIhandles.ISI_NL.acqYN);
+    
 %get data from camera
 [dt, ~, camMeta{trialno}.camMetadata] = getdata(cam, cam.FramesAvailable);
 camMeta{trialno}.events = cam.EventLog;
