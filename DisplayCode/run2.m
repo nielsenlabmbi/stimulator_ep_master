@@ -26,7 +26,7 @@ if Mstate.running && trialno<=nt
     end
     
     %start acquisition if necessary
-    if get(GUIhandles.main.daqflag,'value')  %Flag for the link with Blackrock
+    if get(GUIhandles.main.daqflag,'value')  
         startAcqTrial;
     end
     

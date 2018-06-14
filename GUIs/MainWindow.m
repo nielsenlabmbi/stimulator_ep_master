@@ -290,7 +290,7 @@ if ~Mstate.running
     %%%%%%%%%%%%%%%%%%%%%%%%%%
 
     %%%Get the Acquisition ready:
-    if get(GUIhandles.main.daqflag,'value')  %Flag for the link with Blackrock
+    if get(GUIhandles.main.daqflag,'value')  
         pause(5);
         startAcq;
         pause(2);

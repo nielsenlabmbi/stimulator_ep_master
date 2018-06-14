@@ -1,6 +1,6 @@
 function stopCamAcq
 
-global cam camInfo camMeta;
+global Mstate camInfo camMeta cam;
 
 disp('Protocol end.  Closing files and camera.');
 
