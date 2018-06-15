@@ -22,11 +22,9 @@ function varargout = camPreviewGui(varargin)
 
 % Edit the above text to modify the response to help camPreviewGui
 
-% Last Modified by GUIDE v2.5 14-Jun-2018 14:40:58
+% Last Modified by GUIDE v2.5 15-Jun-2018 11:38:30
 
 % Begin initialization code - DO NOT EDIT
-
-
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
@@ -47,16 +45,12 @@ end
 
 
 % --- Executes just before camPreviewGui is made visible.
-function handles = camPreviewGui_OpeningFcn(hObject, eventdata, handles, varargin)
+function camPreviewGui_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to camPreviewGui (see VARARGIN)
-
-% Choose default command line output for camPreviewGui
-handles.output = hObject;
-
 set(gcf,'toolbar','none')
 set(handles.sliderHigh,'Enable','off');
 set(handles.sliderLow,'Enable','off');
@@ -88,6 +82,25 @@ end
 guidata(hObject,handles);
 
 GUIhandles.ISI_NL = handles;
+
+% Choose default command line output for camPreviewGui
+handles.output = hObject;
+
+
+% UIWAIT makes camPreviewGui wait for user response (see UIRESUME)
+% uiwait(handles.figure1);
+
+
+% --- Outputs from this function are returned to the command line.
+function varargout = camPreviewGui_OutputFcn(hObject, eventdata, handles) 
+% varargout  cell array for returning output args (see VARARGOUT);
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Get default command line output from handles structure
+varargout{1} = handles.output;
+
 
 % --- Executes on button press in getPreview.
 function getPreview_Callback(hObject, eventdata, handles)
@@ -148,8 +161,6 @@ handles.oImage = handles.image;
 stoppreview(cam);
 cla(handles.previewImg); axes(handles.previewImg);  set(handles.previewImg,'XTick',[],'YTick',[]); axis tight;
 image(handles.image);
-set(handles.sliderHigh,'Enable','on');
-set(handles.sliderLow,'Enable','on');
 axes(handles.acqYN);  set(handles.previewImg,'XTick',[],'YTick',[]); axis tight;
 x = [0 1 1 0];
 y = [0 0 1 1];
@@ -158,14 +169,12 @@ patch(x,y,'red','parent',handles.acqYN);
 % Update handles structure
 guidata(hObject,handles);
 
-% --------------------------------------------------------------------
 function SaveSnapshot_ClickedCallback(hObject, eventdata, handles)
 % hObject    handle to SaveSnapshot (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 figure; imshow(handles.image);
 filemenufcn(gcf,'FileSaveAs')
-
 
 % --- Executes on button press in closeCam.
 function closeCam_Callback(hObject, eventdata, handles)
@@ -212,95 +221,3 @@ camInfo.Fps = 15;  % Hz
 camInfo.resizeScale = 0.25;  % 0.5;    reduce frame size
 set(handles.closeCam,'Enable','On');
 set(handles.openCam,'Enable','Off');
-
-% --- Executes on slider movement.
-function sliderLow_Callback(hObject, eventdata, handles)
-    handles.image = adjustImage(handles);
-    image(handles.image,'parent',handles.previewImg);
-    set(handles.previewImg,'XTick',[],'YTick',[]); axis tight;
-    updateSliders(hObject, handles);
-    guidata(hObject, handles);
-
-% --- Executes on slider movement.src = getselectedsource(cam);
-function sliderHigh_Callback(hObject, eventdata, handles)
-    handles.image = adjustImage(handles);
-    image(handles.image,'parent',handles.previewImg);
-    set(handles.previewImg,'XTick',[],'YTick',[]);
-    updateSliders(hObject, handles);
-    guidata(hObject, handles);
-    
-function sliderHigh_CreateFcn(hObject, eventdata, handles)
-if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor',[.9 .9 .9]);
-end
-
-function sliderLow_CreateFcn(hObject, eventdata, handles)
-if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor',[.9 .9 .9]);
-end
-
-
-function im = adjustImage(hObject, eventdata, handles)
-    gl = get(handles.sliderLow,'Value');
-    gh = get(handles.sliderHigh,'Value');
-    
-    im = handles.image;
-    im(:,:,2) = imadjust(handles.oImage(:,:,1),[gl gh],[0 1]);
-    im(:,:,1) = im(:,:,2);
-    im(:,:,3) = im(:,:,2);
-
-function updateSliders(hObject, handles)
-    set(handles.sliderHigh,'Min',get(handles.sliderLow,'Value')+0.01);
-    set(handles.sliderLow,'Max',get(handles.sliderHigh,'Value')-0.01);
-    guidata(hObject, handles);
-
-% % --------------------------------------------------------------------
-% function snapshot_Callback(hObject, eventdata, handles)
-% % hObject    handle to snapshot (see GCBO)
-% % eventdata  reserved - to be defined in a future version of MATLAB
-% % handles    structure with handles and user data (see GUIDATA)
-% frame = getsnapshot(cam);
-% stoppreview(cam);
-% cla; delete(findobj(handles.main,'type','uicontextmenu'));
-% image(frame);
-% 
-
-% % --------------------------------------------------------------------
-% function prev_Callback(hObject, eventdata, handles)
-% % hObject    handle to prev (see GCBO)
-% % eventdata  reserved - to be defined in a future version of MATLAB
-% % handles    structure with handles and user data (see GUIDATA)
-% cla; delete(findobj(handles.main,'type','uicontextmenu'));
-% preview(handles.cam, handles.image);
-% 
-% % --------------------------------------------------------------------
-% function ctxt_menu_Callback(hObject, eventdata, handles)
-% % hObject    handle to ctxt_menu (see GCBO)
-% % eventdata  reserved - to be defined in a future version of MATLAB
-% % handles    structure with handles and user data (see GUIDATA)
-
-% --- Outputs from this function are returned to the command line.
-function varargout = camPreviewGui_OutputFcn(hObject, eventdata, handles) 
-% varargout  cell array for returning output args (see VARARGOUT);
-% hObject    handle to figure
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Get default command line output from handles structure
-varargout{1} = handles.output;
-
-% function CloseRequestFcn(hObject, eventdata, handles)
-% % % reconfig and activate the hardware trigger
-% triggerconfig(cam, 'hardware', 'DeviceSpecific', 'DeviceSpecific');
-% set(src, 'TriggerMode', 'On');
-% 
-% fprintf('Preview done\n');
-
-function figure1_CloseRequestFcn(hObject,eventdata,handles)
-global cam
-src = getselectedsource(cam);
-if(exist('cam', 'var'))
-    delete(cam);
-    clear cam;
-    clear src;
-end
