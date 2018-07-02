@@ -559,7 +559,7 @@ function figure1_WindowButtonDownFcn(hObject, ~, handles)
         set(a1,'Color',get(a1,'Color')*0.95);
         figure1_WindowButtonMotionFcn(hObject,[],handles);
 
-    % handle pixel tuning selection
+    handle pixel tuning selection
     elseif handles.pixelmode && ~isempty(handles.trialResp) && handles.buttonDownOnAxis
         plotTuning(handles.selectedPixel,handles.trialResp,handles.plotDetail,...
             handles.trialDetail,handles.imagingDetail,handles.timeWindows,...
@@ -675,16 +675,16 @@ function figure1_WindowButtonMotionFcn(hObject, ~, handles)
 function figure1_WindowButtonUpFcn(hObject, ~, handles)
     if handles.buttonDownOnAxis
         handles.buttonDownOnAxis = false;
-        if handles.clickToMagnify
-            handles.buttonDownOnAxis = false;
-            H = get(hObject,'UserData');
-            f1 = H(1); a1 = H(2); a2 = H(3);
-            set(a1,'Color',get(a2,'Color'));
-            set(f1,'UserData',[],'Pointer','arrow','CurrentAxes',a1);
-            if ~strcmp(get(f1,'SelectionType'),'alt'),
-              delete(a2);
-            end
-        end
+%         if handles.clickToMagnify
+%             handles.buttonDownOnAxis = false;
+%             H = get(hObject,'UserData');
+%             f1 = H(1); a1 = H(2); a2 = H(3);
+%             set(a1,'Color',get(a2,'Color'));
+%             set(f1,'UserData',[],'Pointer','arrow','CurrentAxes',a1);
+%             if ~strcmp(get(f1,'SelectionType'),'alt'),
+%               delete(a2);
+%             end
+%         end
         if isfield(handles,'anatomyPointHandle') && ~isempty(handles.anatomyPointHandle) 
             delete(handles.anatomyPointHandle);
         end

@@ -8,7 +8,7 @@ stop(cam);
 
 % set camera trigger 
 framesPerTrigger = 15000; % We're counting on a software stop
-cam.FrameGrabInterval = 2;          % save every other frame
+cam.FrameGrabInterval = 2;          % grab every other frame
 cam.FramesPerTrigger = framesPerTrigger / cam.FrameGrabInterval;
 src.TriggerSelector = 'FrameBurstStart';
 triggerconfig(cam,'hardware','DeviceSpecific','DeviceSpecific');
