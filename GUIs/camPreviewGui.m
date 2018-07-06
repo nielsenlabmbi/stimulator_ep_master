@@ -22,7 +22,7 @@ function varargout = camPreviewGui(varargin)
 
 % Edit the above text to modify the response to help camPreviewGui
 
-% Last Modified by GUIDE v2.5 15-Jun-2018 11:38:30
+% Last Modified by GUIDE v2.5 05-Jul-2018 15:06:26
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -52,8 +52,6 @@ function camPreviewGui_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to camPreviewGui (see VARARGIN)
 set(gcf,'toolbar','none')
-set(handles.sliderHigh,'Enable','off');
-set(handles.sliderLow,'Enable','off');
 
 global previewImg GUIhandles
 previewImg = handles.previewImg;
@@ -77,6 +75,10 @@ else
     set(handles.openCam,'Enable','On');
     set(handles.closeCam,'Enable','Off');
 end
+
+% light
+handles.output = hObject;
+handles.t = tcpip('192.168.0.1',777);
 
 % Update handles structure
 guidata(hObject,handles);
@@ -114,9 +116,6 @@ set(src, 'TriggerMode', 'Off');
 triggerconfig(cam,'immediate','none','none');
 handles.vidRes = cam.VideoResolution;
 handles.nBands = cam.NumberOfBands;
-
-set(handles.sliderHigh,'Enable','off');
-set(handles.sliderLow,'Enable','off');
 
 fprintf('Generating preview\n');
 axes(handles.previewImg); set(handles.previewImg,'XTick',[],'YTick',[]); axis tight;
@@ -205,19 +204,78 @@ cam = videoinput('gige', 1);
 src = getselectedsource(cam);
 stop(cam);
 
-P = getParamStruct;
-framesPerTrigger = ceil(P.predelay*camInfo.Fps); % only image during the pre delay and stim
-cam.FrameGrabInterval = 1;          % save every frame
-cam.FramesPerTrigger = framesPerTrigger / cam.FrameGrabInterval;
-cam.TriggerSelector = 'FrameBurstStart';
-triggerconfig(cam,'hardware','DeviceSpecific','DeviceSpecific');
-set(cam, 'TriggerFcn', @camTriggered);
-
-% make sure Jumbo Frames are set to 9k in the GigE NIC adapter settings
-src.PacketSize = 9000;
-
-%set details of movie acquisition
-camInfo.Fps = 15;  % Hz
-camInfo.resizeScale = 0.25;  % 0.5;    reduce frame size
 set(handles.closeCam,'Enable','On');
 set(handles.openCam,'Enable','Off');
+
+
+% --- Executes on button press in turnlighton.
+function turnlighton_Callback(hObject, eventdata, handles)
+% hObject    handle to turnlighton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+fopen(handles.t);
+fprintf(handles.t,'SET:LEVEL:CHANNEL1,100;');
+fscanf(handles.t)
+fclose(handles.t);
+fopen(handles.t);
+fprintf(handles.t,'SET:MODE:CHANNEL1,1;');
+fscanf(handles.t)
+fclose(handles.t);
+handles.status = 1;
+% Update handles structure
+guidata(hObject, handles);
+
+
+% --- Executes on button press in off.
+function off_Callback(hObject, eventdata, handles)
+% hObject    handle to off (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+fopen(handles.t);
+fprintf(handles.t,'SET:MODE:CHANNEL1,0;');
+fscanf(handles.t)
+fclose(handles.t);
+handles.status = 0;
+
+% Update handles structure
+guidata(hObject, handles);
+
+
+
+function edit1_Callback(hObject, eventdata, handles)
+% hObject    handle to edit1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit1 as text
+%        str2double(get(hObject,'String')) returns contents of edit1 as a double
+
+c = get(hObject,'String');
+d = str2num(c);
+if d > 60 && d < 80
+    disp('invalid current value(60-80%) try enter value bigger or equal than 80')
+end
+
+%if d <=60 || d >=80
+    x = round(d * 0.01 * 270);
+    fopen(handles.t);
+    z = sprintf('SET:LEVEL:CHANNEL1,%d',x);
+    fprintf(handles.t,z);
+    fscanf(handles.t);
+    fclose(handles.t);
+% Update handles structure
+    guidata(hObject, handles);
+%end
+
+
+% --- Executes during object creation, after setting all properties.
+function edit1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
