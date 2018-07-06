@@ -290,11 +290,10 @@ function lightintensity_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 b = get(hObject,'Value');
-z = round(b)
-fopen(handles.t);
+z = round(str2num(b));
 y = sprintf('SET:LEVEL:CHANNEL1,%d',z);
+fopen(handles.t);
 fprintf(handles.t,y);
-fscanf(handles.t)
 fclose(handles.t);
 guidata(hObject, handles);
 
