@@ -27,4 +27,7 @@ writeVideo(camInfo.writerObj, dt2);
                             
 camMeta{trialno}.prop = size(dt2);
 
+%note the fps
+camMeta{trialno}.fps = camInfo.fps;
+
 disp(['Trial ' num2str(trialno) ' saved']);

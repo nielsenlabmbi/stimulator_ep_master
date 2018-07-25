@@ -1,5 +1,10 @@
 function success  = getPixelTcFromAVI(maxBaselineFrames,maxPostFrames)
-    global pixelTc imagingDetail exptDetail
+    global pixelTc imagingDetail exptDetail Analyzer
+    
+    for i = 1:length(Analyzer.P.param);
+        Params.(eval(strcat('Analyzer.P.param{',num2str(i),'}{1}'))) = ...
+            eval(strcat('Analyzer.P.param{',num2str(i),'}{3}'));
+    end
 
     if ~exist('maxBaselineFrames','var');   maxBaselineFrames = 10; end
     if ~exist('maxPostFrames','var');       maxPostFrames = 20;     end
