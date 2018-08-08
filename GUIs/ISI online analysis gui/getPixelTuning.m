@@ -4,7 +4,6 @@ function [pixelTuning,trialResp] = getPixelTuning(trialDetail,timeWindows,filter
     trialResp = zeros(frameSize(1),frameSize(2),trialDetail.nTrial);
     pixelTuning = zeros(frameSize(1),frameSize(2),size(trialDetail.domval,1)+1);
     
-    % kernel = ones(2*filterPx + 1) / ((2*filterPx + 1)^2); % boxcar kernel
     kernel = makeGaussianKernel([1 1],[filterPx filterPx],1); % gaussian kernel
     
     hWaitbar = waitbar(0,'1','Name','Getting pixel tuning...');

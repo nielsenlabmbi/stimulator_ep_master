@@ -20,10 +20,10 @@ camMeta = {};
 
 % set camera trigger for the experiment params (overwrite preview)
 P = getParamStruct;
-framesPerTrigger = ceil((P.predelay + P.stim_time)*camInfo.Fps); % only image during the pre delay and stim
-cam.FrameGrabInterval = 1;          % save every frame
+framesPerTrigger = ceil((1 + P.stim_time + P.postdelay)*camInfo.Fps); 
+cam.FrameGrabInterval = 2;          % save every other frame
 cam.FramesPerTrigger = framesPerTrigger / cam.FrameGrabInterval;
-% cam.TriggerRepeat = 1;
+cam.TriggerFrameDelay = (P.predelay>=1)*floor((P.predelay - 1)*camInfo.Fps/cam.FrameGrabInterval);% only record the last 1s of the preDelay
 cam.TriggerSelector = 'FrameBurstStart';
 triggerconfig(cam,'hardware','DeviceSpecific','DeviceSpecific');
 set(cam, 'TriggerFcn', @camTriggerOccurred);

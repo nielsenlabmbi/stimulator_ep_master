@@ -163,14 +163,14 @@ function uipushtool_open_ClickedCallback(hObject, ~, handles)
 function handles = loadDataAndRefreshGui(handles,maxBaselineFrames,maxPostFrames,respFrames)
     global pixelTc imagingDetail exptDetail
     
-    if ~exist('maxBaselineFrames','var');   maxBaselineFrames = 10; end
-    if ~exist('maxPostFrames','var');       maxPostFrames = 20;     end
-    if ~exist('respFrames','var');          respFrames = [1 8];     end
+%     if ~exist('maxBaselineFrames','var');   maxBaselineFrames = 10; end
+%     if ~exist('maxPostFrames','var');       maxPostFrames = 20;     end
+%     if ~exist('respFrames','var');          respFrames = [1 8];     end
 
     % The function getPixelTcFromAVI generates global variables
     % 'imagingDetail' and 'pixelTC'. 
     
-    if ~getPixelTcFromAVI(maxBaselineFrames,maxPostFrames) 
+    if ~getPixelTcFromAVI%(maxBaselineFrames,maxPostFrames) 
         msgbox('File does not exist or trials don''t match.','Error','error');
 %         handles.messages = addMessage(handles.messages,'File does not exist or trials don''t match.');
 %         set(handles.listbox_messages,'String',handles.messages.messageList);
@@ -183,10 +183,10 @@ function handles = loadDataAndRefreshGui(handles,maxBaselineFrames,maxPostFrames
     % need to check for empty frames.
     global isDffCalculated
     if sum(squeeze(pixelTc{1}(1,1,:) == 0))
-        handles.messages = addMessage(handles.messages,'Removing empty frames. This may take a minute...');
-        set(handles.listbox_messages,'String',handles.messages.messageList);
-        set(handles.listbox_messages,'Value',handles.messages.count);
-        
+%         handles.messages = addMessage(handles.messages,'Removing empty frames. This may take a minute...');
+%         set(handles.listbox_messages,'String',handles.messages.messageList);
+%         set(handles.listbox_messages,'Value',handles.messages.count);
+%         
         for t=1:length(pixelTc)
             % hack to remove empty frames
             ind = squeeze(pixelTc{t}(1,1,:) == 0);

@@ -7,7 +7,7 @@ function timeWindows = getTimeWindows(imagingDetail,respFrames)
 %               after stim goes off
 % respRange = time window of respFrames
 
-    %if ~exist('respFrames','var'); respFrames = [1 8]; end
+    if ~exist('respFrames','var'); respFrames = [1 6]; end
 
     timeWindows.baselineFrames = imagingDetail.maxBaselineFrames;
     timeWindows.baselineRange = ...

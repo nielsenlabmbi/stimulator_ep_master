@@ -1,6 +1,6 @@
 function funcImage = plotImage(dispImage,plotDetail,hFunc)
-    [maxResp,maxCond] = max(dispImage,[],3);
-    minResp = min(dispImage,[],3);
+    [maxResp,maxCond] = min(dispImage,[],3); % decreases in reflection correspond to responses
+    minResp = max(dispImage,[],3); % same comment
 
     mag = maxResp - minResp;
     mag = mag - min(mag(:));
