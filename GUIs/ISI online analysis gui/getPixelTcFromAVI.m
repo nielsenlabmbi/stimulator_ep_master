@@ -1,7 +1,7 @@
 function success  = getPixelTcFromAVI%(maxBaselineFrames,maxPostFrames)
     global pixelTc imagingDetail exptDetail Analyzer
     
-    aviPath = ['C:\ISIdata\' exptDetail.animal '\' exptDetail.animal '_' exptDetail.unit '_' exptDetail.expt ];
+    aviPath = ['C:\data\' exptDetail.animal '\' exptDetail.animal '_' exptDetail.unit '_' exptDetail.expt ];
     analyzerPath = ['Z:\ISI\Analyzer\' exptDetail.animal '\' exptDetail.animal '_u' exptDetail.unit '_' exptDetail.expt '.analyzer'];
     
     if ~exist([aviPath '.mat'],'file')
