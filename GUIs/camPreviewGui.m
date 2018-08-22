@@ -53,7 +53,7 @@ function camPreviewGui_OpeningFcn(hObject, eventdata, handles, varargin)
 % varargin   command line arguments to camPreviewGui (see VARARGIN)
 set(gcf,'toolbar','none')
 
-global previewImg GUIhandles
+global previewImg GUIhandles setupDefault
 previewImg = handles.previewImg;
 axes(handles.acqYN); set(handles.acqYN,'XTick',[],'YTick',[]); axis tight;
 x = [0 1 1 0];
@@ -76,9 +76,10 @@ else
     set(handles.closeCam,'Enable','Off');
 end
 
-% light
+% lights
 handles.output = hObject;
-handles.t = tcpip('192.168.0.1',777);
+handles.t1 = tcpip(setupDefault.light1IP,777);
+handles.t2 = tcpip(setupDefault.light2IP,777);
 
 % Update handles structure
 guidata(hObject,handles);
@@ -213,14 +214,24 @@ function turnlighton_Callback(hObject, eventdata, handles)
 % hObject    handle to turnlighton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-fopen(handles.t);
+fopen(handles.t1);
+fprintf(handles.t1,'SET:LEVEL:CHANNEL1,100;');
+fscanf(handles.t1)
+fclose(handles.t1);
+fopen(handles.t1);
+fprintf(handles.t1,'SET:MODE:CHANNEL1,1;');
+fscanf(handles.t1)
+fclose(handles.t1);
+handles.status = 1;
+
+fopen(handles.t2);
 fprintf(handles.t,'SET:LEVEL:CHANNEL1,100;');
-fscanf(handles.t)
-fclose(handles.t);
-fopen(handles.t);
-fprintf(handles.t,'SET:MODE:CHANNEL1,1;');
-fscanf(handles.t)
-fclose(handles.t);
+fscanf(handles.t2)
+fclose(handles.t2);
+fopen(handles.t2);
+fprintf(handles.t2,'SET:MODE:CHANNEL1,1;');
+fscanf(handles.t2)
+fclose(handles.t2);
 handles.status = 1;
 % Update handles structure
 guidata(hObject, handles);
@@ -231,10 +242,16 @@ function off_Callback(hObject, eventdata, handles)
 % hObject    handle to off (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-fopen(handles.t);
-fprintf(handles.t,'SET:MODE:CHANNEL1,0;');
-fscanf(handles.t)
-fclose(handles.t);
+fopen(handles.t1);
+fprintf(handles.t1,'SET:MODE:CHANNEL1,0;');
+fscanf(handles.t1)
+fclose(handles.t1);
+handles.status = 0;
+
+fopen(handles.t2);
+fprintf(handles.t2,'SET:MODE:CHANNEL1,0;');
+fscanf(handles.t2)
+fclose(handles.t2);
 handles.status = 0;
 
 % Update handles structure
@@ -242,43 +259,38 @@ guidata(hObject, handles);
 
 
 
-function edit1_Callback(hObject, eventdata, handles)
-% hObject    handle to edit1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of edit1 as text
-%        str2double(get(hObject,'String')) returns contents of edit1 as a double
-
-c = get(hObject,'String');
-d = str2num(c);
-if d > 60 && d < 80
-    disp('invalid current value(60-80%) try enter value bigger or equal than 80')
-end
-
-%if d <=60 || d >=80
-    x = round(d * 0.01 * 270);
-    fopen(handles.t);
-    z = sprintf('SET:LEVEL:CHANNEL1,%d',x);
-    fprintf(handles.t,z);
-    fscanf(handles.t);
-    fclose(handles.t);
-% Update handles structure
-    guidata(hObject, handles);
-%end
-
-
-% --- Executes during object creation, after setting all properties.
-function edit1_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+% function edit1_Callback(hObject, eventdata, handles)
+% % hObject    handle to edit1 (see GCBO)
+% % eventdata  reserved - to be defined in a future version of MATLAB
+% % handles    structure with handles and user data (see GUIDATA)
+% 
+% % Hints: get(hObject,'String') returns contents of edit1 as text
+% %        str2double(get(hObject,'String')) returns contents of edit1 as a double
+% 
+% c = get(hObject,'String');
+% d = str2num(c);
+%     x = round(d * 0.01 * 270);
+%     fopen(handles.t);
+%     z = sprintf('SET:LEVEL:CHANNEL1,%d',x);
+%     fprintf(handles.t,z);
+%     fscanf(handles.t);
+%     fclose(handles.t);
+% % Update handles structure
+%     guidata(hObject, handles);
+% %end
+% 
+% 
+% % --- Executes during object creation, after setting all properties.
+% function edit1_CreateFcn(hObject, eventdata, handles)
+% % hObject    handle to edit1 (see GCBO)
+% % eventdata  reserved - to be defined in a future version of MATLAB
+% % handles    empty - handles not created until after all CreateFcns called
+% 
+% % Hint: edit controls usually have a white background on Windows.
+% %       See ISPC and COMPUTER.
+% if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+%     set(hObject,'BackgroundColor','white');
+% end
 
 
 % --- Executes on slider movement.
@@ -290,12 +302,20 @@ function lightintensity_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 b = get(hObject,'Value');
-z = round(b)
-fopen(handles.t);
+z = round(b);
+
+fopen(handles.t1);
 y = sprintf('SET:LEVEL:CHANNEL1,%d',z);
-fprintf(handles.t,y);
-fscanf(handles.t)
-fclose(handles.t);
+fprintf(handles.t1,y);
+fscanf(handles.t1)
+fclose(handles.t1);
+
+fopen(handles.t2);
+y = sprintf('SET:LEVEL:CHANNEL1,%d',z);
+fprintf(handles.t2,y);
+fscanf(handles.t2)
+fclose(handles.t2);
+
 guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
