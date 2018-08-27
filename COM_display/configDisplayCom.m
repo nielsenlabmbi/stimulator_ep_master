@@ -15,7 +15,7 @@ if length(port) > 0;
 end
 
 % make udp object named 'stim'
-DcomState.serialPortHandle = udp(setupDefault.slaveIP,'RemotePort',8000,'LocalPort',9000);
+DcomState.serialPortHandle = udp(setupDefault.slaveIP,'RemotePort',8002,'LocalPort',9000);
 
 set(DcomState.serialPortHandle, 'OutputBufferSize', 1024)
 set(DcomState.serialPortHandle, 'InputBufferSize', 1024)
@@ -36,5 +36,7 @@ if ~strcmp(stat, 'open')
     return;
 end
 
+DcomState.serialPortHandleReceiver = DcomState.serialPortHandle;
+% for backwards compatibility with new TCP implementation
 
 

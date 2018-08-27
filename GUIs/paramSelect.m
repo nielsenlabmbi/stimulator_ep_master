@@ -155,13 +155,13 @@ function loadParams_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-global Pstate SelectedModId PstateHistory
+global Pstate SelectedModId PstateHistory setupDefault
 
 [file,path] = uigetfile(...
     {'*.param;*.analyzer','All Stimulator Files (.param, .analyzer)';...
     '*.*','All Files' },...
     'Load parameter state',... 
-    'C:\params looper\');
+    setupDefault.loopParamRoot);
 
 id = find(file == '.');
 fext = file(id+1:end);
@@ -188,6 +188,7 @@ if file  %if 'cancel' was not pressed
     end
     PstateHistory{SelectedModId} = Pstate;
     refreshParamView
+    disp(['File loaded: ' file]);
 end
 
 % --- Executes on button press in saveParams.
@@ -196,9 +197,9 @@ function saveParams_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-global Pstate
+global Pstate setupDefault
 
-[file path] = uiputfile('c:\params looper\*.param','Save as');
+[file path] = uiputfile(fullfile(setupDefault.loopParamRoot,'*.param'),'Save as');
 
 if file  %if 'cancel' was not pressed
     file = [path file];
@@ -250,18 +251,24 @@ updateMstate %this is only necessary for screendistance
 mod = getmoduleID;
 
 %%%%Send parameters to display
+disp('Sending stimulus params.');
 sendPinfo(mod)
-waitforDisplayResp
+waitforDisplayResp;
 sendMinfo
-waitforDisplayResp
+waitforDisplayResp;
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%Tell it to buffer the stimulus
+disp('Building stimulus and buffering frames.');
+tic;
 msg = ['B;' mod ';-1;~'];  %-1 tells the display we're not looping, but just playing a sample
 fwrite(DcomState.serialPortHandle,msg);  %Tell it to buffer images
-waitforDisplayResp
+waitforDisplayResp;
+timeElapsed = toc;
+fprintf('\tBuild time: %4.2f seconds\n',timeElapsed);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+disp('Ready to play.');
 set(handles.playSample,'enable','on')
 
 % --- Executes on button press in playSample.

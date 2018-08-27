@@ -22,3 +22,4 @@ msg = sprintf('%s;%s=%d',msg,'running',Mstate.running);
 msg = [msg ';~'];  %add the "Terminator"
 
 fwrite(DcomState.serialPortHandle,msg);
+disp('Sending MainWindow values.');

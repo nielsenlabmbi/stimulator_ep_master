@@ -19,7 +19,11 @@ global setupDefault
 setupDefault=struct;
 
 %location of setup file
-filePath='c:/params looper/';
+if IsLinux~=1
+    filePath='c:/params looper/';
+else
+    filePath='/usr/local/';
+end
 fileName='setupDefault.txt';
 
 %open file
@@ -61,6 +65,10 @@ end
 
 if isfield(setupDefault,'useShutter')
     setupDefault.useShutter=str2num(setupDefault.useShutter);
+end
+
+if isfield(setupDefault,'useOpto')
+    setupDefault.useOpto=str2num(setupDefault.useOpto);
 end
 
 fclose(fId);

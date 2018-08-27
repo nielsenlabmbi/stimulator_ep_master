@@ -22,7 +22,7 @@ function varargout = MainWindow(varargin)
 
 % Edit the above text to modify the response to help MainWindow
 
-% Last Modified by GUIDE v2.5 09-Dec-2016 14:34:22
+% Last Modified by GUIDE v2.5 29-May-2018 16:31:59
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -88,6 +88,10 @@ if setupDefault.useMCDaq==0 || setupDefault.useVentilator==0
     set(handles.syncVflag,'Enable','off')
 end
 
+if strcmp(setupDefault.setupID,'EP') 
+    set(handles.connectIntan,'Visible','on');
+end
+
 GUIhandles.main = handles;
 
 
@@ -119,7 +123,7 @@ Mstate.anim = get(handles.animal,'string');
 
 roots = strsplit(Mstate.analyzerRoot,';');
 
-dirinfo = dir([roots{1} '\' Mstate.anim]); %Use the first root path for the logic below
+dirinfo = dir(fullfile(roots{1},Mstate.anim)); %Use the first root path for the logic below
 
 if length(dirinfo) > 2 %If the animal folder exists and there are files in it
     
@@ -230,7 +234,9 @@ global Mstate GUIhandles  trialno Lstate setupDefault
 if ~exist(setupDefault.ExperimentMasterFile,'file')
     resetExperimentMasterListFile;
 end
-load(setupDefault.ExperimentMasterFile); %generates expts and count
+tempStruct = load(setupDefault.ExperimentMasterFile); %generates expts and count
+count = tempStruct.count;
+expts = tempStruct.expts;
 
 %Run it!
 if ~Mstate.running
@@ -239,7 +245,7 @@ if ~Mstate.running
     roots = strtrim(strsplit(Mstate.analyzerRoot,';'));    
     for i = 1:length(roots)  %loop through each root
         title = [Mstate.anim '_' sprintf('u%s',Mstate.unit) '_' Mstate.expt];
-        dd = [roots{i} '\' Mstate.anim '\' title '.analyzer'];
+        dd = fullfile(roots{i},Mstate.anim,[title '.analyzer']);
         
         if(exist(dd))
             warndlg('File exists!!!  Please advance experiment before running')
@@ -266,7 +272,10 @@ if ~Mstate.running
     %Update states just in case user has not pressed enter after inputing
     %fields:
     updateLstate
-    updateMstate    
+    updateMstate   
+    
+    %update randum number generator seed
+    rng(datenum(date)+100*str2double(Mstate.unit)+str2double(Mstate.expt));
     
     makeLoop;  %makes 'looperInfo'.  This must be done before saving the analyzer file.
 
@@ -284,9 +293,11 @@ if ~Mstate.running
     %%%%Send initial parameters to display
     modID = getmoduleID;
     sendPinfo(modID)
-    waitforDisplayResp
+    % disp('send P')
+    waitforDisplayResp;
     sendMinfo
-    waitforDisplayResp
+    % disp('send M')
+    waitforDisplayResp;
     %%%%%%%%%%%%%%%%%%%%%%%%%%
 
     %%%Get the Acquisition ready:
@@ -519,3 +530,19 @@ global setupDefault
 count = 0;
 expts = [];
 save(setupDefault.ExperimentMasterFile,'expts','count');
+
+
+% --- Executes on button press in reconnectSlave.
+function reconnectSlave_Callback(hObject, eventdata, handles)
+% hObject    handle to reconnectSlave (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+configDisplayCom_tcp;
+
+
+% --- Executes on button press in connectIntan.
+function connectIntan_Callback(hObject, eventdata, handles)
+% hObject    handle to connectIntan (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+configIntanCom;

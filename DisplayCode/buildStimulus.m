@@ -10,7 +10,7 @@ bflag = strcmp(looperInfo.conds{cond}.symbol{1},'blank');
 
 if bflag
     %in the blanks, no stimulus needs to be built
-    msg = 'L';
+    msg = ['L;' num2str(trial)];
     
 else
     Mod = getmoduleID;
@@ -122,6 +122,41 @@ if ~isempty(idx)  %its possible that looper variable is not a grating parameter
             msg = sprintf('%s;%s=%d',msg,psymbol,round(double(pval)));
         case 'string'
             msg = sprintf('%s;%s=%s',msg,psymbol,pval);
+    end
+end
+
+
+% if psymbol contains multiple variables, like: [ori,x_pos,y_pos]
+% this only works if the values corresponding to these variables are single
+% numbers. not strings or matrices.
+if (psymbol(1) == '[' && psymbol(end) == ']')
+    psymbol = psymbol(2:end-1);
+    commas = strfind(psymbol,',');
+    vars = textscan(psymbol,repmat('%s',1,length(commas)+1),'delimiter',',');
+    if length(vars) == length(pval)
+        for ii=1:length(vars)
+            %Find parameter in Pstruct
+            idx = [];
+            for j = 1:length(Pstate.param)
+                if strcmp(vars{ii}{1},Pstate.param{j}{1})
+                    idx = j;
+                    break;
+                end
+            end
+
+            %change value based on looper
+            if ~isempty(idx)  %its possible that looper variable is not a grating parameter
+                prec = Pstate.param{idx}{2};  %Get precision
+                switch prec
+                    case 'float'
+                        msg = sprintf('%s;%s=%.4f',msg,vars{ii}{1},pval(ii));
+                    case 'int'
+                        msg = sprintf('%s;%s=%d',msg,vars{ii}{1},round(double(pval(ii))));
+                end
+            end
+        end
+    else
+        disp('Could not parse variables in the formula. Please debug.');
     end
 end
 

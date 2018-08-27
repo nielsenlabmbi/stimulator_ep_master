@@ -8,16 +8,16 @@ configureMstate %this will update the monitor as well
 configureLstate
 
 %host-host communication
-configDisplayCom    %stimulus computer
+configDisplayCom_tcp    %stimulus computer
 configAcqCom %acquisition machine
 
 
 %Open general GUIs
 hm = MainWindow;
-movegui(hm,[10,500]);
+movegui(hm,[10,400]);
 
 hl = Looper ;
-movegui(hl,[365,445]);
+movegui(hl,[365,300]);
 
 hp = paramSelect;
 movegui(hp,[10,110]);
