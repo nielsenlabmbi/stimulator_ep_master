@@ -17,14 +17,18 @@ open(camInfo.writerObj);
 camMeta = {};
 
 %%%%%%%%%%%% Set up camera
+% get info from gui
+global GUIhandles
+camInfo.Fps = str2num(GUIhandles.ISI_NL.FrameRate);  % Hz
+camInfo.resizeScale = str2num(GUIhandles.ISI_NL.Compression);
+cam.FrameGrabInterval = str2num(GUIhandles.ISI_NL.FrameGrabInterval);
 
-% set camera trigger for the experiment params (overwrite preview)
+% set camera trigger for the experiment params (overwrite preview settings)
 P = getParamStruct;
-framesPerTrigger = ceil((1 + P.stim_time + P.postdelay)*camInfo.Fps); 
-cam.FrameGrabInterval = 2;          % save every other frame
+framesPerTrigger = ceil(P.stim_time*camInfo.Fps); 
 cam.FramesPerTrigger = framesPerTrigger / cam.FrameGrabInterval;
-cam.TriggerFrameDelay = (P.predelay>=1)*floor((P.predelay - 1)*camInfo.Fps/cam.FrameGrabInterval);% only record the last 1s of the preDelay
+cam.TriggerFrameDelay = floor(P.predelay*camInfo.Fps/cam.FrameGrabInterval);% only record the last 1s of the preDelay
 cam.TriggerSelector = 'FrameBurstStart';
 triggerconfig(cam,'hardware','DeviceSpecific','DeviceSpecific');
 set(cam, 'TriggerFcn', @camTriggerOccurred);
-% set(cam, 'TriggerMode', 'On');
+set(cam, 'TriggerMode', 'On'); %comment?

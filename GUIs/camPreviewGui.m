@@ -22,7 +22,7 @@ function varargout = camPreviewGui(varargin)
 
 % Edit the above text to modify the response to help camPreviewGui
 
-% Last Modified by GUIDE v2.5 06-Jul-2018 15:14:27
+% Last Modified by GUIDE v2.5 27-Aug-2018 14:19:23
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -80,6 +80,8 @@ end
 handles.output = hObject;
 handles.t1 = tcpip(setupDefault.light1IP,777);
 handles.t2 = tcpip(setupDefault.light2IP,777);
+set(handles.lightintensity,'Min',1);
+set(handles.lightintensity,'Max',250);
 
 % Update handles structure
 guidata(hObject,handles);
@@ -192,6 +194,8 @@ end
 
 set(handles.openCam,'Enable','On');
 set(handles.closeCam,'Enable','Off');
+% update handles structure
+guidata(hObject,handles);
 
 % --- Executes on button press in openCam.
 function openCam_Callback(hObject, eventdata, handles)
@@ -207,6 +211,7 @@ stop(cam);
 
 set(handles.closeCam,'Enable','On');
 set(handles.openCam,'Enable','Off');
+guidata(hObject,handles);
 
 
 % --- Executes on button press in turnlighton.
@@ -233,6 +238,9 @@ fprintf(handles.t2,'SET:MODE:CHANNEL1,1;');
 fscanf(handles.t2)
 fclose(handles.t2);
 handles.status = 1;
+
+set(handles.lightintensity,'Value',100);
+
 % Update handles structure
 guidata(hObject, handles);
 
@@ -254,43 +262,11 @@ fscanf(handles.t2)
 fclose(handles.t2);
 handles.status = 0;
 
+set(handles.lightintensity,'Value',1);
+
 % Update handles structure
 guidata(hObject, handles);
 
-
-
-% function edit1_Callback(hObject, eventdata, handles)
-% % hObject    handle to edit1 (see GCBO)
-% % eventdata  reserved - to be defined in a future version of MATLAB
-% % handles    structure with handles and user data (see GUIDATA)
-% 
-% % Hints: get(hObject,'String') returns contents of edit1 as text
-% %        str2double(get(hObject,'String')) returns contents of edit1 as a double
-% 
-% c = get(hObject,'String');
-% d = str2num(c);
-%     x = round(d * 0.01 * 270);
-%     fopen(handles.t);
-%     z = sprintf('SET:LEVEL:CHANNEL1,%d',x);
-%     fprintf(handles.t,z);
-%     fscanf(handles.t);
-%     fclose(handles.t);
-% % Update handles structure
-%     guidata(hObject, handles);
-% %end
-% 
-% 
-% % --- Executes during object creation, after setting all properties.
-% function edit1_CreateFcn(hObject, eventdata, handles)
-% % hObject    handle to edit1 (see GCBO)
-% % eventdata  reserved - to be defined in a future version of MATLAB
-% % handles    empty - handles not created until after all CreateFcns called
-% 
-% % Hint: edit controls usually have a white background on Windows.
-% %       See ISPC and COMPUTER.
-% if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-%     set(hObject,'BackgroundColor','white');
-% end
 
 
 % --- Executes on slider movement.
@@ -327,4 +303,73 @@ function lightintensity_CreateFcn(hObject, eventdata, handles)
 % Hint: slider controls usually have a light gray background.
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+
+function FrameRate_Callback(hObject, eventdata, handles)
+% hObject    handle to FrameRate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of FrameRate as text
+%        str2double(get(hObject,'String')) returns contents of FrameRate as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function FrameRate_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to FrameRate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function FrameGrabInterval_Callback(hObject, eventdata, handles)
+% hObject    handle to FrameGrabInterval (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of FrameGrabInterval as text
+%        str2double(get(hObject,'String')) returns contents of FrameGrabInterval as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function FrameGrabInterval_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to FrameGrabInterval (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function Compression_Callback(hObject, eventdata, handles)
+% hObject    handle to Compression (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of Compression as text
+%        str2double(get(hObject,'String')) returns contents of Compression as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function Compression_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to Compression (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
 end

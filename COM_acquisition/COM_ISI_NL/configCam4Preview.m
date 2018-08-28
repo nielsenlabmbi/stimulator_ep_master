@@ -21,5 +21,10 @@ src.PacketSize = 9000;
 camInfo.Fps = 16;  % Hz
 camInfo.resizeScale = 0.25;  % 0.5;    reduce frame size
 
-%launch preview gui
+%create camera 
+cam = videoinput('gige', 1);
+src = getselectedsource(cam);
+stop(cam);
+
+%launch gui
 camPreviewGui
