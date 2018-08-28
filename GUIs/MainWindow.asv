@@ -76,7 +76,7 @@ set(handles.hemisphere,'string',Mstate.hemi)
 set(handles.screendistance,'string',Mstate.screenDist)
 set(handles.dataRoots,'string',Mstate.dataRoot)
 
-%add monitors
+%add 
 monitorName{1}=setupDefault.defaultMonitor;
 mTmp=strtrim(strsplit(setupDefault.alternativeMonitor,';'));
 for i=1:length(mTmp)
@@ -84,21 +84,13 @@ for i=1:length(mTmp)
 end
 set(handles.monitor,'string',monitorName)
 
-%configure setup specific parts
+
 if setupDefault.useMCDaq==0 || setupDefault.useVentilator==0
     set(handles.syncVflag,'Enable','off')
 end
 
-if ~isempty(strfind(setupDefault.setupID,'2P'))
-    set(handles.connectScanbox,'Visible','on');
-end
-
-if ~isempty(strfind(setupDefault.setupID,'EP')) 
+if strcmp(setupDefault.setupID,'EP') 
     set(handles.connectIntan,'Visible','on');
-end
-
-if ~isempty(strfind(setupDefault.setupID,'ISI')) 
-    set(handles.connectCamera,'Visible','on');
 end
 
 GUIhandles.main = handles;

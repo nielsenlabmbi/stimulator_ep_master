@@ -2,17 +2,16 @@ function startAcq
 
 global setupDefault
 
-switch setupDefault.setupID
-    case 'EP' %Intan acquisition (runs on same machine)
-        %startBlackrockAcq
-        updateAcqName %Send expt info to acquisition
-        startIntanAcq
-    
-    case '2P' %scanbox acquisition (on separate machine)
-        updateAcqName   %Send expt info to acquisition
-        send_sbserver('G'); %start microscope
+if ~isempty(strfind(setupDefault.setupID,'2P'))
+    updateAcqName   %Send expt info to acquisition
+    send_sbserver('G'); %start microscope
+end
 
-    case 'ISI' %intrinsic imaging (on same machine)
-        startIsiAcq
+if ~isempty(strfind(setupDefault.setupID,'EP')) 
+    updateAcqName %Send expt info to acquisition
+    startIntanAcq
+end
+
+if ~isempty(strfind(setupDefault.setupID,'ISI')) 
     
 end

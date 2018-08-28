@@ -9,7 +9,7 @@ configureLstate
 
 %host-host communication
 configDisplayCom_tcp    %stimulus computer
-configAcqCom %acquisition machine
+%configAcqCom %acquisition machine
 
 
 %Open general GUIs

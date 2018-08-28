@@ -2,13 +2,14 @@ function updateAcqName
 
 global setupDefault
 
-switch setupDefault.setupID
-    case '2P'
-        update_sbname   %Send expt info to 2P server
+if ~isempty(strfind(setupDefault.setupID,'2P'))
+    update_sbname   %Send expt info to 2P server
+end
+
+if ~isempty(strfind(setupDefault.setupID,'EP')) 
+    update_intanname %send expt info to intan
+end
+
+if ~isempty(strfind(setupDefault.setupID,'ISI')) 
     
-    case 'EP'
-        update_intanname %send expt info to intan    
-        
-    case 'ISI'
-        update_isiname  %set fields in imager
 end
