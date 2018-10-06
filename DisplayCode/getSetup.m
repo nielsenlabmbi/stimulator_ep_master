@@ -19,8 +19,8 @@ global setupDefault
 setupDefault=struct;
 
 %location of setup file
-if IsLinux~=1
-    filePath='c:/params looper/';
+if isunix~=1
+    filePath='c:/setupDefault';
 else
     filePath='/usr/local/';
 end

@@ -6,14 +6,19 @@ alternativeMonitor: LG
 alternativeMonitor: Viewpixx
 alternativeMonitor: Linear
 monitorList: monitorListNielsenlab
-analyzerRoot: C:\VStimFiles\AnalyzerFiles
-analyzerRoot: Z:\Ephys\AnalyzerFiles
-MstateHistoryFile: C:\stimulator_master\MstateHistory.mat
-ExperimentMasterFile: C:\stimulator_master\experimentMasterList.mat
-acqDataRoot: C:\data
+analyzerRoot: /home/nielsenlab/VStimFiles/AnalyzerFiles
+analyzerRoot: /home/nielsenlab/Zdrive/EphysNew/Analyzer
+MstateHistoryFile: /home/nielsenlab/stimulator_history/MstateHistory.mat
+ExperimentMasterFile: /home/nielsenlab/stimulator_history/experimentMasterList.mat
+loopParamRoot: /home/nielsenlab/params_looper
+acqDataRoot: /home/nielsenlab/data
 isiOnlineRoot: C:\isidata\processed data
 useDatabase: 0
 useMCDaq: 1
-useVentilator: 1
-useShutter: 1
-useOpto: 1
+useVentilator: 0
+dbHost: 172.30.11.140
+dbName: exptDb_ep_170313
+dbUser: nielsenlab
+dbPass: Oregon101
+useShutter: 0
+useOpto: 0
