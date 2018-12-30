@@ -76,7 +76,7 @@ set(handles.hemisphere,'string',Mstate.hemi)
 set(handles.screendistance,'string',Mstate.screenDist)
 set(handles.dataRoots,'string',Mstate.dataRoot)
 
-%add 
+%add monitors
 monitorName{1}=setupDefault.defaultMonitor;
 mTmp=strtrim(strsplit(setupDefault.alternativeMonitor,';'));
 for i=1:length(mTmp)
@@ -84,13 +84,21 @@ for i=1:length(mTmp)
 end
 set(handles.monitor,'string',monitorName)
 
-
+%configure setup specific parts
 if setupDefault.useMCDaq==0 || setupDefault.useVentilator==0
     set(handles.syncVflag,'Enable','off')
 end
 
-if strcmp(setupDefault.setupID,'EP') 
+if ~isempty(strfind(setupDefault.setupID,'2P'))
+    set(handles.connectScanbox,'Visible','on');
+end
+
+if ~isempty(strfind(setupDefault.setupID,'EP')) 
     set(handles.connectIntan,'Visible','on');
+end
+
+if ~isempty(strfind(setupDefault.setupID,'ISI')) 
+    set(handles.connectCamera,'Visible','on');
 end
 
 GUIhandles.main = handles;
@@ -543,10 +551,13 @@ function connectScanbox_Callback(hObject, eventdata, handles)
 % hObject    handle to connectScanbox (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+global Mstate;
+
 if get(hObject,'UserValue')==0
     open_sbserver;
     set(hObject,'string','Disconnect');
     set(hObject,'UserValue',1);
+    Mstate.acqConnect=1;
 else
     close_sbserver;
     set(hObject,'string','Connect');
@@ -559,14 +570,19 @@ function connectIntan_Callback(hObject, eventdata, handles)
 % hObject    handle to connectIntan (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+global Mstate;
+
 if get(hObject,'UserValue')==0
     configIntanCom;
     set(hObject,'string','Disconnect');
     set(hObject,'UserValue',1);
+    Mstate.acqConnect=Mstate.acqConnect+1; %adding and subtracting allows for multiple daq connections
 else
     %close_sbserver;
     set(hObject,'string','Connect');
     set(hObject,'UserValue',0);
+    Mstate.acqConnect=Mstate.acqConnect-1;
 end
 
 % --- Executes on button press in connectCamera.
@@ -574,10 +590,13 @@ function connectCamera_Callback(hObject, eventdata, handles)
 % hObject    handle to connectCamera (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+global Mstate;
+
 if get(hObject,'UserValue')==0
     %open
     set(hObject,'string','Disconnect');
     set(hObject,'UserValue',1);
+    Mstate.acqConnect=1;
 else
     %close
     set(hObject,'string','Connect');

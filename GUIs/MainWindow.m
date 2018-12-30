@@ -271,6 +271,14 @@ if ~Mstate.running
         end
     end
     
+    %check whether daq has been connected if necessary
+    if get(GUIhandles.main.daqflag,'value')
+        if Mstate.acqConnect==0
+          warndlg('Acquistion not connected! Please fix before running.')
+            return
+        end
+    end  
+    
     Mstate.running = 1;  %Global flag for interrupt in real-time loop ('Abort')
     
     %Update states just in case user has not pressed enter after inputing
@@ -551,14 +559,18 @@ function connectScanbox_Callback(hObject, eventdata, handles)
 % hObject    handle to connectScanbox (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+global Mstate;
+
 if get(hObject,'UserValue')==0
     open_sbserver;
     set(hObject,'string','Disconnect');
     set(hObject,'UserValue',1);
+    Mstate.acqConnect=Mstate.acqConnect+1; %adding and subtracting allows for multiple daq connections
 else
     close_sbserver;
     set(hObject,'string','Connect');
     set(hObject,'UserValue',0);
+    Mstate.acqConnect=Mstate.acqConnect-1;
 end
 
 
@@ -567,14 +579,19 @@ function connectIntan_Callback(hObject, eventdata, handles)
 % hObject    handle to connectIntan (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+global Mstate;
+
 if get(hObject,'UserValue')==0
     configIntanCom;
     set(hObject,'string','Disconnect');
     set(hObject,'UserValue',1);
+    Mstate.acqConnect=Mstate.acqConnect+1; 
 else
     %close_sbserver;
     set(hObject,'string','Connect');
     set(hObject,'UserValue',0);
+    Mstate.acqConnect=Mstate.acqConnect-1;
 end
 
 % --- Executes on button press in connectCamera.
@@ -582,12 +599,16 @@ function connectCamera_Callback(hObject, eventdata, handles)
 % hObject    handle to connectCamera (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+global Mstate;
+
 if get(hObject,'UserValue')==0
     %open
     set(hObject,'string','Disconnect');
     set(hObject,'UserValue',1);
+    Mstate.acqConnect=Mstate.acqConnect+1;
 else
     %close
     set(hObject,'string','Connect');
     set(hObject,'UserValue',0);
+    Mstate.acqConnect=Mstate.acqConnect-1;
 end
