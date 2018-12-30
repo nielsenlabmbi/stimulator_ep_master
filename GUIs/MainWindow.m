@@ -275,7 +275,7 @@ if ~Mstate.running
     if get(GUIhandles.main.daqflag,'value')
         if Mstate.acqConnect==0
           warndlg('Acquistion not connected! Please fix before running.')
-            return
+          return
         end
     end  
     
@@ -561,15 +561,15 @@ function connectScanbox_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 global Mstate;
 
-if get(hObject,'UserValue')==0
+if get(hObject,'UserData')==0
     open_sbserver;
     set(hObject,'string','Disconnect');
-    set(hObject,'UserValue',1);
+    set(hObject,'UserData',1);
     Mstate.acqConnect=Mstate.acqConnect+1; %adding and subtracting allows for multiple daq connections
 else
     close_sbserver;
     set(hObject,'string','Connect');
-    set(hObject,'UserValue',0);
+    set(hObject,'UserData',0);
     Mstate.acqConnect=Mstate.acqConnect-1;
 end
 
@@ -582,15 +582,15 @@ function connectIntan_Callback(hObject, eventdata, handles)
 
 global Mstate;
 
-if get(hObject,'UserValue')==0
+if get(hObject,'UserData')==0
     configIntanCom;
     set(hObject,'string','Disconnect');
-    set(hObject,'UserValue',1);
+    set(hObject,'UserData',1);
     Mstate.acqConnect=Mstate.acqConnect+1; 
 else
     %close_sbserver;
     set(hObject,'string','Connect');
-    set(hObject,'UserValue',0);
+    set(hObject,'UserData',0);
     Mstate.acqConnect=Mstate.acqConnect-1;
 end
 
@@ -601,14 +601,14 @@ function connectCamera_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 global Mstate;
 
-if get(hObject,'UserValue')==0
+if get(hObject,'UserData')==0
     %open
     set(hObject,'string','Disconnect');
-    set(hObject,'UserValue',1);
+    set(hObject,'UserData',1);
     Mstate.acqConnect=Mstate.acqConnect+1;
 else
     %close
     set(hObject,'string','Connect');
-    set(hObject,'UserValue',0);
+    set(hObject,'UserData',0);
     Mstate.acqConnect=Mstate.acqConnect-1;
 end
