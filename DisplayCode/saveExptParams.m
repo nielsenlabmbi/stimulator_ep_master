@@ -9,7 +9,7 @@ Analyzer.P = Pstate;
 Analyzer.L = Lstate;
 Analyzer.loops = looperInfo;
 Analyzer.modID = getmoduleID;
-
+Analyzer.date=datestr(now);
 
 title = [Mstate.anim '_' sprintf('u%s',Mstate.unit) '_' Mstate.expt];
 
