@@ -18,5 +18,5 @@ fprintf('\t'); disp(['Message received from slave: ' inString]);
 %If it just played a stimulus, and scanimage is not acquiring, then run
 %next trial...
 if strcmp(inString,'nextT')    
-    runNextTrialDisp    
+    run2    
 end
