@@ -20,7 +20,7 @@ setupDefault=struct;
 
 %location of setup file
 if isunix~=1
-    filePath='c:/setupDefault';
+    filePath='c:/setupDefault/';
 else
     filePath='/usr/local/';
 end

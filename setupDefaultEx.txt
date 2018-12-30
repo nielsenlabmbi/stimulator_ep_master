@@ -1,4 +1,5 @@
 setupID: EP
+setupID: ISI
 slaveIP: 172.30.11.142
 defaultMonitor: Viewsonic
 alternativeMonitor: Acer 

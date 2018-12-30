@@ -2,18 +2,16 @@ function stopAcq
 
 global setupDefault
 
-switch setupDefault.setupID
-    
-    case 'EP' %Blackrock acquisition (runs on same machine)
-        %stopBlackrockAcq;
-        stopIntanAcq;
 
-
-    case '2P' %scanbox acquisition (on separate machine)
-        send_sbserver('S'); %stop microscope
-        
-    case 'ISI' %isi acquisition (on same machine)
-        stopIsi
-    
-
+if ~isempty(strfind(setupDefault.setupID,'2P'))
+    send_sbserver('S'); %stop microscope
 end
+
+if ~isempty(strfind(setupDefault.setupID,'EP')) 
+    stopIntanAcq;
+end
+
+if ~isempty(strfind(setupDefault.setupID,'ISI')) 
+    
+end
+
