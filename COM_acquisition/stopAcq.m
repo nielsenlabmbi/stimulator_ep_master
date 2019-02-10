@@ -12,6 +12,6 @@ if ~isempty(strfind(setupDefault.setupID,'EP'))
 end
 
 if ~isempty(strfind(setupDefault.setupID,'ISI')) 
-    
+    stopCamAcq
 end
 

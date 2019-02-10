@@ -603,6 +603,7 @@ global Mstate;
 
 if get(hObject,'UserData')==0
     %open
+    configCam4Preview
     set(hObject,'string','Disconnect');
     set(hObject,'UserData',1);
     Mstate.acqConnect=Mstate.acqConnect+1;

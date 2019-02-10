@@ -12,4 +12,8 @@ if setupDefault.useOpto
     h3=optoStim;
     %movegui(h3,[575,170]);
 end
+
+if ~isempty(strfind(setupDefault.setupID,'ISI')) 
+    h4=camPreviewGui;
+end
     

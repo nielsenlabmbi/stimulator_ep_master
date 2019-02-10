@@ -23,3 +23,5 @@ dbUser: nielsenlab
 dbPass: Oregon101
 useShutter: 0
 useOpto: 0
+light1IP
+light2IP
