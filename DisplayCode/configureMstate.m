@@ -22,11 +22,11 @@ else
         Mstate.dataRoot='';
     end
     
-    if isfield(setupDefault,'isiOnlineRoot')
-        Mstate.isiOnlineRoot=setupDefault.isiOnlineRoot;
-    else
-        Mstate.isiOnlineRoot='';
-    end
+%     if isfield(setupDefault,'isiOnlineRoot')
+%         Mstate.isiOnlineRoot=setupDefault.isiOnlineRoot;
+%     else
+%         Mstate.isiOnlineRoot='';
+%     end
     
     % initialize setup specific Mstate values
     Mstate.monitorName=setupDefault.defaultMonitor;

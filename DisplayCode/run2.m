@@ -33,9 +33,14 @@ if Mstate.running && trialno<=nt
         waitforDisplayResp;
     end
     
+    %run any trial-dependent code for the acquisition
+    if get(GUIhandles.main.daqflag,'value')
+        startAcqTrial;
+    end
+    
     %%%Organization of commands is important for timing in this part of loop
     tic
-    disp(['Building and sending stimulus.']);
+    disp('Building and sending stimulus.');
     buildStimulus(c,trialno)    %Tell stimulus to buffer the images
     waitforDisplayResp;
 %     cerr=waitforDisplayResp(10);   %Wait for serial port to respond from display
@@ -58,6 +63,10 @@ if Mstate.running && trialno<=nt
     
     trialno = trialno+1;
 
+    %run any trial-dependent code for the acquisition
+    if get(GUIhandles.main.daqflag,'value')
+        stopAcqTrial;
+    end
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 else

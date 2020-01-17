@@ -22,7 +22,7 @@ function varargout = MainWindow(varargin)
 
 % Edit the above text to modify the response to help MainWindow
 
-% Last Modified by GUIDE v2.5 28-Aug-2018 14:47:42
+% Last Modified by GUIDE v2.5 11-Jun-2019 13:24:03
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -88,6 +88,12 @@ set(handles.monitor,'string',monitorName)
 if setupDefault.useMCDaq==0 || setupDefault.useVentilator==0
     set(handles.syncVflag,'Enable','off')
 end
+
+%acquisition specific parts
+Mstate.acqConnect=zeros(3,1);
+Mstate.acqIdx2P=1;
+Mstate.acqIdxEP=2;
+Mstate.acqIdxIsi=3;
 
 if ~isempty(strfind(setupDefault.setupID,'2P'))
     set(handles.connectScanbox,'Visible','on');
@@ -273,7 +279,7 @@ if ~Mstate.running
     
     %check whether daq has been connected if necessary
     if get(GUIhandles.main.daqflag,'value')
-        if Mstate.acqConnect==0
+        if sum(Mstate.acqConnect)==0
           warndlg('Acquistion not connected! Please fix before running.')
           return
         end
@@ -565,12 +571,12 @@ if get(hObject,'UserData')==0
     open_sbserver;
     set(hObject,'string','Disconnect');
     set(hObject,'UserData',1);
-    Mstate.acqConnect=Mstate.acqConnect+1; %adding and subtracting allows for multiple daq connections
+    Mstate.acqConnect(Mstate.acqIdx2P)=1; 
 else
     close_sbserver;
     set(hObject,'string','Connect');
     set(hObject,'UserData',0);
-    Mstate.acqConnect=Mstate.acqConnect-1;
+    Mstate.acqConnect(Mstate.acqIdx2P)=0;
 end
 
 
@@ -586,12 +592,12 @@ if get(hObject,'UserData')==0
     configIntanCom;
     set(hObject,'string','Disconnect');
     set(hObject,'UserData',1);
-    Mstate.acqConnect=Mstate.acqConnect+1; 
+    Mstate.acqConnect(Mstate.acqIdxEP)=1; 
 else
     %close_sbserver;
     set(hObject,'string','Connect');
     set(hObject,'UserData',0);
-    Mstate.acqConnect=Mstate.acqConnect-1;
+    Mstate.acqConnect(Mstate.acqIdxEP)=0;
 end
 
 % --- Executes on button press in connectCamera.
@@ -603,12 +609,23 @@ global Mstate;
 
 if get(hObject,'UserData')==0
     %open
+    configIsiCom;
     set(hObject,'string','Disconnect');
     set(hObject,'UserData',1);
-    Mstate.acqConnect=Mstate.acqConnect+1;
+    Mstate.acqConnect(Mstate.acqIdxIsi)=1;
 else
     %close
     set(hObject,'string','Connect');
     set(hObject,'UserData',0);
-    Mstate.acqConnect=Mstate.acqConnect-1;
+    Mstate.acqConnect(Mstate.acqIdxIsi)=0;
 end
+
+
+% --- Executes on button press in sendTTL.
+function sendTTL_Callback(hObject, eventdata, handles)
+% hObject    handle to sendTTL (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global DcomState
+
+fwrite(DcomState.serialPortHandle,'TTL;~')

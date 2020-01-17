@@ -113,11 +113,9 @@ function bplay_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 global  Mstate
-
 %update Mstate
 Mstate.running = 0; 
 updateMstate 
-
 %get correct module
 mi = get(handles.sModule,'value');
 mList=moduleListMaster('M');
@@ -129,8 +127,8 @@ modId=mList{mi}{1};
 %%%%Send parameters to display
 %sendPinfo(modId)
 %waitforDisplayResp
-sendMinfo
-waitforDisplayResp
+sendMinfo;
+waitforDisplayResp;
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-startManual(modId) 
+startManual(modId);

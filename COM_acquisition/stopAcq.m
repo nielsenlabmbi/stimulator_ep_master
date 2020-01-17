@@ -11,7 +11,7 @@ if ~isempty(strfind(setupDefault.setupID,'EP'))
     stopIntanAcq;
 end
 
-if ~isempty(strfind(setupDefault.setupID,'ISI')) 
-    
-end
+% if ~isempty(strfind(setupDefault.setupID,'ISI')) 
+%     stopIsiAcq;
+% end
 

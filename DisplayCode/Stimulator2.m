@@ -14,17 +14,19 @@ configDisplayCom_tcp    %stimulus computer
 
 %Open general GUIs
 hm = MainWindow;
-movegui(hm,[10,400]);
+movegui(hm,[10 1500])
 
 hl = Looper ;
-movegui(hl,[365,300]);
+movegui(hl,[1000 1500])
 
 hp = paramSelect;
-movegui(hp,[10,110]);
+movegui(hp,[500 1500])
 
 hmm = manualMapper;
-movegui(hmm,[365,275]);
+movegui(hmm,[500 1300])
 
 %setup specific configuration of parameters and GUIs
 configureSetup;
 openSetupGui;
+
+disp('Stimulator ready.')
