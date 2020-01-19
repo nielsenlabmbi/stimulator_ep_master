@@ -2,7 +2,7 @@ function buildStimulus(cond,trial)
 
 global DcomState
 
-%Sends loop information and buffers
+%Sends stimulus information for the current trial to the slave
 
 global looperInfo Mstate Pstate GUIhandles
 
@@ -43,50 +43,78 @@ else
     
     %evaluate the formula - we're using the entire formula here so that we
     %can use if statements etc
-    fmla=looperInfo.formula;
-    if ~isempty(fmla)
-        if fmla(end)~=';'
-            fmla=[fmla ';'];
+    if ~isempty(looperInfo.formula)
+        
+        %formula can now be entered in multiple lines - gets returned as
+        %char array
+        %first transform into cell array to make things easier
+        fmla=cellstr(looperInfo.formula);
+        
+        %check to see whether there are 2 statements in 1 line - break up
+        %for further processing
+        %should have a ; in the middle of the statement, not at the end of
+        %the line
+        ids=strfind(fmla,';');
+        for i=1:length(ids)
+            if ~isempty(ids{i})
+                if ids{i}<length(fmla{i})
+                    %split the line with the semicolon
+                    fmlaPart=strsplit(fmla{i},';');
+                    
+                    %need to insert into formula - shift everything else
+                    %down, then insert
+                    nLines=length(fmlaPart);
+                    nOrig=length(fmla);
+                    fmla(i+nLines:nOrig+nLines-1)=fmla(i+1:nOrig);
+                    for j=1:nLines
+                        fmla(i+j-1)=fmlaPart(j);
+                    end
+                end
+            end
         end
-        eval(fmla);
+                    
+        
+        %evaluate formula - this will set the variables to their
+        %correct values, which is necessary before sending them
+        %(extra ; seem not to matter, so no further check)
+        efmla=[];
+        for i=1:length(fmla)
+            efmla=[efmla fmla{i} ';'];
+        end
+        eval(efmla);
     
-        %now go through and find variables in the formula; append them with
+        %now build message for the slave
+        %go through and find variables in the formula; append them with
         %their values to the message to the slave 
+        
         %find equal signs (variables are before them)
+        %returns a cell array of the same size as fmla
         ide=strfind(fmla,'=');
         
-        %remove == and ~= (for if statements)
-        id2=strfind(fmla,'==');
-        if ~isempty(id2)
-            ide(ide==id2 | ide==id2+1) = [];
-        end
-        
-        id2=strfind(fmla,'~=');
-        if ~isempty(id2)
-            ide(ide==id2+1)=[];
-        end
-        
-        %now loop through = and get variable names - between equal and
-        %previous ;
-        ids=strfind(fmla,';');
-        
-        for e = 1:length(ide);
-            
-            delim1 = max(find(ids<ide(e)));
-            if isempty(delim1)
-                delim1=1;
-            else
-                delim1 = ids(delim1)+1;
+        %remove = in logical statements; these are instances in which there
+        %is not a letter or number before the 
+        for i=1:length(ide)
+            fmlaL=fmla{i}(max(ide{i})-1);
+            if ~isstrprop(fmlaL,'alphanum')
+                ide{i}=[];
             end
-               
-            psymbol_Fmla = fmla(delim1:ide(e)-1);
-            pval_Fmla = eval(psymbol_Fmla);
-            
-            %update message - this checks whether the symbol actually
-            %appears in Pstate
-            msg = updateMsg(pval_Fmla,psymbol_Fmla,msg);
         end
-    end
+              
+        %now loop through = and get variable names
+        %add names and value to message
+        for i=1:length(fmla)
+            if ~isempty(ide{i})
+                fmlaPart=strsplit(fmla{i},'=');
+                psymbol_Fmla = strtrim(fmlaPart{1});
+                pval_Fmla = eval(psymbol_Fmla);
+                   
+                %update message - this checks whether the symbol actually
+                %appears in Pstate
+                msg = updateMsg(pval_Fmla,psymbol_Fmla,msg);
+            end
+        end
+        
+    end %isempty formula
     
 end
 
@@ -113,7 +141,7 @@ for j = 1:length(Pstate.param)
 end
 
 %change value based on looper
-if ~isempty(idx)  %its possible that looper variable is not a grating parameter
+if ~isempty(idx)  %its possible that looper variable is not a stimulus parameter
     prec = Pstate.param{idx}{2};  %Get precision
     switch prec
         case 'float'

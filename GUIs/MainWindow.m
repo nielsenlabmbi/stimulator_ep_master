@@ -285,6 +285,11 @@ if ~Mstate.running
         end
     end  
     
+    %check whether the refresh rate on the slave is correct
+    %queryRefresh;
+    %error handling is handled in displaycb
+    
+    
     Mstate.running = 1;  %Global flag for interrupt in real-time loop ('Abort')
     
     %Update states just in case user has not pressed enter after inputing
