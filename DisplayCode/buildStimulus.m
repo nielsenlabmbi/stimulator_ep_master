@@ -37,6 +37,7 @@ else
         pval = looperInfo.conds{cond}.val{i};
         psymbol = looperInfo.conds{cond}.symbol{i};
         msg = updateMsg(pval,psymbol,msg);
+        %disp(msg)
         eval([psymbol '=' num2str(pval) ';'])  
 		eval(['set(GUIhandles.looper.currtri' num2str(i) ',''string'',' num2str(pval) '), drawnow;']);
     end
@@ -81,6 +82,7 @@ else
         for i=1:length(fmla)
             efmla=[efmla fmla{i} ';'];
         end
+        %disp(efmla);
         eval(efmla);
     
         %now build message for the slave
@@ -101,17 +103,26 @@ else
         end
               
         %now loop through = and get variable names
-        %add names and value to message
+        % to deal with if statements correctly, first find all names here
         for i=1:length(fmla)
             if ~isempty(ide{i})
                 fmlaPart=strsplit(fmla{i},'=');
-                psymbol_Fmla = strtrim(fmlaPart{1});
-                pval_Fmla = eval(psymbol_Fmla);
-                   
-                %update message - this checks whether the symbol actually
-                %appears in Pstate
-                msg = updateMsg(pval_Fmla,psymbol_Fmla,msg);
+                fmlaSymbol{i} = strtrim(fmlaPart{1});
             end
+        end
+        fmlaUSymbol=unique(fmlaSymbol(~cellfun('isempty',fmlaSymbol)));
+        
+        %add names and value to message
+        for i=1:length(fmlaUSymbol)
+            psymbol_Fmla=fmlaUSymbol{i};
+            pval_Fmla = eval(psymbol_Fmla);
+                   
+            %update message - this checks whether the symbol actually
+            %appears in Pstate
+            %disp(pval_Fmla)
+            %disp(psymbol_Fmla)
+            msg = updateMsg(pval_Fmla,psymbol_Fmla,msg);
+            %disp(msg);
         end
         
     end %isempty formula
