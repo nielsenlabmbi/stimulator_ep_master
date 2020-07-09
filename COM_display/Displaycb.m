@@ -26,11 +26,11 @@ if strcmp(inString,'nextT')
     
     run2
     
-%else
-%    refreshRate=str2num(inString);
-%    if refreshRate<115
-%        warndlg('Slave refresh rate not at 120Hz!')
-%    end
+else
+    refreshRate=str2num(inString);
+    if refreshRate<115
+        warndlg('Slave refresh rate not at 120Hz!')
+    end
         
         
 end

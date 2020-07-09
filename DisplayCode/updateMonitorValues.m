@@ -14,4 +14,7 @@ Mstate.screenXcm = monitorPar.screenXcm;
 Mstate.screenYcm = monitorPar.screenYcm;
 Mstate.xpixels = monitorPar.xpixels;
 Mstate.ypixels = monitorPar.ypixels;
+
+%check the refresh rate on the slave
+queryRefresh %response is in displaycb
         
