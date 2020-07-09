@@ -2,14 +2,15 @@ function Stimulator2
 
 getSetup;
 
+%host-host communication
+configDisplayCom_tcp    %stimulus computer
+%configAcqCom %acquisition machine
+
 %Initialize stimulus parameter structures
 configurePstate(1,'P') %this updates the parameters to the first module selected in paramSelect
 configureMstate %this will update the monitor as well
 configureLstate
 
-%host-host communication
-configDisplayCom_tcp    %stimulus computer
-%configAcqCom %acquisition machine
 
 
 %Open general GUIs

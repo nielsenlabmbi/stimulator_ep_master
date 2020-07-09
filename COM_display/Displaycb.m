@@ -1,7 +1,7 @@
 function Displaycb(obj,event)
 %Callback function from Stimulus PC
 
-global DcomState GUIhandles
+global DcomState GUIhandles Mstate
 
 n=get(DcomState.serialPortHandleReceiver,'BytesAvailable');
 if n > 0
@@ -26,11 +26,8 @@ if strcmp(inString,'nextT')
     
     run2
     
-else
-    refreshRate=str2num(inString);
-    if refreshRate<115
-        warndlg('Slave refresh rate not at 120Hz!')
-    end
-        
-        
+elseif inString(1)=='r'
+   Mstate.refreshRate=str2num(inString(2:end-1));
+   %disp(Mstate.refreshRate)
+    
 end

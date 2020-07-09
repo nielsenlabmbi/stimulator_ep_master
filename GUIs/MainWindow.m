@@ -84,6 +84,11 @@ for i=1:length(mTmp)
 end
 set(handles.monitor,'string',monitorName)
 
+%update refresh rate
+queryRefresh %response is in displaycb
+%waitforDisplayResp;
+set(handles.showRate,'string',Mstate.refreshRate);
+
 %configure setup specific parts
 if setupDefault.useMCDaq==0 || setupDefault.useVentilator==0
     set(handles.syncVflag,'Enable','off')
@@ -285,6 +290,10 @@ if ~Mstate.running
         end
     end  
     
+    %update refresh rate
+    queryRefresh %response is in displaycb
+    waitforDisplayResp;
+    set(handles.showRate,'string',Mstate.refreshRate);
        
     
     Mstate.running = 1;  %Global flag for interrupt in real-time loop ('Abort')
@@ -505,6 +514,14 @@ Mstate.monitorName = mTmp{mVal};
 
 updateMonitorValues
 sendMonitor
+waitforDisplayResp;
+
+%update refresh rate
+queryRefresh %response is in displaycb
+pause(.5);
+%waitforDisplayResp;
+set(handles.showRate,'string',Mstate.refreshRate);
+
 save(setupDefault.MstateHistoryFile,'Mstate');
 
 % --- Executes during object creation, after setting all properties.
