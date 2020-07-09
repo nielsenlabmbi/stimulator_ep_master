@@ -84,10 +84,6 @@ for i=1:length(mTmp)
 end
 set(handles.monitor,'string',monitorName)
 
-%update refresh rate
-queryRefresh %response is in displaycb
-%waitforDisplayResp;
-set(handles.showRate,'string',Mstate.refreshRate);
 
 %configure setup specific parts
 if setupDefault.useMCDaq==0 || setupDefault.useVentilator==0

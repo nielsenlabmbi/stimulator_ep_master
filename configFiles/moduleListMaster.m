@@ -23,7 +23,7 @@ Plist{10} = {'AD' 'Adaptation'        		'configPstate_Adapt'        		''};
 Plist{11} = {'RA' 'RC Adapt'          		'configPstate_RCAdaptGrating'       ''};
 Plist{12} = {'PC' 'Color Grating'     		'configPstate_PerGratingColor'   	''};
 Plist{13} = {'BP' 'Barber Pole'       		'configPstate_BarberPole'   		''};
-Plist{14} = {'TP' 'Transparent Plaid' 		'configPstate_TransparentPlaid'   	''};
+Plist{14} = {'TP' 'Transparent Plaid' 		'configPstate_TransPlaid'   	''};
 Plist{15} = {'BR' 'Bar'               		'configPstate_Bar'   				''};
 Plist{16} = {'BK' 'Kalatsky'          		'configPstate_Kalatsky'   			''};
 Plist{17} = {'RB' 'RC Bars'           		'configPstate_RCBars'   			''};
@@ -43,6 +43,7 @@ Plist{30} = {'OS' 'Optogenetics'	        'configPstate_Opto'	        		''};
 Plist{31} = {'IS' 'Img Scanning'	        'configPstate_ImgScanning'     		''};
 Plist{32} = {'TT' 'Test Trial'              'configPstate_TestTrial'            ''};
 Plist{33} = {'MS' 'M sequence'              'configPstate_MSeq'            ''};
+Plist{34} = {'RS' 'RC Trans Plaid'      	'configPstate_RCTransPlaid'  		''};
 
 
 Mlist{1}  = {'MG' 'BW Grating'};
