@@ -42,9 +42,9 @@ Plist{29} = {'IT' 'Img Texture'	            'configPstate_ImgTexture'	        ''
 Plist{30} = {'OS' 'Optogenetics'	        'configPstate_Opto'	        		''};
 Plist{31} = {'IS' 'Img Scanning'	        'configPstate_ImgScanning'     		''};
 Plist{32} = {'TT' 'Test Trial'              'configPstate_TestTrial'            ''};
-Plist{33} = {'MS' 'M sequence'              'configPstate_MSeq'            ''};
+Plist{33} = {'MS' 'M sequence'              'configPstate_MSeq'                 ''};
 Plist{34} = {'RS' 'RC Trans Plaid'      	'configPstate_RCTransPlaid'  		''};
-
+Plist{35} = {'FG' 'Func Gen'                'configPstate_FuncGen'              ''};
 
 Mlist{1}  = {'MG' 'BW Grating'};
 Mlist{2}  = {'MM' 'Bar'};
