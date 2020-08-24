@@ -22,7 +22,7 @@ function varargout = paramSelect(varargin)
 
 % Edit the above text to modify the response to help paramSelect
 
-% Last Modified by GUIDE v2.5 18-Jun-2010 15:17:05
+% Last Modified by GUIDE v2.5 23-Aug-2020 17:42:08
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -279,5 +279,3 @@ function playSample_Callback(hObject, eventdata, handles)
 
 mod = getmoduleID;
 startStimulus(mod)      %Tell Display to show its buffered images. 
-
-

@@ -2,10 +2,10 @@ function modID = getmoduleID
 
 %this only returns moduleIDs for the parameter window, not the mapper
 
-global GUIhandles
+global AppHdl;
 
-mi = get(GUIhandles.param.module,'value');
+paramModule=AppHdl.params.DModule.Value;
 
 mList=moduleListMaster('P');
 
-modID=mList{mi}{1};
+modID=mList{paramModule}{1};

@@ -1,5 +1,7 @@
 function Stimulator2
 
+global AppHdl;
+
 getSetup;
 
 %host-host communication
@@ -20,8 +22,8 @@ movegui(hm,[10 1500])
 hl = Looper ;
 movegui(hl,[1000 1500])
 
-hp = paramSelect;
-movegui(hp,[500 1500])
+AppHdl.params = paramSelectNew;
+%movegui(hp,[500 1500])
 
 hmm = manualMapper;
 movegui(hmm,[500 1300])
