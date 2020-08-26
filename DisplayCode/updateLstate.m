@@ -1,23 +1,17 @@
 function updateLstate
 
-global Lstate GUIhandles
+global Lstate AppHdl
 
-Lstate.reps = str2num(get(GUIhandles.looper.repeats,'string'));
-Lstate.rand = get(GUIhandles.looper.randomflag,'value');
-Lstate.blanks = get(GUIhandles.looper.blankflag,'value');
-Lstate.blankperiod = str2num(get(GUIhandles.looper.blankPeriod,'string'));
+Lstate.reps = AppHdl.looper.ENReps.Value;
+Lstate.rand = AppHdl.looper.SRand.Value;
+Lstate.blanks = AppHdl.looper.SBlanks.Value;
+Lstate.blankperiod = AppHdl.looper.ENBlanks.Value;
 
-Ldum{1} = {[get(GUIhandles.looper.symbol1,'string')] [get(GUIhandles.looper.valvec1,'string')] ...
-    [get(GUIhandles.looper.block1,'value')] };
-Ldum{2} = {[get(GUIhandles.looper.symbol2,'string')] [get(GUIhandles.looper.valvec2,'string')] ...
-    [get(GUIhandles.looper.block2,'value')]};
-Ldum{3} = {[get(GUIhandles.looper.symbol3,'string')] [get(GUIhandles.looper.valvec3,'string')] ...
-    [get(GUIhandles.looper.block3,'value')]};
-Ldum{4} = {[get(GUIhandles.looper.symbol4,'string')] [get(GUIhandles.looper.valvec4,'string')] ...
-    [get(GUIhandles.looper.block4,'value')]};
-Ldum{5} = {[get(GUIhandles.looper.symbol5,'string')] [get(GUIhandles.looper.valvec5,'string')] ...
-    [get(GUIhandles.looper.block5,'value')]};
-
+Ldum{1} = {[AppHdl.looper.ESymbol1.Value] [AppHdl.looper.EValue1.Value] [AppHdl.looper.SBlock1.Value]}; 
+Ldum{2} = {[AppHdl.looper.ESymbol2.Value] [AppHdl.looper.EValue2.Value] [AppHdl.looper.SBlock2.Value]}; 
+Ldum{3} = {[AppHdl.looper.ESymbol3.Value] [AppHdl.looper.EValue3.Value] [AppHdl.looper.SBlock3.Value]}; 
+Ldum{4} = {[AppHdl.looper.ESymbol4.Value] [AppHdl.looper.EValue4.Value] [AppHdl.looper.SBlock4.Value]}; 
+Ldum{5} = {[AppHdl.looper.ESymbol5.Value] [AppHdl.looper.EValue5.Value] [AppHdl.looper.SBlock5.Value]}; 
 
 %Get rid of blank rows...
 Lstate.param = cell(1,1);  %initialize
@@ -29,4 +23,4 @@ for i = 1:length(Ldum)
     end
 end
 
-Lstate.formula = get(GUIhandles.looper.formula,'string');
+Lstate.formula = AppHdl.looper.EFormula.Value;

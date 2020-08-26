@@ -19,8 +19,8 @@ configureLstate
 hm = MainWindow;
 movegui(hm,[10 1500])
 
-hl = Looper ;
-movegui(hl,[1000 1500])
+AppHdl.looper = LooperNew ;
+%movegui(hl,[1000 1500])
 
 AppHdl.params = paramSelectNew;
 %movegui(hp,[500 1500])
