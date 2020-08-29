@@ -9,7 +9,7 @@ else
     Mstate.unit = '000';
     Mstate.expt = '000';
 
-    Mstate.hemi = 'left';
+    %Mstate.hemi = 'left';
     Mstate.screenDist = 25;
     
     Mstate.syncSize = 4;  %Size of the screen sync in cm

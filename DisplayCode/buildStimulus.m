@@ -4,7 +4,7 @@ global DcomState
 
 %Sends stimulus information for the current trial to the slave
 
-global looperInfo Mstate Pstate GUIhandles
+global looperInfo Mstate Pstate AppHdl
 
 bflag = strcmp(looperInfo.conds{cond}.symbol{1},'blank');
 
@@ -38,8 +38,9 @@ else
         psymbol = looperInfo.conds{cond}.symbol{i};
         msg = updateMsg(pval,psymbol,msg);
         %disp(msg)
-        eval([psymbol '=' num2str(pval) ';'])  
-		eval(['set(GUIhandles.looper.currtri' num2str(i) ',''string'',' num2str(pval) '), drawnow;']);
+        eval([psymbol '=' num2str(pval) ';'])
+        eval(['AppHdl.looper.Ttrial' num2str(i) '.Text="' num2str(pval) '";']);
+		
     end
     
     %evaluate the formula - we're using the entire formula here so that we

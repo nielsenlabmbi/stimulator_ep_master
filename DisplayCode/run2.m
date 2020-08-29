@@ -4,7 +4,7 @@ function run2
 %This function now gets called for play sample, as well. Hence the global
 %conditional of Mstate.runnind
 
-global GUIhandles  Mstate trialno setupDefault shutterInfo
+global AppHdl  Mstate trialno setupDefault shutterInfo
 
 if Mstate.running
     nt = Sgetnotrials;
@@ -14,7 +14,8 @@ end
 
 if Mstate.running && trialno<=nt
     
-    set(GUIhandles.main.showTrial,'string',['Trial ' num2str(trialno) ' of ' num2str(nt)] ), drawnow
+    AppHdl.main.TProgress.Value=['Trial ' num2str(trialno) ' of ' num2str(nt)];
+    
 
     [c,~] = Sgetcondrep(trialno);  %get cond and rep for this trialno
 
@@ -29,12 +30,12 @@ if Mstate.running && trialno<=nt
     %send breathing info (independent of whether or not it was selected ->
     %this allows us to turn it off during the experiment if necessary)
     if setupDefault.useVentilator && setupDefault.useMCDaq
-        updateSyncV(get(GUIhandles.main.syncVflag,'Value'));
+        updateSyncV(AppHdl.main.SSyncVent.Value);
         waitforDisplayResp;
     end
     
     %run any trial-dependent code for the acquisition
-    if get(GUIhandles.main.daqflag,'value')
+    if AppHdl.main.BStimDAQ.Value==1
         startAcqTrial;
     end
     
@@ -64,7 +65,7 @@ if Mstate.running && trialno<=nt
     trialno = trialno+1;
 
     %run any trial-dependent code for the acquisition
-    if get(GUIhandles.main.daqflag,'value')
+    if AppHdl.main.BStimDAQ.Value==1
         stopAcqTrial;
     end
     
@@ -72,14 +73,13 @@ if Mstate.running && trialno<=nt
 else
     
     %This is executed at the end of experiment and when abort button is hit
-    if get(GUIhandles.main.daqflag,'value');
+    if AppHdl.main.BStimDAQ.Value==1
         pause(5);
         stopAcq;
     end
     
     Mstate.running = 0;
-    set(GUIhandles.main.runbutton,'string','Run')
-
+    AppHdl.main.BRun.Text='Run';
     
 end
 
