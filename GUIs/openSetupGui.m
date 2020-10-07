@@ -1,15 +1,15 @@
 function openSetupGui
 
-global setupDefault
+global setupDefault  AppHdl;
 
 
 if setupDefault.useShutter
-    h2=shutterSetting;
-    movegui(h2,[575,170]);
+    AppHdl.shutter=shutterSettingNew;
+    %movegui(h2,[575,170]);
 end
 
 if setupDefault.useOpto
-    h3=optoStim;
+    %h3=optoStim;
     %movegui(h3,[575,170]);
 end
     

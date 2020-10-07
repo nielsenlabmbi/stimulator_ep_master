@@ -4,7 +4,7 @@ global DcomState
 
 %Sends stimulus information for the current trial to the slave
 
-global looperInfo Mstate Pstate GUIhandles
+global looperInfo Mstate Pstate AppHdl
 
 bflag = strcmp(looperInfo.conds{cond}.symbol{1},'blank');
 
@@ -24,6 +24,7 @@ else
         eval([Mf{i} '= Mstate.'  Mf{i} ';' ])
     end
     
+    
     %For the same reason, evaluate all parameters in Pstate
     %this needs to happen only locally
     for i = 1:length(Pstate.param)
@@ -38,13 +39,14 @@ else
         psymbol = looperInfo.conds{cond}.symbol{i};
         msg = updateMsg(pval,psymbol,msg);
         %disp(msg)
-        eval([psymbol '=' num2str(pval) ';'])  
-		eval(['set(GUIhandles.looper.currtri' num2str(i) ',''string'',' num2str(pval) '), drawnow;']);
+        eval([psymbol '=' num2str(pval) ';'])
+        eval(['AppHdl.looper.TTrial' num2str(i) '.Text="' num2str(pval) '";']);
+		
     end
     
     %evaluate the formula - we're using the entire formula here so that we
     %can use if statements etc
-    if ~isempty(looperInfo.formula)
+    if ~isempty(looperInfo.formula{1})
         
         %formula can now be entered in multiple lines - gets returned as
         %char array
@@ -95,9 +97,9 @@ else
         
         %remove = in logical statements; these are instances in which there
         %is not a letter or number before the 
-        for i=1:length(ide)
+        for i=1:length(ide)            
             fmlaL=fmla{i}(max(ide{i})-1);
-            if ~isstrprop(fmlaL,'alphanum')
+            if ~isstrprop(fmlaL,'alphanum') && ~isspace(fmlaL)
                 ide{i}=[];
             end
         end
@@ -105,9 +107,11 @@ else
         %now loop through = and get variable names
         % to deal with if statements correctly, first find all names here
         for i=1:length(fmla)
+            %disp(fmla{i})
             if ~isempty(ide{i})
-                fmlaPart=strsplit(fmla{i},'=');
+                fmlaPart=strsplit(fmla{i},'=');                
                 fmlaSymbol{i} = strtrim(fmlaPart{1});
+                %disp(fmlaSymbol{i})
             end
         end
         fmlaUSymbol=unique(fmlaSymbol(~cellfun('isempty',fmlaSymbol)));
@@ -119,8 +123,8 @@ else
                    
             %update message - this checks whether the symbol actually
             %appears in Pstate
-            %disp(pval_Fmla)
-            %disp(psymbol_Fmla)
+           % disp(pval_Fmla)
+           % disp(psymbol_Fmla)
             msg = updateMsg(pval_Fmla,psymbol_Fmla,msg);
             %disp(msg);
         end

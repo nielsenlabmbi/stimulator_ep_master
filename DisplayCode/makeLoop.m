@@ -5,7 +5,7 @@ function makeLoop
 %returns:
 %  changes in the global variable looperInfo
 
-global Lstate GUIhandles looperInfo
+global Lstate AppHdl looperInfo
 
 looperInfo = struct;  %reset 
 
@@ -36,12 +36,12 @@ eval([ostring ' = ' istring ';']); %this translates to eval([d{1},d{2},...]=ndgr
 
 
 %blanks?
-bflag = get(GUIhandles.looper.blankflag,'value');
-bPer = str2num(get(GUIhandles.looper.blankPeriod,'string')); %blanks per repeat
+bflag = AppHdl.looper.SBlanks.Value;
+bPer = AppHdl.looper.ENBlanks.Value; %blanks per repeat
 
 %randomization and repeats
-nrep = str2num(get(GUIhandles.looper.repeats,'string'));
-randomflag = get(GUIhandles.looper.randomflag,'value');
+nrep = AppHdl.looper.ENReps.Value;
+randomflag = AppHdl.looper.SRand.Value;
 
 
 %save basic condition info (symbol and value) in looper structure
@@ -67,7 +67,7 @@ end
 
 
 %Put the formula in looperInfo
-looperInfo.formula = get(GUIhandles.looper.formula,'string');
+looperInfo.formula = AppHdl.looper.EFormula.Value;
 
 
 %now generate the actual trials structure

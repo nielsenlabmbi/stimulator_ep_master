@@ -1,7 +1,7 @@
 function Displaycb(obj,event)
 %Callback function from Stimulus PC
 
-global DcomState GUIhandles Mstate
+global DcomState AppHdl Mstate
 
 n=get(DcomState.serialPortHandleReceiver,'BytesAvailable');
 if n > 0
@@ -20,7 +20,7 @@ fprintf('\t'); disp(['Message received from slave: ' inString]);
 if strcmp(inString,'nextT')  
     
     %run any trial-dependent code for the acquisition
-    if get(GUIhandles.main.daqflag,'value')
+    if AppHdl.main.BStimDAQ.Value==1
         stopAcqTrial;
     end
     
