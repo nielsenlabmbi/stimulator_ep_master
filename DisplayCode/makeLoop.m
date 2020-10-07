@@ -67,7 +67,7 @@ end
 
 
 %Put the formula in looperInfo
-looperInfo.formula = AppHdl.looper.EFormula.Text;
+looperInfo.formula = AppHdl.looper.EFormula.Value;
 
 
 %now generate the actual trials structure

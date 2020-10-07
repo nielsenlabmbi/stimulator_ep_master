@@ -10,5 +10,5 @@ Mstate.anim = AppHdl.main.EAnimal.Value;
 Mstate.screenDist = AppHdl.main.EScreenDist.Value; 
 Mstate.analyzerRoot = AppHdl.main.EAnaRoots.Value;
 
-Mstate.monitorName = app.DMonitor.Value;
+Mstate.monitorName = AppHdl.main.DMonitor.Value;
 updateMonitorValues
