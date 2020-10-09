@@ -52,6 +52,8 @@ else
         %char array
         %first transform into cell array to make things easier
         fmla=cellstr(looperInfo.formula);
+        %remove empty lines
+        fmla=fmla(~cellfun('isempty',fmla));
         
         %check to see whether there are 2 statements in 1 line - break up
         %for further processing
@@ -94,11 +96,13 @@ else
         %find equal signs (variables are before them)
         %returns a cell array of the same size as fmla
         ide=strfind(fmla,'=');
+        %disp(ide)
         
         %remove = in logical statements; these are instances in which there
         %is not a letter or number before the 
         for i=1:length(ide)            
             fmlaL=fmla{i}(max(ide{i})-1);
+           % disp(fmlaL)
             if ~isstrprop(fmlaL,'alphanum') && ~isspace(fmlaL)
                 ide{i}=[];
             end
