@@ -1,21 +1,16 @@
-function saveExptParams
+function saveAbort
 
-global Mstate Pstate Lstate looperInfo 
+global Mstate trialno
 
-%Save the analzer file
-
-Analyzer.M = Mstate;
-Analyzer.P = Pstate;
-Analyzer.L = Lstate;
-Analyzer.loops = looperInfo;
-Analyzer.modID = getmoduleID;
-Analyzer.date=datestr(now);
-
-abortFlag=0;
+%Save abort flag to the analyzer file
 
 title = [Mstate.anim '_' sprintf('u%s',Mstate.unit) '_' Mstate.expt];
 
 roots = strtrim(strsplit(Mstate.analyzerRoot,';'));
+
+nt = Sgetnotrials;
+
+abortFlag=1;
 
 %Save each root:
 for i = 1:length(roots)
@@ -28,9 +23,12 @@ for i = 1:length(roots)
 
     dd = strtrim(fullfile(dd,[title '.analyzer']));
 
-    disp(['Saving analyzer file at location:  ' dd])
+    disp(['Adding abort to analyzer file at location:  ' dd])
 
-    save(dd ,'Analyzer','abortFlag')
+    
+    if trialno<nt
+        save(dd ,'abortFlag','-append')
+    end
     
 end
 
