@@ -11,7 +11,7 @@ function getSetup
 %acqIP: acquisition IP in a 3 computer case
 %MstateHistoryFile: path to mstate history file
 %ExperimentMasterFile: path to database file
-%useDatabase: use database
+%useXXX: peripherals
 %
 %do not change the names of these fields!!!
 
@@ -66,6 +66,10 @@ end
 
 if isfield(setupDefault,'useOpto')
     setupDefault.useOpto=str2num(setupDefault.useOpto);
+end
+
+if isfield(setupDefault,'useFuncGen')
+    setupDefault.useFuncGen=str2num(setupDefault.useFuncGen);
 end
 
 fclose(fId);

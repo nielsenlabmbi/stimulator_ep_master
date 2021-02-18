@@ -8,8 +8,8 @@ if setupDefault.useShutter
     %movegui(h2,[575,170]);
 end
 
-if setupDefault.useOpto
+%if setupDefault.useOpto
     %h3=optoStim;
     %movegui(h3,[575,170]);
-end
+%end
     

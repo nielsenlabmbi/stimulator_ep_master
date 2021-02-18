@@ -31,7 +31,7 @@ else
     % initialize setup specific Mstate values
     Mstate.monitorName=setupDefault.defaultMonitor;
     Mstate.analyzerRoot=setupDefault.analyzerRoot;
-    Mstate.acqConnect=0;
+    %Mstate.acqConnect=0;
     
     %disp(Mstate.analyzerRoot)
     
