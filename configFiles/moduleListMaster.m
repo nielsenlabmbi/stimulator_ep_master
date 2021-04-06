@@ -46,6 +46,8 @@ Plist{33} = {'MS' 'M sequence'              'configPstate_MSeq'                 
 Plist{34} = {'RS' 'RC Trans Plaid'      	'configPstate_RCTransPlaid'  		''};
 Plist{35} = {'FG' 'Func Gen'                'configPstate_FuncGen'              ''};
 Plist{36} = {'PF' 'BW Grating and FGen'     'configPstate_PerGratingFG'         ''};
+Plist{37} = {'OG' 'Optic Flow (Graziano)'     'configPstate_OpticFlowG'         ''};
+
 
 Mlist{1}  = {'MG' 'BW Grating'};
 Mlist{2}  = {'MM' 'Bar'};
