@@ -72,6 +72,10 @@ if isfield(setupDefault,'useFuncGen')
     setupDefault.useFuncGen=str2num(setupDefault.useFuncGen);
 end
 
+if isfield(setupDefault,'useZaber')
+    setupDefault.useFuncGen=str2num(setupDefault.useZaber);
+end
+
 fclose(fId);
 
 
