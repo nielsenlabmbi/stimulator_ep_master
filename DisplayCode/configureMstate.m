@@ -3,7 +3,7 @@ function configureMstate
 global Mstate setupDefault
 
 if exist(setupDefault.MstateHistoryFile,'file')
-    load(setupDefault.MstateHistoryFile);
+ %   load(setupDefault.MstateHistoryFile);
 else
     Mstate.anim = 'xxxx0';
     Mstate.unit = '000';
@@ -35,7 +35,7 @@ else
     
     %disp(Mstate.analyzerRoot)
     
-    save(setupDefault.MstateHistoryFile,'Mstate');
+   % save(setupDefault.MstateHistoryFile,'Mstate');
 end
     
 updateMonitorValues

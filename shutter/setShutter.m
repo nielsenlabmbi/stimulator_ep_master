@@ -109,44 +109,48 @@ if bflag==0  %if it is not a blank condition - shutter will not be moved in blan
         for i=1:length(fmlaUSymbol)
             sym=fmlaUSymbol{i};
             bit = eval(psymbol_Fmla);
+            eyefunc(sym,bit);
             
-            if strcmp(sym,'Leye_bit')
-                if shutterInfo.LEopen==0
-                    bit=1-bit;
-                end
-                moveShutter(shutterInfo.LEch,bit);
-                waitforDisplayResp;
-            elseif strcmp(sym,'Reye_bit')
-                if shutterInfo.REopen==0
-                    bit=1-bit;
-                end
-                moveShutter(shutterInfo.REch,bit);
-                waitforDisplayResp;
-            elseif strcmp(sym,'eye_bit')
-                switch bit
-                    case 0 %LE open, RE closed
-                        moveShutter(shutterInfo.LEch,shutterInfo.LEopen);
-                        waitforDisplayResp
-                        moveShutter(shutterInfo.REch,1-shutterInfo.REopen);
-                        waitforDisplayResp
-                    case 1 %RE open, LE closed
-                        moveShutter(shutterInfo.LEch,1-shutterInfo.LEopen);
-                        waitforDisplayResp
-                        moveShutter(shutterInfo.REch,shutterInfo.REopen);
-                        waitforDisplayResp
-                    case 2 %both open
-                        moveShutter(shutterInfo.LEch,shutterInfo.LEopen);
-                        waitforDisplayResp
-                        moveShutter(shutterInfo.REch,shutterInfo.REopen);
-                        waitforDisplayResp
-                    otherwise
-                end
-            end %if strcmp
         end %for symbol
     end %if isempty formula
             
 end %if bflag
 
+function eyefunc(sym,bit)
+global shutterInfo
+
+if strcmp(sym,'Leye_bit')
+    if shutterInfo.LEopen==0
+        bit=1-bit;
+    end
+    moveShutter(shutterInfo.LEch,bit);
+    waitforDisplayResp;
+elseif strcmp(sym,'Reye_bit')
+    if shutterInfo.REopen==0
+        bit=1-bit;
+    end
+    moveShutter(shutterInfo.REch,bit);
+    waitforDisplayResp;
+elseif strcmp(sym,'eye_bit')
+    switch bit
+        case 0 %LE open, RE closed
+            moveShutter(shutterInfo.LEch,shutterInfo.LEopen);
+            waitforDisplayResp
+            moveShutter(shutterInfo.REch,1-shutterInfo.REopen);
+            waitforDisplayResp
+        case 1 %RE open, LE closed
+            moveShutter(shutterInfo.LEch,1-shutterInfo.LEopen);
+            waitforDisplayResp
+            moveShutter(shutterInfo.REch,shutterInfo.REopen);
+            waitforDisplayResp
+        case 2 %both open
+            moveShutter(shutterInfo.LEch,shutterInfo.LEopen);
+            waitforDisplayResp
+            moveShutter(shutterInfo.REch,shutterInfo.REopen);
+            waitforDisplayResp
+        otherwise
+    end
+end %if strcmp
 
 
 
