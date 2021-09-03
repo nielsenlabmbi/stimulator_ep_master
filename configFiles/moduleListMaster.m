@@ -48,6 +48,7 @@ Plist{35} = {'FG' 'Func Gen'                'configPstate_FuncGen'              
 Plist{36} = {'PF' 'BW Grating and FGen'     'configPstate_PerGratingFG'         ''};
 Plist{37} = {'OG' 'Optic Flow (Graziano)'     'configPstate_OpticFlowG'         ''};
 Plist{38} = {'ZT' 'Zaber trial'     'configPstate_ZaberTrial'         ''};
+Plist{39} = {'ZR' 'Zaber rotation'     'configPstate_ZaberRot'         ''};
 
 
 Mlist{1}  = {'MG' 'BW Grating'};
