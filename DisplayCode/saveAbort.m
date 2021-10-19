@@ -17,9 +17,9 @@ for i = 1:length(roots)
 
     dd = fullfile(roots{i},Mstate.anim);
 
-    if(~exist(dd))
-        mkdir(dd);  %if there is a new animal
-    end
+    %if(~exist(dd))
+    %    mkdir(dd);  %if there is a new animal
+    %end
 
     dd = strtrim(fullfile(dd,[title '.analyzer']));
 

@@ -78,6 +78,8 @@ else
         stopAcq;
     end
     
+    saveAbort; %add abort flag to analyzer file
+    
     Mstate.running = 0;
     AppHdl.main.BRun.Text='Run';
     

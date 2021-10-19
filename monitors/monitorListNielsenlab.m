@@ -52,4 +52,17 @@ switch monitorID
         monitorPar.xpixels = 1920;
         monitorPar.ypixels = 1080;
         monitorPar.LUT='/home/nielsenlab/stimulator_slave/calibration/LG43_161013/luminance.mat';
+       
+    case {'Predator','PDT'} %large LG screen
+
+        monitorPar.ID='PDT';
+        monitorPar.Name='Predator';
+        monitorPar.screenXcm = 59.7;
+        monitorPar.screenYcm = 33.7;
+        monitorPar.xpixels = 2560;
+        monitorPar.ypixels = 1440;
+        monitorPar.LUT='/home/nielsenlab/stimulator_slave/calibration/Predator/luminance.mat';
+         
+        
+        
 end
