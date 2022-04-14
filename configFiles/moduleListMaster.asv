@@ -10,7 +10,7 @@ function outlist = moduleListMaster(listtype)
 
 % Plist format: Module ID - Module name - Pstate config function - Module specific config requirements method name
 % Mlist format: Module ID - Module name
-% Glist format: Module name - GA execution code
+% Glist format: Module ID - Module name - GA execution code
 
 Plist{1}  = {'PG' 'BW Grating'        		    'configPstate_PerGrating'   		''};
 Plist{end+1}  = {'RD' 'Random Dot'        		'configPstate_RDK'          		''};
@@ -58,7 +58,7 @@ Mlist{4}  = {'MI' 'Images'};
 Mlist{5}  = {'MP' 'Pacman'};
 Mlist{6}  = {'MC' 'Piecewise'};
 
-Glist{1}  = {'GA RDK' 'gaRDK'};
+Glist{1}  = {'GR' 'GA RDK' ''};
 
 
 switch listtype
