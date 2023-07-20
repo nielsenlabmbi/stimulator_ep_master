@@ -13,19 +13,17 @@
 - Matlab
 - git
 - Psychtoolbox-compatible graphics card (most recently, we’ve used NVidia Geforce GTX 1050)  
-  *Notes on configuration for NVidia graphics card for Psychtoolbox:*  
-    - *make sure graphics card is set to optimal power setting (using power mizer interface for NVidia driver)*  
+  *Notes on configuration for NVidia graphics card for Psychtoolbox:* 
+    - *make sure graphics card is set to optimal power setting (using power mizer interface for NVidia driver)* 
     - *disable dithering*
 - 2 screens suitable for visual stimulus display, set up in mirroring mode (i.e. not extended desktop)
-- Psychtoolbox  
+- Psychtoolbox 
   *need to ensure that Psychtoolbox can run without dropping frames by running Psychtoolbox test scripts (in particular, VBLSyncTest)*
 - if stimulus triggers are required: USB-1208FS from Measurement Computing  
   *note that USB-1208FS-Plus is not compatible with Psychtoolbox*
 
-
 # Initial setup
 ## General
-
 - ensure that master and slave can communicate via TCP (use ping to test); may have to adjust firewall settings
 - copy correct part of stimulator code onto each machine, execute steps described below
 - measure LUT for gamma calibration for monitor (if required)
@@ -34,10 +32,7 @@
   - Channel 1: usually used to indicate stimulus start/stop; USB-1208FS port A1, channel 22 
   - check playstimulus code to check for particular module
 
-
-
 ## Master
-
 - generate the following directories:  
   - analyzer root directory  (this is where analyzer files will be saved)
   - directory for history files  
@@ -51,18 +46,21 @@
   - rename to setupDefault.txt  
   - edit directory names to match new directories (analyzerRoot, MstateHistoryFile & ExperimentMasterFile)  
   - edit IP number to match IP number of slave  
-  - edit setupID if required  
-  - note: there can be multiple setupID entries if required (setupIDs matter for setting acquisition specific parameters/GUIs); there also can be multiple analyzerRoot entries if the analyzer file is to be saved in multiple locations; in both cases, each entry should be a separate line (as shown for the monitor entries)
-  - update monitor list: defaultMonitor is the first monitor shown; alternativeMonitors cover the case of using the same system with different monitors (these are the monitors placed in front of the subject, not the control monitor)  
+  - edit setupID if required 
+    *note: there can be multiple setupID entries if required (setupIDs matter for setting acquisition specific parameters/GUIs);
+    there also can be multiple analyzerRoot entries if the analyzer file is to be saved in multiple locations;
+    in both cases, each entry should be a  separate line (as shown for the monitor entries)*
+  - update monitor list: 
+  	- defaultMonitor is the first monitor shown
+  	- alternativeMonitors cover the case of using the same system with different monitors (these are the monitors placed in front of the subject, not 		  the control monitor)  
   - set useMCDaq: 1- use USB-1208FS to generate trigger events; 0- do not generate trigger events
-  - if necessary, add variable acqDataRoot - this will preset the acquisition root field in the Main Window (only used if acquisition happens on the master)
+  - if necessary, add variable acqDataRoot - this will preset the acquisition root field in the Main Window (only used if acquisition happens on master)
 - edit monitorList file:  
   - contains information (including location of gamma calibration file) for each monitor  
   - one entry per monitor  
   - the long name is used on the master, the 3 letter name on the slave  
   - calibration files containing LUT need to be saved on the slave; edit file names here  
   - linear LUT is set as the default and does not produce gamma calibration  
-
 
 ## Slave
 - generate a directory for the log files
@@ -74,16 +72,10 @@
   - edit all other parameters to match settings on master
 - in more complicated setups, make sure that screenNum is set correctly in screenconfig
 
-
 # Basic use
-
-
 # Add a new module 
-
-
 ## General module
 The following applies to modules that should be listed in the params window
-
 - on Slave:  
   - write new makeTexture file  
     - this contains all stimulus generation code that can be performed in the intertrial period  
@@ -104,7 +96,7 @@ The following applies to modules that should be listed in the params window
         - legacy field (unused; can be set to 0)  
         - unit (string, used for display in params window only) 
       - Pdoc: 1 string per parameter as documentation 
-    - to call parameters defined in the config file in the makeTexture/playTexture files for the module, include 'P=getParamStruct'. Parameters can then be refered to as P.*parameterName*, with *parameterName* corresponding to the first string in a parameter's cell in the configFile
+    - to call parameters defined in the config file in the makeTexture/playTexture files for the module, include 'P=getParamStruct'. Parameters can then  	be refered to as P.*parameterName*, with *parameterName* corresponding to the first string in a parameter's cell in the configFile
   - add module to moduleListSlave:  
     - one cell per module in Mlist  
     - for every module, there are 4 entries:  
