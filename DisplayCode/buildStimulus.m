@@ -1,17 +1,29 @@
 function buildStimulus(cond,trial)
 
-global DcomState
-
 %Sends stimulus information for the current trial to the slave
 
-global looperInfo Mstate Pstate AppHdl
+global DcomState looperInfo Mstate Pstate Lstate AppHdl
 
 bflag = strcmp(looperInfo.conds{cond}.symbol{1},'blank');
+refflag = strcmp(looperInfo.conds{cond}.symbol{1},'refstim');
+
 
 if bflag
     %in the blanks, no stimulus needs to be built
     msg = ['L;' num2str(trial)];
     
+elseif refflag
+    %build reference stimulus
+    Mod = getmoduleID;
+    msg = ['B;' Mod ';' num2str(trial)];
+
+    %evaluate parameters - these are fixed, saved in Lstate
+    Nparams = length(Lstate.refParam);
+    for i = 1:Nparams
+        psymbol = Lstate.refParam{p}{1}; %parameter name
+        eval(['pval = ' Lstate.refParam{p}{2} ';']); %
+        msg = updateMsg(pval,psymbol,msg);		
+    end
 else
     Mod = getmoduleID;
     

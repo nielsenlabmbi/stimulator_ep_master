@@ -28,6 +28,8 @@ AppHdl.params = paramSelectNew;
 AppHdl.manual = manualMapperNew;
 %movegui(hmm,[500 1300])
 
+AppHdl.refstim = ReferenceStim;
+
 %AppHdl.ga = GaGen;
 
 %setup specific configuration of parameters and GUIs

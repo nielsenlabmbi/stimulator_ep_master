@@ -3,9 +3,9 @@ function makeLoop
 %this function generates the looper structure for the experiment; it takes
 %Lstate, which is set in updateLstate
 %returns:
-%  changes in the global variable looperInfo
+%changes in the global variable looperInfo
 
-global Lstate AppHdl looperInfo
+global Lstate looperInfo
 
 looperInfo = struct;  %reset 
 
@@ -33,24 +33,30 @@ end
 istring = ['ndgrid(' istring ')'];
 ostring = ['[' ostring ']'];
 eval([ostring ' = ' istring ';']); %this translates to eval([d{1},d{2},...]=ndgrid(1:length(param1),1:length(param2),...)
-
+%d contains the combinations of indices into the different parameters for
+%each condition
 
 %blanks?
-bflag = AppHdl.looper.SBlanks.Value;
-bPer = AppHdl.looper.ENBlanks.Value; %blanks per repeat
+bflag = Lstate.blanks;
+bPer = Lstate.blankperiod; %blanks per repeat
+
+%reference stim? (interleaved like blanks)
+refflag = Lstate.refstim;
+refPer = Lstate.refperiod;
 
 %randomization and repeats
-nrep = AppHdl.looper.ENReps.Value;
-randomflag = AppHdl.looper.SRand.Value;
-
+nrep = Lstate.reps;
+randomflag = Lstate.rand;
 
 %save basic condition info (symbol and value) in looper structure
+%cond has as many entries as conditions (cross between parameters plus
+%blanks plus ref stim)
 for c = 1:nc
     for p = 1:Nparam
-        idx = d{p}(c); %parameter value for condition c
+        idx = d{p}(c); %index to get the parameter value for condition c
 
         paramS = Lstate.param{p}{1}; %parameter name
-        eval(['paramV = ' Lstate.param{p}{2} ';']);  %parameter values
+        eval(['paramV = ' Lstate.param{p}{2} ';']);  %all parameter values for the parameter
 
         looperInfo.conds{c}.symbol{p} = paramS;
         looperInfo.conds{c}.val{p} = paramV(idx);
@@ -65,10 +71,17 @@ if bflag==1
     end
 end
 
+%add the fullfield stimuli
+if refflag==1
+    for p=1:Nparam
+        looperInfo.conds{nc+bflag+1}.symbol{p} = 'refstim'; %we sort the rest out in buildStimulus
+        looperInfo.conds{nc+bflag+1}.val{p} = [];
+    end
+end
+
 
 %Put the formula in looperInfo
-looperInfo.formula = AppHdl.looper.EFormula.Value;
-
+looperInfo.formula = Lstate.formula;
 
 %now generate the actual trials structure
 if ~any(blockpar) %no blocking
@@ -76,6 +89,9 @@ if ~any(blockpar) %no blocking
     tv=[1:nc]; %condition vector
     if bflag
         tv(end+1:end+bPer)=nc+1; %add blanks
+    end
+    if refflag
+        tv(end+1:end+refPer)=nc+bflag+1; %add reference stim
     end
     
     for r=1:nrep
@@ -85,7 +101,7 @@ if ~any(blockpar) %no blocking
             trep=tv;
         end
         
-        for c=1:nc+bflag
+        for c=1:nc+bflag+refflag
             idx=find(trep==c);
             looperInfo.conds{c}.repeats{r}.trialno = length(tv)*(r-1) + idx;
         end
@@ -148,6 +164,10 @@ else %blocking
         if bflag
            tv(end+1:end+bPer)=nc+1; %add blanks
         end
+        if refflag
+            tv(end+1:end+refPer)=nc+bflag+1; %add reference stim
+        end
+        
         tvunique=unique(tv); %this is necessary because of possible multiple blanks
         
         for r=1:nrep
@@ -161,6 +181,9 @@ else %blocking
                 idx=find(trep==c);
                 if n>1 && c==nc+1 %need to deal with the fact that blanks in different chunks share the same repeat (
                     %repeat is correct for the other conditions)
+                    looperInfo.conds{c}.repeats{r}.trialno = [looperInfo.conds{c}.repeats{r}.trialno ...
+                        (r-1)*length(tv)+(n-1)*nrep*length(tv)+ idx];
+                elseif n>1 && c==nc+bflag+1 %same for refstim
                     looperInfo.conds{c}.repeats{r}.trialno = [looperInfo.conds{c}.repeats{r}.trialno ...
                         (r-1)*length(tv)+(n-1)*nrep*length(tv)+ idx];
                 else
