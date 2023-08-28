@@ -14,11 +14,22 @@ end
 
 if Mstate.running && trialno<=nt
     
+    mod = getmoduleID;
+
     AppHdl.main.TProgress.Value=['Trial ' num2str(trialno) ' of ' num2str(nt)];
-    
+  
+    %if the previous trial was a reference trial, first reset all
+    %parameters
+    if trialno>1
+        [c,~] = Sgetcondrep(trialno-1);
+        if strcmp(looperInfo.conds{c}.symbol{1},'refstim')
+            sendPinfo(mod)
+            waitforDisplayResp;
+        end
+    end
 
     [c,~] = Sgetcondrep(trialno);  %get cond and rep for this trialno
-
+  
     %set eye shutter (only if daq is being used; otherwise this is
     %pointless)
     if setupDefault.useShutter==1 
@@ -56,7 +67,6 @@ if Mstate.running && trialno<=nt
 %     end 
     buildSendTime = toc;
     fprintf('\t'); disp(['Computation/communication time: ' num2str(buildSendTime) 's.']) 
-    mod = getmoduleID;
     fprintf('\t'); disp('Playing stimulus...');
     startStimulus(mod)      %Tell Display to show its buffered images. 
     %waitforDisplayResp
