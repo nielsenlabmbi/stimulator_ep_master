@@ -3,7 +3,7 @@ function configIntanCom
 global IcomState
 
 %connect to intan app running on the same machine
-rhost = '172.30.11.143';
+rhost = '172.30.11.110';
 role = 'client';
 localPort = 1234;
 remotePort = 1234;

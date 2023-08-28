@@ -20,8 +20,8 @@ elseif refflag
     %evaluate parameters - these are fixed, saved in Lstate
     Nparams = length(Lstate.refParam);
     for i = 1:Nparams
-        psymbol = Lstate.refParam{p}{1}; %parameter name
-        eval(['pval = ' Lstate.refParam{p}{2} ';']); %
+        psymbol = Lstate.refParam{i}{1}; %parameter name
+        eval(['pval = ' Lstate.refParam{i}{2} ';']); %
         msg = updateMsg(pval,psymbol,msg);		
     end
 else
