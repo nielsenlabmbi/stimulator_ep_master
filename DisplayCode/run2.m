@@ -4,7 +4,7 @@ function run2
 %This function now gets called for play sample, as well. Hence the global
 %conditional of Mstate.runnind
 
-global AppHdl  Mstate trialno setupDefault shutterInfo
+global AppHdl  Mstate trialno setupDefault shutterInfo looperInfo
 
 if Mstate.running
     nt = Sgetnotrials;
