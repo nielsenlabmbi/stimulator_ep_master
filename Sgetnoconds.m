@@ -1,4 +1,4 @@
-function nc = getnoconds
+function nc = Sgetnoconds
 
 
 global looperInfo

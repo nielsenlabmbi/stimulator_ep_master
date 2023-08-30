@@ -74,7 +74,7 @@ end
 %add the fullfield stimuli
 if refflag==1
     for p=1:Nparam
-        looperInfo.conds{nc+bflag+1}.symbol{p} = 'refstim'; %we sort the rest out in buildStimulus
+        looperInfo.conds{nc+bflag+1}.symbol{p} = 'refstim'; %specifics of refstim are saved in L
         looperInfo.conds{nc+bflag+1}.val{p} = [];
     end
 end
