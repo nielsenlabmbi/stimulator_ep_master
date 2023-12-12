@@ -28,7 +28,7 @@ DcomState.serialPortHandleReceiver.InputBufferSize = 5120;
 DcomState.serialPortHandleReceiver.Timeout = 5;
 DcomState.serialPortHandleReceiver.BytesAvailableFcn = @Displaycb;  
 
-disp('Opening TCP gateway. Start Stimulator2 on the slave.');
+disp('Opening TCP gateway. Start Stimulator on the slave.');
 
 % open and check status 
 fopen(DcomState.serialPortHandle);

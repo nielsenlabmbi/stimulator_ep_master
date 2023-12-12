@@ -23,10 +23,9 @@ for i = 1:length(roots)
 
     dd = strtrim(fullfile(dd,[title '.analyzer']));
 
-    disp(['Adding abort to analyzer file at location:  ' dd])
-
     
     if trialno<nt
+        disp(['Adding abort to analyzer file at location:  ' dd])
         save(dd ,'abortFlag','-append')
     end
     
