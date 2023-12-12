@@ -1,10 +1,10 @@
-function Stimulator2 
+function StimulatorStereo
 
 global AppHdl stereoFlag;
 
-getSetup;
+stereoFlag=1;
 
-stereoFlag=0;
+getSetup;
 
 %host-host communication
 configDisplayCom_tcp    %stimulus computer

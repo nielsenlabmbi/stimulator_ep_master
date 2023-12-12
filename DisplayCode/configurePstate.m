@@ -8,12 +8,16 @@ function configurePstate(modID,listtype)
 % Returns:
 %   Nothing
 
-global Pstate PstateHistory Pdoc
+global Pstate PstateHistory Pdoc stereoFlag
 
 %hack until all modules have documentation
 Pdoc=struct;
 
-Mlist = moduleListMaster(listtype);
+if stereoFlag==0
+    Mlist = moduleListMaster(listtype);
+else
+    Mlist = moduleListStereo(listtype);
+end
 
 % If the module exists in PstateHistory, then update Pstate with the one in
 % the history. Otherwise configure it and then save it in PstateHistory.
