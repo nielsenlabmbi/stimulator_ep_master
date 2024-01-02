@@ -1,9 +1,9 @@
 function configIntanCom
 
-global IcomState
+global IcomState setupDefault
 
 %connect to intan app running on the same machine
-rhost = '172.30.11.110';
+rhost = setupDefault.intanID;
 role = 'client';
 localPort = 1234;
 remotePort = 1234;
