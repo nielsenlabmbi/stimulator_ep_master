@@ -12,16 +12,16 @@ function outlist = moduleListStereo(listtype)
 % Mlist format: Module ID - Module name
 
 
-Plist{1}  = {'PG' 'BW Grating'        		    'configPstate_PerGrating'   		''};
-Plist{end+1}  = {'RD' 'Random Dot'        		'configPstate_RDK'          		''};
-Plist{end+1}  = {'RG' 'RC 1 Grating'      		'configPstate_RCGrating'    		''};
+Plist{1}  = {'SG' 'BW Grating'        		    'configPstate_PerGrating_Stereo'   		''};
+Plist{end+1}  = {'SD' 'Random Dot'        		'configPstate_RDK_Stereo'          		''};
+Plist{end+1}  = {'SR' 'RC 1 Grating'      		'configPstate_RCGrating_Stereo'    		''};
 Plist{end+1}  = {'RT' 'RC 2 Gratings'     		'configPstate_RC2Gratings'  		''};
 Plist{end+1}  = {'RP' 'RC Grat Plaid'     		'configPstate_RCGratPlaid'  		''};
 Plist{end+1}  = {'RN' 'RC N Gratings'     		'configPstate_RCNGratings'  		''};
 Plist{end+1}  = {'OF' 'Optic Flow'        		'configPstate_OpticFlow'    		''};
 Plist{end+1} = {'BR' 'Bar'               		'configPstate_Bar'   				''};
-Plist{end+1} = {'BK' 'Kalatsky'          		'configPstate_Kalatsky'   			''};
-Plist{end+1} = {'RB' 'RC Bars'           		'configPstate_RCBars'   			''};
+Plist{end+1} = {'SK' 'Kalatsky'          		'configPstate_Kalatsky_Stereo'   			''};
+Plist{end+1} = {'SB' 'RC Bars'           		'configPstate_RCBars_Stereo'   			''};
 Plist{end+1} = {'CK' 'Checkerboard'      		'configPstate_CheckerBoard'   		''};
 Plist{end+1} = {'MS' 'M sequence'               'configPstate_MSeq'                 ''};
 
