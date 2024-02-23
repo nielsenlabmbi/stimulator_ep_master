@@ -75,9 +75,9 @@ if Mstate.running && trialno<=nt
     trialno = trialno+1;
 
     %run any trial-dependent code for the acquisition
-    if AppHdl.main.BStimDAQ.Value==1
-        stopAcqTrial;
-    end
+    %if AppHdl.main.BStimDAQ.Value==1
+    %    stopAcqTrial;
+    %end
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 else

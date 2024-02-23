@@ -8,6 +8,8 @@ if ~isempty(strfind(setupDefault.setupID,'2P')) && Mstate.acqConnect(Mstate.acqI
 end
 
 if ~isempty(strfind(setupDefault.setupID,'EP')) && Mstate.acqConnect(Mstate.acqIdxEP)==1
+    stopIntanAcq; %just in case it's still running
+    pause(5);
     updateAcqName %Send expt info to acquisition
     startIntanAcq
 end
