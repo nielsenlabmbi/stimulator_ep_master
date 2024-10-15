@@ -8,6 +8,7 @@ function makeLoop
 global Lstate looperInfo
 
 looperInfo = struct;  %reset 
+rng('shuffle')
 
 Nparam = length(Lstate.param); %number of looper parameters
 
